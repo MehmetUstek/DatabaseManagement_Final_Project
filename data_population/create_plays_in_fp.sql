@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS plays_in_FP;
+CREATE TABLE plays_in_FP
+  AS (SELECT person_id, movie_id
+      FROM movie_cast
+      );
+ALTER TABLE plays_in ADD PRIMARY KEY (AID, MID), ADD FOREIGN KEY (AID) REFERENCES actor_FP, ADD FOREIGN KEY (MID) REFERENCES movie_FP;
