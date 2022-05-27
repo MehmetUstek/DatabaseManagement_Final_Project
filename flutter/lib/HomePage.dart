@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'SearchPage.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -92,7 +94,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ]),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                      },
                     ),
                     Padding(padding: EdgeInsets.only(left:20),),
                     ElevatedButton(
@@ -111,14 +115,14 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(
-                              CupertinoIcons.home,
+                              CupertinoIcons.profile_circled,
                               size: 70,
                               color: Colors.white,
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text(
-                                'Browse',
+                                'Profile',
                                 style: GoogleFonts.montserrat(
                                     textStyle: TextStyle(
                                   color: Colors.white,
@@ -127,7 +131,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ]),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                      },
                     ),
 
                   ]),
