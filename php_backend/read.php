@@ -9,6 +9,6 @@
 require_once 'include/dbConnect.php';
 require_once 'include/functions.php';
 
-$result = search_by_only_genre($conn, "Action");
+$result = search_actor($conn,'Jack');
 
-print_table('movie', $result);
+print_table('actor', $result);
