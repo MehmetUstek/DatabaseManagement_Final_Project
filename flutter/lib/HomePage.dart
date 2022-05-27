@@ -18,19 +18,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  Gradient background = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.topRight,
-    stops: [
-      0.5,
-      0.9,
-    ],
-    colors: [
-      Color(0xffA9C7F2),
-      Color(0xff8DB5EE),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

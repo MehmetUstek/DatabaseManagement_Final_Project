@@ -5,6 +5,8 @@ import 'package:database_management_project/signIn.dart';
 import 'package:database_management_project/HomePage.dart';
 import 'package:database_management_project/User.dart';
 
+import 'SearchPage.dart';
+
 void main() async {
   runApp(const MyApp());
 }
@@ -81,7 +83,8 @@ class AuthenticationWrapper extends StatelessWidget {
     //     title: 'Flutter Memo Home Page',
     //     userUID: "aa");
     // return SignInPage();
-    return HomePage();
+    // return HomePage();
+    return SearchPage();
   }
 }
 
