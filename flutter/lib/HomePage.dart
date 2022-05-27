@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'MoviesPage.dart';
 import 'SearchPage.dart';
+import 'dbQueries.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -211,6 +212,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 18, color: Colors.black),
                 ),
                 onPressed: () {
+                  dummyQuery();
                 },
               ),
               ),
