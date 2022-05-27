@@ -1,3 +1,4 @@
+import 'package:database_management_project/registerPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -231,6 +232,7 @@ class _SignInState extends State<SignInPage> {
                   style: TextStyle(fontSize: 18, color: Colors.black),
                 ),
                 onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
                 },
               ),
         ),

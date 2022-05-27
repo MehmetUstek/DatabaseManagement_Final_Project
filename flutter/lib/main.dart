@@ -82,8 +82,8 @@ class AuthenticationWrapper extends StatelessWidget {
     // return MyHomePage(
     //     title: 'Flutter Memo Home Page',
     //     userUID: "aa");
-    // return SignInPage();
-    return HomePage();
+    return SignInPage();
+    // return HomePage();
     // return SearchPage();
   }
 }
