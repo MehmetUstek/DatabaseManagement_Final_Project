@@ -1,6 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:database_management_project/signIn.dart';
+import 'package:database_management_project/HomePage.dart';
+import 'package:database_management_project/User.dart';
 
-void main() {
+import 'SearchPage.dart';
+
+void main() async {
   runApp(const MyApp());
 }
 
@@ -11,26 +18,79 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              // This is the theme of your application.
+              //
+              // Try running your application with "flutter run". You'll see the
+              // application has a blue toolbar. Then, without quitting the app, try
+              // changing the primarySwatch below to Colors.green and then invoke
+              // "hot reload" (press "r" in the console where you ran "flutter run",
+              // or simply save your changes to "hot reload" in a Flutter IDE).
+              // Notice that the counter didn't reset back to zero; the application
+              // is not restarted.
+              // primarySwatch: Colors.b,
+
+            ),
+            home: const AuthenticationWrapper(),
+          );
+    // return MultiProvider(
+    //   // providers: [
+    //     // Provider<AuthenticationService>(
+    //     //   create: (_) => AuthenticationService(FirebaseAuth.instance),
+    //     // ),
+    //     // StreamProvider(
+    //     //   create: (context) =>
+    //     //   context.read<AuthenticationService>().authStateChanges,
+    //     //   initialData: null,
+    //     // ),
+    //   // ],
+    //   child: MaterialApp(
+    //     title: 'Flutter Demo',
+    //     theme: ThemeData(
+    //       // This is the theme of your application.
+    //       //
+    //       // Try running your application with "flutter run". You'll see the
+    //       // application has a blue toolbar. Then, without quitting the app, try
+    //       // changing the primarySwatch below to Colors.green and then invoke
+    //       // "hot reload" (press "r" in the console where you ran "flutter run",
+    //       // or simply save your changes to "hot reload" in a Flutter IDE).
+    //       // Notice that the counter didn't reset back to zero; the application
+    //       // is not restarted.
+    //       // primarySwatch: Colors.b,
+    //
+    //     ),
+    //     home: const AuthenticationWrapper(),
+    //   ),
+    // );
+  }
+}
+
+class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    // final firebaseUser = context.watch<User?>();
+    // if(firebaseUser == null){
+    //   // if (FirebaseAuth.instance.currentUser?.uid == null) {
+    //   return SignInPage();
+    // }
+    //TODO: Change this.
+    // return MyHomePage(
+    //     title: 'Flutter Memo Home Page',
+    //     userUID: "aa");
+    // return SignInPage();
+    return HomePage();
+    // return SearchPage();
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title, required this.userUID})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -42,23 +102,138 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final String? userUID;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState(userUID);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  String? userUID;
+  UserData? _user;
+  final List<Tab> myTabs = <Tab>[
+    // Tab(
+    //   child: Row(
+    //     mainAxisSize: MainAxisSize.min,
+    //     children: const [
+    //       Icon(
+    //         CupertinoIcons.home,
+    //         color: Colors.white,
+    //       ),
+    //       Padding(padding: EdgeInsets.only(left: 6)),
+    //       Text(
+    //         "Home",
+    //         style: TextStyle(fontSize: 13),
+    //       ),
+    //     ],
+    //   ),
+    // ),
+    // Tab(
+    //   child: Row(
+    //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //     mainAxisSize: MainAxisSize.min,
+    //     children: const [
+    //       Icon(
+    //         CupertinoIcons.bag,
+    //         color: Colors.white,
+    //       ),
+    //       Padding(padding: EdgeInsets.only(left: 2),child:
+    //       Text(
+    //         "Bag",
+    //         style: TextStyle(fontSize: 13, color: Colors.white),
+    //       ),
+    //       ),
+    //     ],
+    //   ),
+    // ),
+    // Tab(
+    //   child: Row(
+    //     mainAxisSize: MainAxisSize.min,
+    //     children: const [
+    //       Icon(
+    //         CupertinoIcons.profile_circled,
+    //         color: Colors.white,
+    //       ),
+    //       Padding(padding: EdgeInsets.only(left: 6)),
+    //       Text(
+    //         "Profile",
+    //         style: TextStyle(fontSize: 13),
+    //       ),
+    //     ],
+    //   ),
+    // ),
+  ];
+  final List<Widget> profileTabWidgets = <Widget>[];
 
-  void _incrementCounter() {
+  _MyHomePageState(this.userUID);
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    // setState((){
+    // print(futureFullData);
+    // futureHomeContent = fetchHomeContent();
+
+    // fetchUser(userUID!).then((value) => _user = value);
+    // user.initUser(userUID!).then((value) {
+    //   print(value);
+    //   print("outside" + user.toString());
+    //   _user = value;
+    //
+    //
+    //
+    //   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // });
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      // getLocation();
+      // fetchUser(userUID!).then((value) =>_user = value);
     });
+    // });
+
+    // isPremium = user.isPremiumUser();
+    // if(user.isPremiumUser()){
+    //   print("PREMIUM");
+    // }
+    // else if(user.getUserRole()== UserRole.USER){
+    //   print("CLASSIC");
+    // }
+  }
+
+  // void _incrementCounter() {
+  //   setState(() {
+  //     // This call to setState tells the Flutter framework that something has
+  //     // changed in this State, which causes it to rerun the build method below
+  //     // so that the display can reflect the updated values. If we changed
+  //     // _counter without calling setState(), then the build method would not be
+  //     // called again, and so nothing would appear to happen.
+  //     // getDatabase();
+  //     // _counter++;
+  //     insertOne({
+  //       'userId': userUID!,
+  //       'contentId': 1,
+  //       'registerId': 1,
+  //       'registerTime': DateTime.now(),
+  //       'happinessLevel': 10,
+  //       'title': 'test3',
+  //       'platform': 'Android',
+  //     });
+  //     // print(v.toString());
+  //   });
+  //   // return RefreshIndicator(child: child, onRefresh: onRefresh)
+  // }
+
+  Widget menu() {
+    return Container(
+      color: Colors.white,
+      // child: TabBar(
+      //   labelColor: Colors.white,
+      //   unselectedLabelColor: Colors.white70,
+      //   indicatorColor: Colors.white,
+      //   tabs: myTabs,
+      // ),
+    );
   }
 
   @override
@@ -69,47 +244,17 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    return  Scaffold(
+          // backgroundColor: Colors.deepOrangeAccent,
+          backgroundColor: Colors.white,
+          // bottomNavigationBar: TabBar(tabs: myTabs,),
+          bottomNavigationBar: SizedBox(height: 65, child: menu()),
+          // appBar: AppBar(
+          //   // Here we take the value from the MyHomePage object that was created by
+          //   // the App.build method, and use it to set our appbar title.
+          //   title: Text(widget.title),
+          // ),
+
     );
   }
 }
