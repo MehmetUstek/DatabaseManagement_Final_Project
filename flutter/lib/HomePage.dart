@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'SearchPage.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -17,19 +19,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
   }
-
-  Gradient background = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.topRight,
-    stops: [
-      0.5,
-      0.9,
-    ],
-    colors: [
-      Color(0xffA9C7F2),
-      Color(0xff8DB5EE),
-    ],
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +94,9 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ]),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                      },
                     ),
                     Padding(padding: EdgeInsets.only(left:20),),
                     ElevatedButton(
@@ -124,14 +115,14 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Icon(
-                              CupertinoIcons.home,
+                              CupertinoIcons.profile_circled,
                               size: 70,
                               color: Colors.white,
                             ),
                             Padding(
                               padding: EdgeInsets.only(top: 5),
                               child: Text(
-                                'Browse',
+                                'Profile',
                                 style: GoogleFonts.montserrat(
                                     textStyle: TextStyle(
                                   color: Colors.white,
@@ -140,10 +131,66 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ]),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                      },
                     ),
 
                   ]),
+              Padding(padding: EdgeInsets.only(top:20),),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                    side: BorderSide(
+                        width: 5.0,
+                        color: Colors.black,
+                        style: BorderStyle.solid),
+                  ),
+                  fixedSize: const Size(250, 100),
+                  primary: Colors.black,
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        CupertinoIcons.star_fill,
+                        size: 50,
+                        color: Colors.white,
+                      ),
+                      Padding(padding: EdgeInsets.only(left:20),child:
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget> [
+                      Text(
+                          'Top Rated',
+                          maxLines: 2,
+                          style: GoogleFonts.montserrat(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              )),
+                        ),
+                              Text(
+                                'Movies',
+                                maxLines: 2,
+                                style: GoogleFonts.montserrat(
+                                    textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 30,
+                                      // fontWeight: FontWeight.bold
+                                    )),
+                              ),
+                            ]
+                          ),
+                      ),
+                    ]),
+
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                },
+              ),
               Padding(padding:EdgeInsets.only(top:50),child:
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
