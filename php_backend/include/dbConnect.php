@@ -11,8 +11,8 @@ https://www.php.net/manual/en/mysqli.construct.php
 */
 
 $host     = 'localhost';
-$username = 'atahantap'; # Please write your username here.
-$passwd   = '123'; # Please write your passwd here.
+$username = 'root'; # Please write your username here.
+$passwd   = 'bus306A-'; # Please write your passwd here.
 $dbName   = 'movies';
 
 $conn = mysqli_connect($host, $username, $passwd, $dbName);

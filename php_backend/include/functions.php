@@ -52,6 +52,154 @@ function search_by_only_genre($conn, $str) {
         return $result;
     }
 }
+function search_by_username($conn, $str) {
+    $query = "SELECT 	P.username
+                FROM 		Premium_user P
+                WHERE 	P.username LIKE '%$str%'
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+
+function show_profile_page($conn, $str) {
+    $query = "SELECT 	*
+                FROM 		Premium_user P
+                WHERE 	P.username = '$str'
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function check_password($conn, $str) {
+    $query = "SELECT 	P.password
+                    FROM 		Premium_user P
+                    WHERE 	P.username = '$str'
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_followings_of_user($conn, $str) {
+    $query = "SELECT 	followingUsername
+                FROM 		Follow F
+                WHERE 	F.followerUsername = ''$str'
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_followers_of_user($conn, $str) {
+    $query = "SELECT 	followerUsername
+                    FROM 		Follow F
+                    WHERE 	F.followingUsername = '$str'
+    
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function search_actor($conn, $str) {
+    $query = "SELECT 	*
+                FROM 		Actor A
+                WHERE 	A.fullname LIKE '%$str%'
+    
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_watchlists_of_user($conn, $str) {
+    $query = "SELECT 	*
+                FROM 	Watchlist W
+                WHERE 	W.username = '$str'
+                ORDER BY	W.date DESC
+                LIMIT		5
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_reviews_of_user($conn, $str) {
+    $query = "SELECT 	*
+                FROM 		Review R
+                WHERE 	R.username = '$str'
+                ORDER BY	R.date DESC
+                LIMIT		5
+    ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_reviews_of_movie($conn, $str) {
+    $query = "SELECT 	*
+                FROM 	Review R
+                WHERE 	R.MID = $str
+                ORDER BY	R.date DESC
+                LIMIT		5";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_average_rating($conn, $str) {
+    $query = "SELECT 	M.voteAvg
+                FROM 		Movie M
+                WHERE 	M.MID = $str";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_username($conn, $str) {
+    $query = "SELECT 	P.name
+                 FROM 		Premium_user P
+                  WHERE 	P.username = '$str' ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function register_free_user($conn, $username,$email,$password,$fname,$lname,$gender) {
+    $query = "INSERT INTO	Free_user
+                VALUES	('$username',  '$email', '$password', GETDATE(), '$fname','$lname','$gender')";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+function register_premium_user($conn, $username,$email,$password,$fname,$lname,$gender,$payment_method) {
+    $query = "INSERT INTO	Premium_user
+                VALUES	('$username',  '$email', '$password', GETDATE(), '$fname','$lname','$gender','$payment_method')";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+function choose_interested_genres($conn, $username,$genre_name) {
+
+    
+}
+
 
 function search_by_movie_and_genre($conn, $movie_name, $genre) {
     $query = "SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
@@ -117,6 +265,8 @@ function print_table($table_name, $result){
 
         echo "</table>";
     }
+    
+
 
 }
 
