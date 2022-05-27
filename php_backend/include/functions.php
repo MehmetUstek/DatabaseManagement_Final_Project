@@ -1,10 +1,4 @@
-<!--
-    COMP306-DatabaseManagement_Final_Project
 
-    This file contains functions that create appropriate SQL queries with given parameters and run them on the database.
-
-    There are functions from HW3 to be deleted.
--->
 
 <?php
 

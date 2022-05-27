@@ -44,3 +44,5 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+php_backend/include/dbConnect.php
+php_backend/include/dbConnect.php

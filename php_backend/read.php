@@ -1,14 +1,17 @@
-<!--
-    COMP306-DatabaseManagement_Final_Project
 
-    This file is for debugging.
--->
 
 <?php
 
 require_once 'include/dbConnect.php';
 require_once 'include/functions.php';
 
-$result = search_actor($conn,'Jack');
+$sql = search_by_movie_name($conn, 'star');
 
-print_table('actor', $result);
+$results = array();
+while($row = mysqli_fetch_assoc($sql))
+{
+    $results[] = $row;
+}
+$json = json_encode($results);
+
+print $json;

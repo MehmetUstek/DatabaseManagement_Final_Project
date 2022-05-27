@@ -1,8 +1,4 @@
-<!--
-    COMP306-DatabaseManagement_Final_Project
 
-    This file reads the POST variables and calls the corresponding function.
--->
 
 <?php
 
@@ -10,12 +6,18 @@ require_once 'include/dbConnect.php';
 require_once 'include/functions.php';
 
 if (isset($_POST['dummy'])){
+	
 
-    $title = $_POST["title"];
+    $sql = search_by_movie_name($conn, 'star');
 
-    $result = search_by_movie_name($conn, $title);
+    $results = array();
+    while($row = mysqli_fetch_assoc($sql))
+    {
+        $results[] = $row;
+    }
+    $json = json_encode($results);
     
-    echo json_encode($result);
+    echo $json;
 }
 
 
