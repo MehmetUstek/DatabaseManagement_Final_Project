@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `movies` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `movies`;
 -- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
 --
 -- Host: localhost    Database: movies
@@ -9,7 +7,7 @@ USE `movies`;
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -26,8 +24,8 @@ DROP TABLE IF EXISTS `actor`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actor` (
   `AID` int NOT NULL,
-  `fullName` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
-  `gender` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
+  `fullName` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `gender` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`AID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -105,8 +103,13 @@ DROP TABLE IF EXISTS `free_user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `free_user` (
   `username` varchar(20) NOT NULL,
-  PRIMARY KEY (`username`),
-  CONSTRAINT `free_user_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `email` varchar(20) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `creationDate` date DEFAULT NULL,
+  `fname` varchar(20) DEFAULT NULL,
+  `lname` varchar(20) DEFAULT NULL,
+  `gender` bit(1) DEFAULT NULL,
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -128,7 +131,7 @@ DROP TABLE IF EXISTS `genre`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `genre` (
   `GID` int NOT NULL,
-  `gname` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
+  `gname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`GID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -178,7 +181,7 @@ DROP TABLE IF EXISTS `movie`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `movie` (
   `MID` int NOT NULL DEFAULT '0',
-  `title` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
+  `title` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `releaseDate` date DEFAULT NULL,
   `duration` int DEFAULT NULL,
   `voteAvg` decimal(4,2) DEFAULT NULL,
@@ -260,9 +263,14 @@ DROP TABLE IF EXISTS `premium_user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `premium_user` (
   `username` varchar(20) NOT NULL,
+  `email` varchar(20) DEFAULT NULL,
+  `password` varchar(50) DEFAULT NULL,
+  `creationDate` date DEFAULT NULL,
+  `fname` varchar(20) DEFAULT NULL,
+  `lname` varchar(20) DEFAULT NULL,
+  `gender` bit(1) DEFAULT NULL,
   `paymentMethod` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`username`),
-  CONSTRAINT `premium_user_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -272,6 +280,7 @@ CREATE TABLE `premium_user` (
 
 LOCK TABLES `premium_user` WRITE;
 /*!40000 ALTER TABLE `premium_user` DISABLE KEYS */;
+INSERT INTO `premium_user` VALUES ('eerel18','eerel18@ku.edu.tr','abc','2010-10-10','emirhan','erel',_binary '\0','kiss');
 /*!40000 ALTER TABLE `premium_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -304,35 +313,6 @@ CREATE TABLE `review` (
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
---
-
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `username` varchar(20) NOT NULL,
-  `email` varchar(20) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  `creationDate` date DEFAULT NULL,
-  `fname` varchar(20) DEFAULT NULL,
-  `lname` varchar(20) DEFAULT NULL,
-  `bDate` date DEFAULT NULL,
-  `gender` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -371,4 +351,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-07 19:04:54
+-- Dump completed on 2022-05-28 17:14:07
