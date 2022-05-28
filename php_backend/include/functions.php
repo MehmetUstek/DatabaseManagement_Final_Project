@@ -1,10 +1,4 @@
-<!--
-    COMP306-DatabaseManagement_Final_Project
 
-    This file contains functions that create appropriate SQL queries with given parameters and run them on the database.
-
-    There are functions from HW3 to be deleted.
--->
 
 <?php
 
@@ -54,7 +48,7 @@ function search_by_only_genre($conn, $str) {
 }
 function search_by_username($conn, $str) {
     $query = "SELECT 	P.username
-                FROM 		Premium_user P
+                FROM 	Premium_user P
                 WHERE 	P.username LIKE '%$str%'
                 ";
     
@@ -66,7 +60,7 @@ function search_by_username($conn, $str) {
 
 function show_profile_page($conn, $str) {
     $query = "SELECT 	*
-                FROM 		Premium_user P
+                FROM 	Premium_user P
                 WHERE 	P.username = '$str'
                 ";
     
@@ -77,8 +71,8 @@ function show_profile_page($conn, $str) {
 
 function check_password($conn, $str) {
     $query = "SELECT 	P.password
-                    FROM 		Premium_user P
-                    WHERE 	P.username = '$str'
+                FROM 	Premium_user P
+                WHERE 	P.username = '$str'
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -88,8 +82,8 @@ function check_password($conn, $str) {
 
 function show_followings_of_user($conn, $str) {
     $query = "SELECT 	followingUsername
-                FROM 		Follow F
-                WHERE 	F.followerUsername = ''$str'
+                FROM 	Follow F
+                WHERE 	F.followerUsername = '$str'
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -98,10 +92,9 @@ function show_followings_of_user($conn, $str) {
 }
 
 function show_followers_of_user($conn, $str) {
-    $query = "SELECT 	followerUsername
-                    FROM 		Follow F
-                    WHERE 	F.followingUsername = '$str'
-    
+    $query = "SELECT followerUsername
+                FROM 	Follow F
+                WHERE 	F.followingUsername = '$str'
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -111,9 +104,8 @@ function show_followers_of_user($conn, $str) {
 
 function search_actor($conn, $str) {
     $query = "SELECT 	*
-                FROM 		Actor A
+                FROM 	Actor A
                 WHERE 	A.fullname LIKE '%$str%'
-    
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -136,7 +128,7 @@ function show_watchlists_of_user($conn, $str) {
 
 function show_reviews_of_user($conn, $str) {
     $query = "SELECT 	*
-                FROM 		Review R
+                FROM 	Review R
                 WHERE 	R.username = '$str'
                 ORDER BY	R.date DESC
                 LIMIT		5
@@ -161,7 +153,7 @@ function show_reviews_of_movie($conn, $str) {
 
 function show_average_rating($conn, $str) {
     $query = "SELECT 	M.voteAvg
-                FROM 		Movie M
+                FROM 	Movie M
                 WHERE 	M.MID = $str";
     
     if ($result = mysqli_query($conn, $query)){
@@ -171,8 +163,8 @@ function show_average_rating($conn, $str) {
 
 function show_username($conn, $str) {
     $query = "SELECT 	P.name
-                 FROM 		Premium_user P
-                  WHERE 	P.username = '$str' ";
+                FROM 		Premium_user P
+                WHERE 	P.username = '$str' ";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;

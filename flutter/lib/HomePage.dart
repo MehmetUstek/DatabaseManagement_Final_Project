@@ -5,7 +5,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'MoviesPage.dart';
 import 'SearchPage.dart';
+import 'dbQueries.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -164,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget> [
                       Text(
-                          'Top Rated',
+                          'TOP RATED',
                           maxLines: 2,
                           style: GoogleFonts.montserrat(
                               textStyle: TextStyle(
@@ -188,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                     ]),
 
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage()));
                 },
               ),
               Padding(padding:EdgeInsets.only(top:50),child:
