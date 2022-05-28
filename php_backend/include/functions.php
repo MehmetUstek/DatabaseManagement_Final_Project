@@ -146,17 +146,6 @@ function show_followers_of_user($conn, $str) {
     }
 }
 
-function search_actor($conn, $str) {
-    $query = "  SELECT 	*
-                FROM 	Actor A
-                WHERE 	A.fullname LIKE '%$str%'
-                ";
-    
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-
 function show_watchlists_of_user($conn, $str) {
     $query = "  SELECT 	    *
                 FROM 	    Watchlist W
@@ -195,40 +184,56 @@ function show_reviews_of_movie($conn, $str) {
     }
 }
 
-function show_average_rating($conn, $str) {
-    $query = "SELECT 	M.voteAvg
-                FROM 	Movie M
-                WHERE 	M.MID = $str";
-    
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-
-function show_username($conn, $str) {
-    $query = "SELECT 	U.name
-                FROM 	User U
-                WHERE 	U.username = '$str' ";
-    
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-
 function register_user($conn, $username,$email,$password,$fname,$lname,$gender,$payment_method,$isPremium) {
-    $query = "INSERT INTO	User
+    $query = "  INSERT INTO	User
                 VALUES	('$username', '$email', '$password', GETDATE(), '$fname','$lname','$gender','$payment_method', $isPremium)";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
     }
 }
-function choose_interested_genres($conn, $username,$genre_name) {
 
+function choose_interested_genres($conn, $username,$genre_name) {
+    $query = "  INSERT INTO	User
+                VALUES	('$username',  (SELECT G.GID
+                                         FROM 	Genre G
+                                         WHERE 	G.gname = '$genre_name'))";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
     
 }
 
+function creating_a_review($conn, $rating, $comment, $username, $MID) {
+    $query = "  INSERT INTO	Review (rating, comment, date,  username, MID)
+                VALUES	($rating, '$comment', GETDATE(), '$username', $MID)";
 
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+    
+}
+
+function creating_a_watchlist($conn, $name, $username) {
+    $query = "  INSERT INTO	Watchlist (name, creationDate, username)
+                VALUES	('$name', GETDATE(), '$username')";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+    
+}
+
+function add_movie_to_list($conn, $MID,$LID) {
+    $query = "  INSERT INTO	Movie_in_list
+                VALUES	($MID, $LID)";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+    
+}
 
 function show_top_rated_movies_per_genre($conn){
     $query = "SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
