@@ -91,9 +91,9 @@ function showing_actors_in_movie($conn, $id) {
 }
 
 function search_by_username($conn, $str) {
-    $query = "  SELECT 	P.username
-                FROM 	Premium_user P
-                WHERE 	P.username LIKE '%$str%'
+    $query = "  SELECT 	U.username
+                FROM 	User U
+                WHERE 	U.username LIKE '%$str%'
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -104,8 +104,8 @@ function search_by_username($conn, $str) {
 
 function show_profile_page($conn, $str) {
     $query = "  SELECT 	*
-                FROM 	Premium_user P
-                WHERE 	P.username = '$str'
+                FROM 	User U
+                WHERE 	U.username = '$str'
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -114,9 +114,9 @@ function show_profile_page($conn, $str) {
 }
 
 function check_password($conn, $str) {
-    $query = "  SELECT 	P.password
-                FROM 	Premium_user P
-                WHERE 	P.username = '$str'
+    $query = "  SELECT 	U.password
+                FROM 	User U
+                WHERE 	U.username = '$str'
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -136,7 +136,7 @@ function show_followings_of_user($conn, $str) {
 }
 
 function show_followers_of_user($conn, $str) {
-    $query = "  SELECT followerUsername
+    $query = "  SELECT  followerUsername
                 FROM 	Follow F
                 WHERE 	F.followingUsername = '$str'
                 ";
@@ -158,9 +158,9 @@ function search_actor($conn, $str) {
 }
 
 function show_watchlists_of_user($conn, $str) {
-    $query = "  SELECT 	*
-                FROM 	Watchlist W
-                WHERE 	W.username = '$str'
+    $query = "  SELECT 	    *
+                FROM 	    Watchlist W
+                WHERE 	    W.username = '$str'
                 ORDER BY	W.date DESC
                 LIMIT		5
                 ";
@@ -171,9 +171,9 @@ function show_watchlists_of_user($conn, $str) {
 }
 
 function show_reviews_of_user($conn, $str) {
-    $query = "  SELECT 	*
-                FROM 	Review R
-                WHERE 	R.username = '$str'
+    $query = "  SELECT 	    *
+                FROM 	    Review R
+                WHERE 	    R.username = '$str'
                 ORDER BY	R.date DESC
                 LIMIT		5
     ";
@@ -206,26 +206,18 @@ function show_average_rating($conn, $str) {
 }
 
 function show_username($conn, $str) {
-    $query = "SELECT 	P.name
-                FROM 		Premium_user P
-                WHERE 	P.username = '$str' ";
+    $query = "SELECT 	U.name
+                FROM 	User U
+                WHERE 	U.username = '$str' ";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
     }
 }
 
-function register_free_user($conn, $username,$email,$password,$fname,$lname,$gender) {
-    $query = "INSERT INTO	Free_user
-                VALUES	('$username',  '$email', '$password', GETDATE(), '$fname','$lname','$gender')";
-    
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-function register_premium_user($conn, $username,$email,$password,$fname,$lname,$gender,$payment_method) {
-    $query = "INSERT INTO	Premium_user
-                VALUES	('$username',  '$email', '$password', GETDATE(), '$fname','$lname','$gender','$payment_method')";
+function register_user($conn, $username,$email,$password,$fname,$lname,$gender,$payment_method,$isPremium) {
+    $query = "INSERT INTO	User
+                VALUES	('$username', '$email', '$password', GETDATE(), '$fname','$lname','$gender','$payment_method', $isPremium)";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
