@@ -102,13 +102,23 @@ class _registerState extends State<RegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(CupertinoIcons.arrow_left_circle_fill),
-                            iconSize: 36)),
+                      padding: EdgeInsets.only(top: 20),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          elevation: 10,
+                          shape: CircleBorder(),
+                          primary: Colors.white,
+                        ),
+                        child: Icon(
+                          CupertinoIcons.arrowtriangle_left_circle,
+                          size: 30,
+                          color: Colors.black87,
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(),
                       child: FittedBox(
