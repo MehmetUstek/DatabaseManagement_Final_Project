@@ -77,7 +77,12 @@ Future<List<Movie>> searchByActor(String title) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
+
+      //List:
       List<Movie> movies = List<Movie>.from(l.map((model)=> Movie.fromJson(model)));
+      // Singular:
+      // Movie movie = Movie.fromJson(jsonDecode(response.body));
+
       // print(List<Movie>.from(l.map((model) => model)));
       return movies;
     }
