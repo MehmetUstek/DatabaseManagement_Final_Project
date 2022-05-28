@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:database_management_project/signIn.dart';
 import 'package:database_management_project/HomePage.dart';
-import 'package:database_management_project/User.dart';
 
 import 'SearchPage.dart';
 
@@ -110,7 +109,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String? userUID;
-  UserData? _user;
   final List<Tab> myTabs = <Tab>[
     // Tab(
     //   child: Row(
