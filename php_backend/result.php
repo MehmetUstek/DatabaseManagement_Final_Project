@@ -5,7 +5,7 @@
 require_once 'include/dbConnect.php';
 require_once 'include/functions.php';
 
-if (isset($_POST['dummy'])){
+if (isset($_POST['search_by_movie_name'])){
 	
 
     $sql = search_by_movie_name($conn, 'star');

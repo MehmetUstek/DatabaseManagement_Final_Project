@@ -28,26 +28,70 @@ function dummy_query($conn){
 }
 
 function search_by_movie_name($conn, $str) {
-    $query = "SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
-                FROM 	Movie M, Genre G, Belongs_to B
-                WHERE 	M.title LIKE '%$str%' AND B.GID = G.GID AND B.MID = M.MID";
+    $query = "  SELECT 	*
+                FROM 	Movie M
+                WHERE 	M.title LIKE '%$str%'";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
     }
 }
 
-function search_by_only_genre($conn, $str) {
-    $query = "SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
+function finding_genres_of_movie($conn, $id) {
+    $query = "  SELECT 	G.gname
+                FROM 	Movie M, Belongs_to B, Genre G
+                WHERE 	M.MID = $id AND B.MID = M.MID AND G.GID = B.GID";
+    
+    if ($result = mysqli_query($conn, $query)){       
+        return $result;
+    }
+}
+
+function search_by_movie_and_genre($conn, $genre, $title) {
+    $query = "  SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount
                 FROM 	Belongs_to B, Movie M, Genre G
-                WHERE 	B.GID = G.GID AND B.MID = M.MID AND G.gname = '$str'";
+                WHERE 	B.GID = G.GID AND B.MID = M.MID AND G.gname = '$genre' AND M.title LIKE '%$title%'";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function search_by_only_genre($conn, $str) {
+    $query = "  SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount
+                FROM 	Belongs_to B, Movie M, Genre G
+                WHERE 	B.GID = G.GID AND B.MID = M.MID AND G.gname = '$str'
+                LIMIT   20";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
     }
 }
+
+function search_by_actor($conn, $str) {
+    $query = "  SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount
+                FROM 	Actor A, Movie M, Plays_in P
+                WHERE 	A.AID = P.AID AND P.MID = M.MID AND A.fullName LIKE '%$str%'
+                LIMIT   20";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function showing_actors_in_movie($conn, $id) {
+    $query = "  SELECT  A.fullName
+                FROM 	Actor A, Movie M, Plays_in P
+                WHERE 	A.AID = P.AID AND P.MID = M.MID AND M.MID = '$id'
+                LIMIT   5";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
 function search_by_username($conn, $str) {
-    $query = "SELECT 	P.username
+    $query = "  SELECT 	P.username
                 FROM 	Premium_user P
                 WHERE 	P.username LIKE '%$str%'
                 ";
@@ -59,7 +103,7 @@ function search_by_username($conn, $str) {
 
 
 function show_profile_page($conn, $str) {
-    $query = "SELECT 	*
+    $query = "  SELECT 	*
                 FROM 	Premium_user P
                 WHERE 	P.username = '$str'
                 ";
@@ -70,7 +114,7 @@ function show_profile_page($conn, $str) {
 }
 
 function check_password($conn, $str) {
-    $query = "SELECT 	P.password
+    $query = "  SELECT 	P.password
                 FROM 	Premium_user P
                 WHERE 	P.username = '$str'
                 ";
@@ -81,7 +125,7 @@ function check_password($conn, $str) {
 }
 
 function show_followings_of_user($conn, $str) {
-    $query = "SELECT 	followingUsername
+    $query = "  SELECT 	followingUsername
                 FROM 	Follow F
                 WHERE 	F.followerUsername = '$str'
                 ";
@@ -92,7 +136,7 @@ function show_followings_of_user($conn, $str) {
 }
 
 function show_followers_of_user($conn, $str) {
-    $query = "SELECT followerUsername
+    $query = "  SELECT followerUsername
                 FROM 	Follow F
                 WHERE 	F.followingUsername = '$str'
                 ";
@@ -103,7 +147,7 @@ function show_followers_of_user($conn, $str) {
 }
 
 function search_actor($conn, $str) {
-    $query = "SELECT 	*
+    $query = "  SELECT 	*
                 FROM 	Actor A
                 WHERE 	A.fullname LIKE '%$str%'
                 ";
@@ -114,7 +158,7 @@ function search_actor($conn, $str) {
 }
 
 function show_watchlists_of_user($conn, $str) {
-    $query = "SELECT 	*
+    $query = "  SELECT 	*
                 FROM 	Watchlist W
                 WHERE 	W.username = '$str'
                 ORDER BY	W.date DESC
@@ -127,7 +171,7 @@ function show_watchlists_of_user($conn, $str) {
 }
 
 function show_reviews_of_user($conn, $str) {
-    $query = "SELECT 	*
+    $query = "  SELECT 	*
                 FROM 	Review R
                 WHERE 	R.username = '$str'
                 ORDER BY	R.date DESC
@@ -140,7 +184,7 @@ function show_reviews_of_user($conn, $str) {
 }
 
 function show_reviews_of_movie($conn, $str) {
-    $query = "SELECT 	*
+    $query = "  SELECT 	*
                 FROM 	Review R
                 WHERE 	R.MID = $str
                 ORDER BY	R.date DESC
@@ -190,17 +234,6 @@ function register_premium_user($conn, $username,$email,$password,$fname,$lname,$
 function choose_interested_genres($conn, $username,$genre_name) {
 
     
-}
-
-
-function search_by_movie_and_genre($conn, $movie_name, $genre) {
-    $query = "SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
-                FROM    Belongs_to B, Movie M, Genre G
-                WHERE 	B.GID = G.GID AND B.MID = M.MID AND G.gname = '$genre' AND M.title LIKE '%$movie_name%'";
-    
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
 }
 
 
@@ -259,37 +292,5 @@ function print_table($table_name, $result){
     }
     
 
-
-}
-
-function insert_city($conn,$cid, $name, $country_code, $district, $population){
-
-
-    $sql = "INSERT INTO city(ID, Name, CountryCode, District, Population) VALUES('$cid', '$name', '$country_code', '$district','$population');";
-    if ($conn->query($sql) === TRUE) { #We used different function to run our query.
-        echo "<br>Record updated successfully<br>";
-    } else {
-        echo "<br>Error updating record: " . $conn->error . "<br>";
-    }
-}
-
-function remove_city($conn,$cid){
-    $sql = "DELETE FROM city WHERE ID='$cid'";
-    if ($conn->query($sql) === TRUE) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: " . $conn->error;
-    }
-
-}
-
-function manipulate_city($conn,$cid,$name){
-
-    $sql = "UPDATE city SET Name='$name' WHERE ID='$cid'" ;
-    if ($conn->query($sql) === TRUE) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: " . $conn->error;
-    }
 
 }
