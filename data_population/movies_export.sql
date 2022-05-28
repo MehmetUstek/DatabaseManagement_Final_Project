@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `movies` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `movies`;
 -- MySQL dump 10.13  Distrib 8.0.28, for Win64 (x86_64)
 --
 -- Host: localhost    Database: movies
@@ -7,7 +9,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -24,8 +26,8 @@ DROP TABLE IF EXISTS `actor`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `actor` (
   `AID` int NOT NULL,
-  `fullName` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `gender` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `fullName` varchar(500) CHARACTER SET utf8 DEFAULT NULL,
+  `gender` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`AID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -80,8 +82,8 @@ CREATE TABLE `follow` (
   `followingUsername` varchar(20) NOT NULL,
   PRIMARY KEY (`followerUsername`,`followingUsername`),
   KEY `followingUsername` (`followingUsername`),
-  CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`followerUsername`) REFERENCES `premium_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`followingUsername`) REFERENCES `premium_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `follow_ibfk_1` FOREIGN KEY (`followerUsername`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `follow_ibfk_2` FOREIGN KEY (`followingUsername`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -94,33 +96,6 @@ LOCK TABLES `follow` WRITE;
 /*!40000 ALTER TABLE `follow` ENABLE KEYS */;
 UNLOCK TABLES;
 
---
--- Table structure for table `free_user`
---
-
-DROP TABLE IF EXISTS `free_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `free_user` (
-  `username` varchar(20) NOT NULL,
-  `email` varchar(20) DEFAULT NULL,
-  `password` varchar(50) DEFAULT NULL,
-  `creationDate` date DEFAULT NULL,
-  `fname` varchar(20) DEFAULT NULL,
-  `lname` varchar(20) DEFAULT NULL,
-  `gender` bit(1) DEFAULT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `free_user`
---
-
-LOCK TABLES `free_user` WRITE;
-/*!40000 ALTER TABLE `free_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `free_user` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `genre`
@@ -131,7 +106,7 @@ DROP TABLE IF EXISTS `genre`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `genre` (
   `GID` int NOT NULL,
-  `gname` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `gname` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`GID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -158,7 +133,7 @@ CREATE TABLE `interested_in` (
   `GID` int NOT NULL,
   PRIMARY KEY (`username`,`GID`),
   KEY `GID` (`GID`),
-  CONSTRAINT `interested_in_ibfk_1` FOREIGN KEY (`username`) REFERENCES `premium_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `interested_in_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `interested_in_ibfk_2` FOREIGN KEY (`GID`) REFERENCES `genre` (`GID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -172,6 +147,9 @@ LOCK TABLES `interested_in` WRITE;
 /*!40000 ALTER TABLE `interested_in` ENABLE KEYS */;
 UNLOCK TABLES;
 
+-- Drop table user
+DROP TABLE IF EXISTS `user`;
+
 --
 -- Table structure for table `movie`
 --
@@ -181,7 +159,7 @@ DROP TABLE IF EXISTS `movie`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `movie` (
   `MID` int NOT NULL DEFAULT '0',
-  `title` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `title` varchar(1000) CHARACTER SET utf8 DEFAULT NULL,
   `releaseDate` date DEFAULT NULL,
   `duration` int DEFAULT NULL,
   `voteAvg` decimal(4,2) DEFAULT NULL,
@@ -255,34 +233,37 @@ INSERT INTO `plays_in` VALUES (3011,39269),(7685,39269),(14062,39269),(19434,392
 UNLOCK TABLES;
 
 --
--- Table structure for table `premium_user`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `premium_user`;
+DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `premium_user` (
+CREATE TABLE `user` (
+
   `username` varchar(20) NOT NULL,
   `email` varchar(20) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
   `creationDate` date DEFAULT NULL,
   `fname` varchar(20) DEFAULT NULL,
   `lname` varchar(20) DEFAULT NULL,
-  `gender` bit(1) DEFAULT NULL,
+  `gender` char(1) DEFAULT NULL,
   `paymentMethod` varchar(10) DEFAULT NULL,
+  `isPremium` bit(1) DEFAULT NULL,
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
 --
--- Dumping data for table `premium_user`
+-- Dumping data for table `user`
 --
 
-LOCK TABLES `premium_user` WRITE;
-/*!40000 ALTER TABLE `premium_user` DISABLE KEYS */;
-INSERT INTO `premium_user` VALUES ('eerel18','eerel18@ku.edu.tr','abc','2010-10-10','emirhan','erel',_binary '\0','kiss');
-/*!40000 ALTER TABLE `premium_user` ENABLE KEYS */;
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('bisik18','bisik18@ku.edu.tr','123','10-10-2010','Busra','Isik','f',NULL,0),('atap18','atap18@ku.edu.tr','123','10-10-2010','Atahan','Tap','m','kiss',1),('kgirenes18','kgirenes18@ku.edu.tr','123','10-10-2010','Kerem','Girenes','m','kiss',1),('mustek17','mustek17@ku.edu.tr','123','10-10-2010','Mehmet','Ustek','m','kiss',1),('eerel18','eerel18@ku.edu.tr','123','10-10-2010','Emirhan','Erel','m','kiss',1);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
 
 --
 -- Table structure for table `review`
@@ -292,7 +273,7 @@ DROP TABLE IF EXISTS `review`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `review` (
-  `RID` int NOT NULL,
+  `RID` int NOT NULL AUTO_INCREMENT,
   `rating` int DEFAULT NULL,
   `comment` char(200) DEFAULT NULL,
   `date` date DEFAULT NULL,
@@ -301,7 +282,7 @@ CREATE TABLE `review` (
   PRIMARY KEY (`RID`,`username`),
   KEY `username` (`username`),
   KEY `MID` (`MID`),
-  CONSTRAINT `review_ibfk_1` FOREIGN KEY (`username`) REFERENCES `premium_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `review_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `review_ibfk_2` FOREIGN KEY (`MID`) REFERENCES `movie` (`MID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -323,13 +304,13 @@ DROP TABLE IF EXISTS `watchlist`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `watchlist` (
-  `LID` int NOT NULL,
+  `LID` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   `creationDate` date DEFAULT NULL,
   `username` varchar(20) NOT NULL,
   PRIMARY KEY (`LID`,`username`),
   KEY `username` (`username`),
-  CONSTRAINT `watchlist_ibfk_1` FOREIGN KEY (`username`) REFERENCES `premium_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `watchlist_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -351,4 +332,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-28 17:14:07
+-- Dump completed on 2022-05-07 19:04:54
