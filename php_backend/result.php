@@ -15,7 +15,9 @@ if (isset($_POST['dummy'])){
     {
         $results[] = $row;
     }
-    $json = json_encode($results);
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
     
     echo $json;
 }

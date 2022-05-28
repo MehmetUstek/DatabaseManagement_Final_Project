@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'dbQueries.dart';
+
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -12,7 +14,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   var containerColor = Colors.black87;
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
   var selectedColor = Color(0xffDEDEDE);
   var unselectedColor = Color(0xffBDBDBD);
   var selectedTextColor = Colors.black;
@@ -43,6 +45,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Put the following code when opening keyboard is needed.
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Container(
           child: Column(
@@ -71,18 +75,20 @@ class _SearchPageState extends State<SearchPage> {
                   enableSuggestions: false,
                   cursorColor: Colors.black,
                   textAlign: TextAlign.start,
-                  controller: emailController,
+                  controller: searchController,
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Colors.black,
                     decoration: TextDecoration.none,
                   ),
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
                       icon: Icon(CupertinoIcons.search,
                           size: 30, color: Color(0xffBDBDBD)),
-                      onPressed: () {},
+                      onPressed: () {
+                        searchByMovieName(searchController.text);
+                      },
                     ),
                     labelText: 'Search',
                     labelStyle: TextStyle(
