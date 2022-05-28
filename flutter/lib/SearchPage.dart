@@ -5,14 +5,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'dbQueries.dart';
+
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
+enum SearchType { MOVIE, GENRE, ACTOR, USER }
+
 class _SearchPageState extends State<SearchPage> {
   var containerColor = Colors.black87;
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
   var selectedColor = Color(0xffDEDEDE);
   var unselectedColor = Color(0xffBDBDBD);
   var selectedTextColor = Colors.black;
@@ -25,6 +29,7 @@ class _SearchPageState extends State<SearchPage> {
   var genreTextColor;
   var actorTextColor;
   var userTextColor;
+  SearchType searchType = SearchType.MOVIE;
 
   @override
   void initState() {
@@ -43,6 +48,8 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // Put the following code when opening keyboard is needed.
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Container(
           child: Column(
@@ -71,40 +78,52 @@ class _SearchPageState extends State<SearchPage> {
                   enableSuggestions: false,
                   cursorColor: Colors.black,
                   textAlign: TextAlign.start,
-                  controller: emailController,
+                  controller: searchController,
                   style: const TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 20,
-                    color: Colors.white,
+                    color: Colors.black,
                     decoration: TextDecoration.none,
                   ),
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
-                      icon: Icon(CupertinoIcons.search,
+                      icon: const Icon(CupertinoIcons.search,
                           size: 30, color: Color(0xffBDBDBD)),
-                      onPressed: () {},
+                      onPressed: () {
+                        if(searchType == SearchType.MOVIE) {
+                          searchMovieByMovieName(searchController.text);
+                        }else if(searchType == SearchType.GENRE) {
+
+                        }
+                        else if(searchType == SearchType.ACTOR) {
+
+                        }
+                        else if(searchType == SearchType.USER) {
+
+                        }
+                      },
                     ),
                     labelText: 'Search',
-                    labelStyle: TextStyle(
+                    labelStyle: const TextStyle(
                         color: Color(0xffBDBDBD),
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
-                    border: UnderlineInputBorder(
+                    border: const UnderlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffBDBDBD), width: 4)),
-                    enabledBorder: UnderlineInputBorder(
+                    enabledBorder: const UnderlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffBDBDBD), width: 4)),
-                    focusedBorder: UnderlineInputBorder(
+                    focusedBorder: const UnderlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffBDBDBD), width: 4)),
-                    disabledBorder: UnderlineInputBorder(
+                    disabledBorder: const UnderlineInputBorder(
                         borderSide:
                             BorderSide(color: Color(0xffBDBDBD), width: 4)),
                   ),
                 ),
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 20),
               ),
               Row(
@@ -130,6 +149,7 @@ class _SearchPageState extends State<SearchPage> {
                         movieTextColor = selectedTextColor;
                         userColor = unselectedColor;
                         userTextColor = unselectedTextColor;
+                        searchType = SearchType.MOVIE;
                       });
                     },
                     child: Text(
@@ -161,6 +181,8 @@ class _SearchPageState extends State<SearchPage> {
                         movieTextColor = unselectedTextColor;
                         userColor = unselectedColor;
                         userTextColor = unselectedTextColor;
+                        searchType = SearchType.GENRE;
+
                       });
                     },
                     child: Text(
@@ -192,6 +214,8 @@ class _SearchPageState extends State<SearchPage> {
                         movieTextColor = unselectedTextColor;
                         userColor = unselectedColor;
                         userTextColor = unselectedTextColor;
+                        searchType = SearchType.ACTOR;
+
                       });
                     },
                     child: Text(
@@ -223,6 +247,8 @@ class _SearchPageState extends State<SearchPage> {
                         movieTextColor = unselectedTextColor;
                         userColor = selectedColor;
                         userTextColor = selectedTextColor;
+                        searchType = SearchType.MOVIE;
+
                       });
                     },
                     child: Text(
@@ -239,7 +265,9 @@ class _SearchPageState extends State<SearchPage> {
               Padding(
                   padding: EdgeInsets.only(top: 200, bottom: 10),
                   child: IconButton(
-                      onPressed: () {Navigator.pop(context);},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: Icon(
                         CupertinoIcons.xmark_circle,
                         size: 70,

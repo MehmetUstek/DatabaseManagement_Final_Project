@@ -86,18 +86,6 @@ class _registerState extends State<RegisterPage> {
     'Family', 'War', 'Foreign', 'TV Movie'];
   }
 
-  Gradient background = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.topRight,
-    stops: [
-      0.5,
-      0.9,
-    ],
-    colors: [
-      Color(0xffA9C7F2),
-      Color(0xff8DB5EE),
-    ],
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +153,7 @@ class _registerState extends State<RegisterPage> {
                       color: Colors.white,
                       decoration: TextDecoration.none,
                     ),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'E-Mail',
                       labelStyle: TextStyle(
                           color: Color(0xffBDBDBD),
@@ -599,10 +587,10 @@ class _registerState extends State<RegisterPage> {
                 const Padding(padding: EdgeInsets.only(top: 20)),
 
                 // Select Genres
-                ListView.builder(
-                  itemCount: genres.length,
-                  itemBuilder: (context, int index) => Text(genres[index]),
-                ),
+                // ListView.builder(
+                //   itemCount: genres.length,
+                //   itemBuilder: (context, int index) => Text(genres[index]),
+                // ),
                 const Padding(padding: EdgeInsets.only(top: 20)),
 
                 ElevatedButton(
