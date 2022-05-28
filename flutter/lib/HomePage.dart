@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                     ]),
 
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies", movies: [],)));
                 },
               ),
               Padding(padding:EdgeInsets.only(top:50),child:

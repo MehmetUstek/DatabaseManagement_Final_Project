@@ -3,8 +3,6 @@ import 'package:database_management_project/registerPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
   @override
@@ -198,7 +196,8 @@ class _SignInState extends State<SignInPage> {
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 onPressed: () {
-                  // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  // TODO: If user signed in correctly, go onto the next page.
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
 
                 },
               ),

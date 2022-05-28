@@ -49,3 +49,7 @@ php_backend/include/dbConnect.php
 *.xml
 
 
+*.dill
+*.jar
+*.bin
+*.apk
