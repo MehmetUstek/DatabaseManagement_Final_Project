@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'objects/Movie.dart';
 
 var localIP = "10.0.2.2";
-Future<List<Movie>> searchByMovieName(String title) async {
+Future<List<Movie>> searchMovieByMovieName(String title) async {
   final queryParams = {
     'title': title,
     'dummy':"1"
@@ -21,6 +21,7 @@ Future<List<Movie>> searchByMovieName(String title) async {
     try{
       Iterable l = json.decode(response.body);
       List<Movie> movies = List<Movie>.from(l.map((model)=> Movie.fromJson(model)));
+      print(movies[0].title);
       return movies;
     }
     catch(e){
