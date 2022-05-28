@@ -9,7 +9,7 @@ var localIP = "10.0.2.2";
 Future<List<Movie>> searchMovieByMovieName(String title) async {
   final queryParams = {
     'title': title,
-    'dummy':"1"
+    'search_by_movie_name':"1"
   };
   final response = await http
       .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
@@ -21,7 +21,7 @@ Future<List<Movie>> searchMovieByMovieName(String title) async {
     try{
       Iterable l = json.decode(response.body);
       List<Movie> movies = List<Movie>.from(l.map((model)=> Movie.fromJson(model)));
-      print(movies[0].title);
+      // print(List<Movie>.from(l.map((model) => model)));
       return movies;
     }
     catch(e){
