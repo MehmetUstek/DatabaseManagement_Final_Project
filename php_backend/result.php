@@ -63,7 +63,7 @@ if (isset($_POST['search_by_movie_and_genre'])){
 if (isset($_POST['search_by_only_genre'])){
 	
     $genre = $_POST['gName'];
-    $sql = finding_genres_of_movie($conn, $genre);
+    $sql = search_by_only_genre($conn, $genre);
 
 
     $results = array();
@@ -369,7 +369,7 @@ if (isset($_POST['add_movie_to_list'])){
 if (isset($_POST['show_top_rated_movies_per_genre'])){
 
 
-    $sql = add_movie_to_list($conn);
+    $sql = show_top_rated_movies_per_genre($conn);
 
 
     $results = array();

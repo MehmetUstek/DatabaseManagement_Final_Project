@@ -328,7 +328,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ]),
                   onPressed: () {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MoviesPage()));
+                        MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies", movies: [],isGenreVisible: false,)));
                   },
                 ),
               ],

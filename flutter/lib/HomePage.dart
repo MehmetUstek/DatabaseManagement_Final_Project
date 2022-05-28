@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'MoviesPage.dart';
 import 'SearchPage.dart';
 import 'dbQueries.dart';
+import 'objects/Movie.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -191,8 +192,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ]),
 
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies", movies: [],)));
+                onPressed: () async {
+                  List<Movie> movies = await showTopRatedMoviesPerGenre();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies", movies: movies, isGenreVisible: true,)));
                 },
               ),
               Padding(padding:EdgeInsets.only(top:50),child:

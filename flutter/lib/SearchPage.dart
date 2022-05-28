@@ -1,4 +1,5 @@
 import 'package:database_management_project/MoviesPage.dart';
+import 'package:database_management_project/UsersSearchPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import 'dbQueries.dart';
 import 'objects/Movie.dart';
+import 'objects/User.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -94,15 +96,21 @@ class _SearchPageState extends State<SearchPage> {
                       onPressed: () async {
                         if(searchType == SearchType.MOVIE) {
                           List<Movie> movies = await searchMovieByMovieName(searchController.text);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies",movies: movies,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies",movies: movies, isGenreVisible: false,)));
 
                         }else if(searchType == SearchType.GENRE) {
+                          List<Movie> movies = await searchByOnlyGenre(searchController.text);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Genres",movies: movies, isGenreVisible: false,)));
 
                         }
                         else if(searchType == SearchType.ACTOR) {
+                          List<Movie> movies = await searchByActor(searchController.text);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Actors",movies: movies, isGenreVisible: false,)));
 
                         }
                         else if(searchType == SearchType.USER) {
+                          List<User> users = await searchByUsername(searchController.text);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => UsersSearchPage(searchType: "Users",users: users)));
 
                         }
 
@@ -252,7 +260,7 @@ class _SearchPageState extends State<SearchPage> {
                         movieTextColor = unselectedTextColor;
                         userColor = selectedColor;
                         userTextColor = selectedTextColor;
-                        searchType = SearchType.MOVIE;
+                        searchType = SearchType.USER;
 
                       });
                     },

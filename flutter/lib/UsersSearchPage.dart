@@ -5,33 +5,28 @@ import 'SearchPage.dart';
 import 'objects/Movie.dart';
 import 'objects/User.dart';
 
-class MoviesPage extends StatefulWidget {
-  const MoviesPage(
+class UsersSearchPage extends StatefulWidget {
+  const UsersSearchPage(
       {Key? key,
       required this.searchType,
-      this.movies,
-      required this.isGenreVisible})
+      this.users})
       : super(key: key);
-  final List<Movie>? movies;
+  final List<User>? users;
   final String searchType;
-  final bool isGenreVisible;
 
   @override
-  _MoviePageState createState() => _MoviePageState();
+  _UsersSearchPageState createState() => _UsersSearchPageState();
 }
 
-class _MoviePageState extends State<MoviesPage> {
+class _UsersSearchPageState extends State<UsersSearchPage> {
   var containerColor = Colors.black87;
-  late List<Movie> movies;
   late String searchType;
-  late bool isGenreVisible;
+  late List<User> users;
 
   @override
   void initState() {
     super.initState();
-    movies = widget.movies!;
     searchType = widget.searchType;
-    isGenreVisible = widget.isGenreVisible;
   }
 
   @override
@@ -55,7 +50,7 @@ class _MoviePageState extends State<MoviesPage> {
         shrinkWrap: true,
         physics: const AlwaysScrollableScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
-          Movie movie = movies[index];
+          User user = users[index];
           return ElevatedButton(
             style: ElevatedButton.styleFrom(
               shape: const RoundedRectangleBorder(
@@ -75,28 +70,9 @@ class _MoviePageState extends State<MoviesPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Text(
-                              "Rating: " +
-                                  movie.voteAvg.toString() +
-                                  "  (" +
-                                  movie.voteCount.toString() +
-                                  ")",
-                              style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              )),
-                            ),
-                          ),
-                        ),
-                        Padding(
                           padding: EdgeInsets.only(top: 0),
                           child: Text(
-                            movie.title,
+                            user.username,
                             maxLines: 2,
                             overflow: TextOverflow.fade,
                             style: GoogleFonts.montserrat(
@@ -109,34 +85,7 @@ class _MoviePageState extends State<MoviesPage> {
                         Padding(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                            movie.releaseDate,
-                            style: GoogleFonts.montserrat(
-                                textStyle: TextStyle(
-                              color: Colors.black45,
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            )),
-                          ),
-                        ),
-                        Visibility(
-                          visible: isGenreVisible,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
-                              movie.genreName.toString(),
-                              style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              )),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text(
-                            movie.duration.toString(),
+                            user.fname + " " + user.lname,
                             style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                               color: Colors.black45,
@@ -152,7 +101,7 @@ class _MoviePageState extends State<MoviesPage> {
           );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),
-        itemCount: movies.length,
+        itemCount: users.length,
       ),
     );
   }
