@@ -198,7 +198,6 @@ class _SignInState extends State<SignInPage> {
                 onPressed: () {
                   // TODO: If user signed in correctly, go onto the next page.
                   Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
-
                 },
               ),
               Padding(

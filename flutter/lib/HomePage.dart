@@ -1,3 +1,4 @@
+import 'package:database_management_project/ProfilePage.dart';
 import 'package:database_management_project/signIn.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ]),
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
                       },
                     ),
 
@@ -213,8 +214,7 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 18, color: Colors.black),
                 ),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignInPage()));
-
+                  Navigator.pop(context);
                 },
               ),
               ),
