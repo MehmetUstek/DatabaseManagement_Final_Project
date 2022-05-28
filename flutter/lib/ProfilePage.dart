@@ -76,9 +76,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: 150,
                       decoration: BoxDecoration(
                         color: Colors.black38,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(30.0)
-                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(30.0)),
                       ),
                       child: Center(
                         child: Text(
@@ -327,8 +325,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ]),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MoviesPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MoviesPage(searchType: "Movies", movies: [])));
                   },
                 ),
               ],

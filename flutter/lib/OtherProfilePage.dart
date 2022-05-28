@@ -395,8 +395,11 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                         ),
                       ]),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MoviesPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MoviesPage(searchType: "Movies", movies: [])));
                   },
                 ),
               ],
