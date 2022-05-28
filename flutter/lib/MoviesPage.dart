@@ -119,18 +119,6 @@ class _MoviePageState extends State<MoviesPage> {
                           Padding(
                             padding: EdgeInsets.only(top: 5),
                             child: Text(
-                              'Action, Fantasy',
-                              style: GoogleFonts.montserrat(
-                                  textStyle: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                              )),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(top: 5),
-                            child: Text(
                               '150 mins',
                               style: GoogleFonts.montserrat(
                                   textStyle: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:database_management_project/HomePage.dart';
 import 'package:database_management_project/registerPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,18 +43,6 @@ class _SignInState extends State<SignInPage> {
     super.initState();
   }
 
-  Gradient background = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.topRight,
-    stops: [
-      0.5,
-      0.9,
-    ],
-    colors: [
-      Color(0xffA9C7F2),
-      Color(0xff8DB5EE),
-    ],
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +78,7 @@ class _SignInState extends State<SignInPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 20, top: 10),
                       child: Text(
                         "Username",
@@ -136,7 +125,7 @@ class _SignInState extends State<SignInPage> {
                   ],
                 ),
               ),
-              Padding(padding: EdgeInsets.only(top: 20.0)),
+              Padding(padding: const EdgeInsets.only(top: 20.0)),
 
               Container(
                 height: 60,
@@ -149,7 +138,7 @@ class _SignInState extends State<SignInPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 20, top: 10),
                       child: Text(
                         "Password",
@@ -190,7 +179,7 @@ class _SignInState extends State<SignInPage> {
                 ),
               ),
 
-              Padding(padding: EdgeInsets.only(top: 30)),
+              const Padding(padding: EdgeInsets.only(top: 30)),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   shape: const RoundedRectangleBorder(
@@ -209,10 +198,12 @@ class _SignInState extends State<SignInPage> {
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 onPressed: () {
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+
                 },
               ),
               Padding(
-                padding: EdgeInsets.only(top:10),
+                padding: const EdgeInsets.only(top:10),
               child:
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
