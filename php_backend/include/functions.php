@@ -210,6 +210,30 @@ function search_by_movie_and_genre($conn, $movie_name, $genre) {
         return $result;
     }
 }
+function search_by_movie_and_genre($conn, $movie_name, $genre) {
+    $query = "SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
+                FROM    Belongs_to B, Movie M, Genre G
+                WHERE 	B.GID = G.GID AND B.MID = M.MID AND G.gname = '$genre' AND M.title LIKE '%$movie_name%'";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_top_rated_movies_per_genre($conn){
+    $query = "SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
+                    FROM 		Genre G, Belongs_to B, Movie M
+                    WHERE 	G.GID = B.GID AND B.MID = M.MID AND
+                    (G.GID, M.voteAvg) IN (SELECT 	G.GID, MAX(M.VoteAvg)
+                                            FROM 	Genre G, Belongs_to B, Movie M
+                                            WHERE 	G.GID = B.GID AND B.MID = M.MID
+                                            GROUP BY 	GID)
+                    ORDER_BY G.gname ASC;";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
 
 
 // print_table is for debugging
