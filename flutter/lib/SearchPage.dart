@@ -1,3 +1,4 @@
+import 'package:database_management_project/MoviesPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'dbQueries.dart';
+import 'objects/Movie.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -89,9 +91,11 @@ class _SearchPageState extends State<SearchPage> {
                     suffixIcon: IconButton(
                       icon: const Icon(CupertinoIcons.search,
                           size: 30, color: Color(0xffBDBDBD)),
-                      onPressed: () {
+                      onPressed: () async {
                         if(searchType == SearchType.MOVIE) {
-                          searchMovieByMovieName(searchController.text);
+                          List<Movie> movies = await searchMovieByMovieName(searchController.text);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies",movies: movies,)));
+
                         }else if(searchType == SearchType.GENRE) {
 
                         }
@@ -101,6 +105,7 @@ class _SearchPageState extends State<SearchPage> {
                         else if(searchType == SearchType.USER) {
 
                         }
+
                       },
                     ),
                     labelText: 'Search',

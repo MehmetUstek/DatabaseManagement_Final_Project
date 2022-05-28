@@ -1,3 +1,4 @@
+import 'package:database_management_project/FollowersPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,7 @@ import 'package:database_management_project/signIn.dart';
 import 'package:database_management_project/HomePage.dart';
 
 import 'SearchPage.dart';
+import 'objects/User.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -72,18 +74,19 @@ class AuthenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final firebaseUser = context.watch<User?>();
-    // if(firebaseUser == null){
-    //   // if (FirebaseAuth.instance.currentUser?.uid == null) {
-    //   return SignInPage();
-    // }
+    final user = context.watch<User?>();
+    if(user == null){
+      // if (FirebaseAuth.instance.currentUser?.uid == null) {
+      return SignInPage();
+    }
     //TODO: Change this.
     // return MyHomePage(
     //     title: 'Flutter Memo Home Page',
     //     userUID: "aa");
     // return SignInPage();
-    return HomePage();
+    // return HomePage();
     // return SearchPage();
+    return FollowersPage();
   }
 }
 
