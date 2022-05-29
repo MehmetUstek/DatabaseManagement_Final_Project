@@ -37,16 +37,6 @@ function search_by_movie_name($conn, $str) {
     }
 }
 
-function finding_genres_of_movie($conn, $id) {
-    $query = "  SELECT 	G.gname
-                FROM 	Movie M, Belongs_to B, Genre G
-                WHERE 	M.MID = $id AND B.MID = M.MID AND G.GID = B.GID";
-    
-    if ($result = mysqli_query($conn, $query)){       
-        return $result;
-    }
-}
-
 function search_by_movie_and_genre($conn, $genre, $title) {
     $query = "  SELECT 	M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount
                 FROM 	Belongs_to B, Movie M, Genre G
@@ -79,17 +69,6 @@ function search_by_actor($conn, $str) {
     }
 }
 
-function showing_actors_in_movie($conn, $id) {
-    $query = "  SELECT  A.fullName
-                FROM 	Actor A, Movie M, Plays_in P
-                WHERE 	A.AID = P.AID AND P.MID = M.MID AND M.MID = '$id'
-                LIMIT   5";
-    
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-
 function search_by_username($conn, $str) {
     $query = "  SELECT 	U.username
                 FROM 	User U
@@ -101,20 +80,8 @@ function search_by_username($conn, $str) {
     }
 }
 
-
 function show_profile_page($conn, $str) {
     $query = "  SELECT 	*
-                FROM 	User U
-                WHERE 	U.username = '$str'
-                ";
-    
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-
-function check_password($conn, $str) {
-    $query = "  SELECT 	U.password
                 FROM 	User U
                 WHERE 	U.username = '$str'
                 ";
@@ -146,7 +113,7 @@ function show_followers_of_user($conn, $str) {
     }
 }
 
-function show_watchlists_of_user($conn, $str) {
+function show_watchlist_of_user($conn, $str) {
     $query = "  SELECT 	    *
                 FROM 	    Watchlist W
                 WHERE 	    W.username = '$str'
@@ -172,10 +139,31 @@ function show_reviews_of_user($conn, $str) {
     }
 }
 
+function showing_actors_in_movie($conn, $id) {
+    $query = "  SELECT  A.fullName
+                FROM 	Actor A, Movie M, Plays_in P
+                WHERE 	A.AID = P.AID AND P.MID = M.MID AND M.MID = '$id'
+                LIMIT   5";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function finding_genres_of_movie($conn, $id) {
+    $query = "  SELECT 	G.gname
+                FROM 	Movie M, Belongs_to B, Genre G
+                WHERE 	M.MID = $id AND B.MID = M.MID AND G.GID = B.GID";
+    
+    if ($result = mysqli_query($conn, $query)){       
+        return $result;
+    }
+}
+
 function show_reviews_of_movie($conn, $str) {
-    $query = "  SELECT 	*
-                FROM 	Review R
-                WHERE 	R.MID = $str
+    $query = "  SELECT 	    *
+                FROM 	    Review R
+                WHERE 	    R.MID = $str
                 ORDER BY	R.date DESC
                 LIMIT		5";
     
@@ -186,7 +174,7 @@ function show_reviews_of_movie($conn, $str) {
 
 function register_user($conn, $username,$email,$password,$fname,$lname,$gender,$payment_method,$isPremium) {
     $query = "  INSERT INTO	User
-                VALUES	('$username', '$email', '$password', GETDATE(), '$fname','$lname','$gender','$payment_method', $isPremium)";
+                VALUES	    ('$username', '$email', '$password', GETDATE(), '$fname','$lname','$gender','$payment_method', $isPremium)";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
@@ -195,7 +183,7 @@ function register_user($conn, $username,$email,$password,$fname,$lname,$gender,$
 
 function choose_interested_genres($conn, $username,$genre_name) {
     $query = "  INSERT INTO	User
-                VALUES	('$username',  (SELECT G.GID
+                VALUES	    ('$username',  (SELECT G.GID
                                          FROM 	Genre G
                                          WHERE 	G.gname = '$genre_name'))";
 
@@ -205,9 +193,20 @@ function choose_interested_genres($conn, $username,$genre_name) {
     
 }
 
+function check_password($conn, $str) {
+    $query = "  SELECT 	U.password
+                FROM 	User U
+                WHERE 	U.username = '$str'
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
 function creating_a_review($conn, $rating, $comment, $username, $MID) {
     $query = "  INSERT INTO	Review (rating, comment, date,  username, MID)
-                VALUES	($rating, '$comment', GETDATE(), '$username', $MID)";
+                VALUES	    ($rating, '$comment', GETDATE(), '$username', $MID)";
 
     if ($result = mysqli_query($conn, $query)){
         return $result;
@@ -217,7 +216,7 @@ function creating_a_review($conn, $rating, $comment, $username, $MID) {
 
 function creating_a_watchlist($conn, $name, $username) {
     $query = "  INSERT INTO	Watchlist (name, creationDate, username)
-                VALUES	('$name', GETDATE(), '$username')";
+                VALUES	    ('$name', GETDATE(), '$username')";
 
     if ($result = mysqli_query($conn, $query)){
         return $result;
@@ -227,7 +226,7 @@ function creating_a_watchlist($conn, $name, $username) {
 
 function add_movie_to_list($conn, $MID,$LID) {
     $query = "  INSERT INTO	Movie_in_list
-                VALUES	($MID, $LID)";
+                VALUES	    ($MID, $LID)";
 
     if ($result = mysqli_query($conn, $query)){
         return $result;
