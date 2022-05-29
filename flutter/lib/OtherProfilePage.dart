@@ -289,7 +289,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
                                 child: Text(
-                                  'Watchlists',
+                                  'Watchlist',
                                   style: GoogleFonts.montserrat(
                                       textStyle: TextStyle(
                                     color: Colors.black,
@@ -344,60 +344,38 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       ),
                     ]),
                 Padding(
-                  padding: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: 40),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                      side: BorderSide(
-                          width: 5.0,
-                          color: Colors.black,
-                          style: BorderStyle.solid),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Genre Interests",
+                      style: GoogleFonts.montserrat(
+                          textStyle: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 40,
+                              fontWeight: FontWeight.w500)),
                     ),
-                    fixedSize: const Size(250, 100),
-                    primary: Colors.black,
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          CupertinoIcons.heart_fill,
-                          size: 50,
-                          color: Colors.white,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'GENRE',
-                                  maxLines: 2,
-                                  style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                  )),
-                                ),
-                                Text(
-                                  'Interests',
-                                  maxLines: 2,
-                                  style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 30,
-                                    // fontWeight: FontWeight.bold
-                                  )),
-                                ),
-                              ]),
-                        ),
-                      ]),
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies", movies: [],isGenreVisible: false,)));
-                  },
+                  ],
+                ),
+                Row(
+                  children: [
+                    Flexible(
+                      // SQL: Limit 5
+                      child: Text(
+                        "Action, Adventure, Medieval, Fantasy",
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.clip,
+                        style: GoogleFonts.montserrat(
+                            textStyle: TextStyle(
+                                color: Colors.black38,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700)),
+                      ),
+                    )
+                  ],
                 ),
               ],
             ),
