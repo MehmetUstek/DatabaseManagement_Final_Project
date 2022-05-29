@@ -12,6 +12,10 @@
         "source": "C:\\Apache24\\htdocs\\DatabaseManagement_Final_Project\\flutter\\android\\app\\src\\main\\res\\mipmap-xxhdpi\\ic_launcher.png"
     },
     {
+        "merged": "C:\\Apache24\\htdocs\\DatabaseManagement_Final_Project\\flutter\\build\\app\\intermediates\\res\\merged\\debug\\drawable_launch_background.xml.flat",
+        "source": "C:\\Apache24\\htdocs\\DatabaseManagement_Final_Project\\flutter\\android\\app\\src\\main\\res\\drawable\\launch_background.xml"
+    },
+    {
         "merged": "C:\\Apache24\\htdocs\\DatabaseManagement_Final_Project\\flutter\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-xxxhdpi_ic_launcher.png.flat",
         "source": "C:\\Apache24\\htdocs\\DatabaseManagement_Final_Project\\flutter\\android\\app\\src\\main\\res\\mipmap-xxxhdpi\\ic_launcher.png"
     },
