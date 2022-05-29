@@ -383,3 +383,39 @@ if (isset($_POST['show_top_rated_movies_per_genre'])){
     
     echo $json;
 }
+
+if (isset($_POST['num_movies_by_liked_genre'])){
+
+    $username = $_POST['username'];
+    $sql = num_movies_by_liked_genre($conn, $username);
+
+
+    $results = array();
+    while($row = mysqli_fetch_assoc($sql))
+    {
+        $results[] = $row;
+    }
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    
+    echo $json;
+}
+
+if (isset($_POST['updating_vote_avg'])){
+
+    $MID = $_POST['MID'];
+    $sql = updating_vote_avg($conn, $MID);
+
+
+    $results = array();
+    while($row = mysqli_fetch_assoc($sql))
+    {
+        $results[] = $row;
+    }
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    
+    echo $json;
+}

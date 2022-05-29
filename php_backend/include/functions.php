@@ -235,14 +235,40 @@ function add_movie_to_list($conn, $MID,$LID) {
     
 }
 
+
+///////////////COMPLEX QUERIES//////////////////////
+
 function show_top_rated_movies_per_genre($conn){
-    $query = "SELECT 	DISTINCT M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
-    FROM 		Genre G, Belongs_to B, Movie M
-    WHERE 	G.GID = B.GID AND B.MID = M.MID AND
-    (G.GID, M.voteAvg) IN (SELECT 	G.GID, MAX(M.VoteAvg)
-                            FROM 	Genre G, Belongs_to B, Movie M
-                            WHERE 	G.GID = B.GID AND B.MID = M.MID
-                            GROUP BY 	GID)";
+    $query = "  SELECT 	DISTINCT M.MID, M.title, M.releaseDate, M.duration, M.voteAvg, M.voteCount, G.gname
+                FROM 	Genre G, Belongs_to B, Movie M
+                WHERE 	G.GID = B.GID AND B.MID = M.MID AND (G.GID, M.voteAvg) IN ( SELECT 	G.GID, MAX(M.VoteAvg)
+                                                                                    FROM 	Genre G, Belongs_to B, Movie M
+                                                                                    WHERE 	G.GID = B.GID AND B.MID = M.MID
+                                                                                    GROUP BY 	GID)";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function num_movies_by_liked_genre($conn, $username){
+    $query = "  SELECT 	    G.gname, Count(MID)
+                FROM 	    Intrested_in I, Genre G, Belongs_to B, User U, Watchlist W, Movie_in_list ML
+                WHERE 	    U.username = '$username' AND U.username = W.username AND U.username = I.username AND I.GID = B.GID AND B.MID = ML.MID AND ML.LID = W.LID
+                GROUP BY 	GID";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function updating_vote_avg($conn, $MID){
+    $query = "  UPDATE	Movie M1
+                SET		M1.voteAvg = (  SELECT SUM(R.rating) / (M2.voteCount + 1)
+                                        FROM Movie M2, Review R
+                                        WHERE M2.MID = '$MID' M2.MID = R.MID),
+                        M1.voteCount = M1.voteCount + 1
+                WHERE 	M1.MID = '$MID'";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
