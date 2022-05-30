@@ -435,10 +435,11 @@ Future<String> chooseInterestedGenres(String username, String gName) async {
 
 //Not sure how this works either. I tried to return true if it's a successful log in,
 //if not throw exception.
-Future<bool> checkPassword(String username) async {
+Future<bool> checkPassword(String username, String password) async {
   final queryParams = {
     'check_password':"1",
-    'username': username
+    'username': username,
+    'password': password
   };
   final response = await http
       .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {

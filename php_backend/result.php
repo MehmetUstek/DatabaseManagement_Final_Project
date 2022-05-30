@@ -291,9 +291,7 @@ if (isset($_POST['check_password'])){
     $username = $_POST['username'];
     $pass = $_POST['password'];
     $sql = check_password($conn, $username, $pass);
-
-    // Encode function should include the following numeric checks.
-    $json = $results;
+    $json = json_encode($sql, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
     
     echo $json;
 }

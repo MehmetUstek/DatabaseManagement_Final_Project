@@ -4,47 +4,56 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'dbQueries.dart';
+
 class SignInPage extends StatefulWidget {
   @override
   _SignInState createState() => _SignInState();
 }
 
 class _SignInState extends State<SignInPage> {
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool isEmailValid = false;
   bool isPasswordValid = false;
   bool showValue = false;
   var containerColor = Colors.black87;
 
-  bool isPasswordCompliant(String password, [int minLength = 6]) {
-    if (password.isEmpty) {
-      return false;
-    }
-
-    bool hasUppercase = password.contains(new RegExp(r'[A-Z]'));
-    bool hasDigits = password.contains(new RegExp(r'[0-9]'));
-    bool hasLowercase = password.contains(new RegExp(r'[a-z]'));
-    bool hasSpecialCharacters =
-        password.contains(new RegExp(r'[!@#$%^&*(),.?":{}|<>-]'));
-    bool hasMinLength = password.length > minLength;
-
-    return hasDigits &
-        hasUppercase &
-        hasLowercase &
-        hasSpecialCharacters &
-        hasMinLength;
-  }
-
   @override
   void initState() {
     super.initState();
   }
 
+  showAlertDialog(BuildContext context) {
+
+    // set up the button
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () { Navigator.of(context).pop();  },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("EEEH BEE NAPTIN BAKEM"),
+      content: Text("Wrong Password."),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: Container(
           // color: Colors.white,
@@ -96,10 +105,10 @@ class _SignInState extends State<SignInPage> {
 
                         cursorColor: Colors.white54,
                         textAlign: TextAlign.start,
-                        controller: emailController,
+                        controller: usernameController,
                         onEditingComplete: () {
                           isEmailValid = EmailValidator.validate(
-                              emailController.text.trim());
+                              usernameController.text.trim());
                           if (isEmailValid) {
                             print("Valid");
                           } else {
@@ -155,13 +164,6 @@ class _SignInState extends State<SignInPage> {
                         obscureText: true,
                         controller: passwordController,
                         onEditingComplete: () {
-                          isPasswordValid =
-                              isPasswordCompliant(passwordController.text.trim());
-                          if (isPasswordValid) {
-                            print("Valid pass");
-                          } else {
-                            print("Not Valid pass");
-                          }
                         },
                         style: const TextStyle(
                           fontWeight: FontWeight.normal,
@@ -195,9 +197,16 @@ class _SignInState extends State<SignInPage> {
                   'Sign In',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   // TODO: If user signed in correctly, go onto the next page.
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                  bool isAccepted = await checkPassword(usernameController.text,passwordController.text);
+                  if(isAccepted) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
+                  }
+                  else {
+                    showAlertDialog(context);
+                  }
                 },
               ),
               Padding(
