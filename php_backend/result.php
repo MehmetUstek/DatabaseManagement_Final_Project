@@ -23,24 +23,6 @@ if (isset($_POST['search_by_movie_name'])){
     echo $json;
 }
 
-if (isset($_POST['finding_genres_of_movie'])){
-	
-    $mid = $_POST['MID'];
-
-    $sql = finding_genres_of_movie($conn, $mid);
-
-    $results = array();
-    while($row = mysqli_fetch_assoc($sql))
-    {
-        $results[] = $row;
-    }
-    
-    // Encode function should include the following numeric checks.
-    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-    
-    echo $json;
-}
-
 if (isset($_POST['search_by_movie_and_genre'])){
 	
     $title = $_POST['title'];
@@ -82,24 +64,6 @@ if (isset($_POST['search_by_actor'])){
 	
     $name = $_POST['fullName'];
     $sql = search_by_actor($conn, $name);
-
-
-    $results = array();
-    while($row = mysqli_fetch_assoc($sql))
-    {
-        $results[] = $row;
-    }
-    
-    // Encode function should include the following numeric checks.
-    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-    
-    echo $json;
-}
-
-if (isset($_POST['check_password'])){
-	
-    $username = $_POST['username'];
-    $sql = check_password($conn, $username);
 
 
     $results = array();
@@ -186,10 +150,10 @@ if (isset($_POST['show_followers_of_user'])){
     echo $json;
 }
 
-if (isset($_POST['show_watchlists_of_user'])){
+if (isset($_POST['show_watchlist_of_user'])){
 	
     $username = $_POST['username'];
-    $sql = show_watchlists_of_user($conn, $username);
+    $sql = show_watchlist_of_user($conn, $username);
 
 
     $results = array();
@@ -240,6 +204,23 @@ if (isset($_POST['showing_actors_in_movie'])){
     echo $json;
 }
 
+if (isset($_POST['finding_genres_of_movie'])){
+	
+    $mid = $_POST['MID'];
+
+    $sql = finding_genres_of_movie($conn, $mid);
+
+    $results = array();
+    while($row = mysqli_fetch_assoc($sql))
+    {
+        $results[] = $row;
+    }
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    
+    echo $json;
+}
 if (isset($_POST['show_reviews_of_movie'])){
 	
     $mid = $_POST['MID'];
@@ -305,6 +286,18 @@ if (isset($_POST['choose_interested_genres'])){
     echo $json;
 }
 
+if (isset($_POST['check_password'])){
+	
+    $username = $_POST['username'];
+    $pass = $_POST['password'];
+    $sql = check_password($conn, $username, $pass);
+
+    // Encode function should include the following numeric checks.
+    $json = $results;
+    
+    echo $json;
+}
+
 if (isset($_POST['creating_a_review'])){
 
     $rating = $_POST['rating'];
@@ -366,10 +359,47 @@ if (isset($_POST['add_movie_to_list'])){
     echo $json;
 }
 
+///////////////COMPLEX QUERIES//////////////////////
 if (isset($_POST['show_top_rated_movies_per_genre'])){
 
 
     $sql = show_top_rated_movies_per_genre($conn);
+
+
+    $results = array();
+    while($row = mysqli_fetch_assoc($sql))
+    {
+        $results[] = $row;
+    }
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    
+    echo $json;
+}
+
+if (isset($_POST['num_movies_by_liked_genre'])){
+
+    $username = $_POST['username'];
+    $sql = num_movies_by_liked_genre($conn, $username);
+
+
+    $results = array();
+    while($row = mysqli_fetch_assoc($sql))
+    {
+        $results[] = $row;
+    }
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    
+    echo $json;
+}
+
+if (isset($_POST['updating_vote_avg'])){
+
+    $MID = $_POST['MID'];
+    $sql = updating_vote_avg($conn, $MID);
 
 
     $results = array();
