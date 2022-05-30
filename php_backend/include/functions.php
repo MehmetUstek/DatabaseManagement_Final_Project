@@ -193,14 +193,19 @@ function choose_interested_genres($conn, $username,$genre_name) {
     
 }
 
-function check_password($conn, $str) {
-    $query = "  SELECT 	U.password
+function check_password($conn, $str, $pass) {
+    $query = "  SELECT 	U.username
                 FROM 	User U
-                WHERE 	U.username = '$str'
+                WHERE 	U.username = '$str' and U.password = '$pass'
                 ";
     
     if ($result = mysqli_query($conn, $query)){
-        return $result;
+        if(mysqli_num_rows($result) > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
 

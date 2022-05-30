@@ -289,17 +289,11 @@ if (isset($_POST['choose_interested_genres'])){
 if (isset($_POST['check_password'])){
 	
     $username = $_POST['username'];
-    $sql = check_password($conn, $username);
+    $pass = $_POST['password'];
+    $sql = check_password($conn, $username, $pass);
 
-
-    $results = array();
-    while($row = mysqli_fetch_assoc($sql))
-    {
-        $results[] = $row;
-    }
-    
     // Encode function should include the following numeric checks.
-    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    $json = $results;
     
     echo $json;
 }

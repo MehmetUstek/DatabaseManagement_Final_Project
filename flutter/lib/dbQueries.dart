@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
@@ -169,7 +168,6 @@ Future<User> showProfilePage(String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Iterable l = json.decode(response.body);
       User user = User.fromJson(jsonDecode(response.body));
       return user;
     }
@@ -252,7 +250,6 @@ Future<Watchlist> showWatchlistOfUser(String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Iterable l = json.decode(response.body);
       Watchlist wl = Watchlist.fromJson(jsonDecode(response.body));
       return wl;
     }
@@ -399,7 +396,6 @@ Future<User> registerUser(String username, String email, String password, String
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Iterable l = json.decode(response.body);
       User user = User(username: username, email: email, password: password,
           creationDate: DateTime.now(), fname: fname, lname: lname, gender: gender, isPremium: isPremium);
       return user;
@@ -416,7 +412,7 @@ Future<User> registerUser(String username, String email, String password, String
 
 //Query does not return anything, so I made it void.
 //Call this query for each genre.
-void chooseInterestedGenres(String username, String gName) async {
+Future<String> chooseInterestedGenres(String username, String gName) async {
   final queryParams = {
     'choose_interested_genres':"1",
     'username': username,
@@ -429,12 +425,7 @@ void chooseInterestedGenres(String username, String gName) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    try{
-      Iterable l = json.decode(response.body);
-    }
-    catch(e){
-      throw Exception('Failed to choose genre.');
-    }
+    return "OK";
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -457,8 +448,8 @@ Future<bool> checkPassword(String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Iterable l = json.decode(response.body);
-      return true;
+      bool isAccepted = json.decode(response.body);
+      return isAccepted;
     }
     catch(e){
       throw Exception('Failed to log in.');
@@ -488,7 +479,6 @@ Future<Review> creatingReview(double rating, String comment, String username, in
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Iterable l = json.decode(response.body);
       Review review = Review(RID: 0, rating: rating, comment: comment, date: DateTime.now(), username: username, MID: mid);
       return review;
     }
@@ -519,7 +509,6 @@ Future<Watchlist> creatingWatchlist(String name, String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Iterable l = json.decode(response.body);
       Watchlist watchlist = Watchlist(LID: 0, name: name, creationDate: DateTime.now(), username: username);
       return watchlist;
     }
@@ -534,7 +523,7 @@ Future<Watchlist> creatingWatchlist(String name, String username) async {
 }
 
 //Query does not return anything, so I made it void.
-void addMovieToList(int mid, int lid) async {
+Future<String> addMovieToList(int mid, int lid) async {
   final queryParams = {
     'add_movie_to_list':"1",
     'MID': mid,
@@ -547,12 +536,7 @@ void addMovieToList(int mid, int lid) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    try{
-      Iterable l = json.decode(response.body);
-    }
-    catch(e){
-      throw Exception('Failed to add movie to the list.');
-    }
+    return "OK";
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -616,7 +600,7 @@ Future<List<List<String>>> numMoviesByLikedGenre(String username) async {
 }
 
 //Query does not return anything, so I made it void.
-void updatingVoteAvg(int mid) async {
+Future<String> updatingVoteAvg(int mid) async {
   final queryParams = {
     'updating_vote_avg':"1",
     'MID': mid,
@@ -628,12 +612,7 @@ void updatingVoteAvg(int mid) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    try{
-      Iterable l = json.decode(response.body);
-    }
-    catch(e){
-      throw Exception('Failed to load user');
-    }
+    return "OK";
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
