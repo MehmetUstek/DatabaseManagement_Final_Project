@@ -91,10 +91,10 @@ function show_profile_page($conn, $str) {
     }
 }
 
-function show_followings_of_user($conn, $str) {
-    $query = "  SELECT 	followingUsername
-                FROM 	Follow F
-                WHERE 	F.followerUsername = '$str'
+function show_followers_of_user($conn, $str) {
+    $query = " SELECT 	DISTINCT F.followerUsername, U.fname, U.lname
+               FROM 	Follow F, User U
+               WHERE 	F.followingUsername = '$str' AND F.followerUsername = U.username
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -102,10 +102,10 @@ function show_followings_of_user($conn, $str) {
     }
 }
 
-function show_followers_of_user($conn, $str) {
-    $query = "  SELECT  followerUsername
-                FROM 	Follow F
-                WHERE 	F.followingUsername = '$str'
+function show_followings_of_user($conn, $str) {
+    $query = "  SELECT 	DISTINCT  F.followingUsername, U.fname, U.lname
+                FROM 	Follow F, User U
+                WHERE 	F.followerUsername = '$str' AND F.followingUsername = U.username
                 ";
     
     if ($result = mysqli_query($conn, $query)){

@@ -184,7 +184,8 @@ Future<User> showProfilePage(String username) async {
 }
 
 //This returns just the usernames so I made it a list of string, not sure if it works
-Future<List<String>> showFollowingsOfUser(String username) async {
+//I changed it to a list of a list of strings (Kerem).
+Future<List<List<String>>> showFollowingsOfUser(String username) async {
   final queryParams = {
     'show_followings_of_user':"1",
     'username': username
@@ -198,8 +199,8 @@ Future<List<String>> showFollowingsOfUser(String username) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<String> usernames = List<String>.from(l);
-      return usernames;
+      List<List<String>> usernamesAndNames = List<List<String>>.from(l);
+      return usernamesAndNames;
     }
     catch(e){
       throw Exception('Failed to load usernames.');
@@ -212,7 +213,8 @@ Future<List<String>> showFollowingsOfUser(String username) async {
 }
 
 //This returns just the usernames so I made it a list of string, not sure if it works
-Future<List<String>> showFollowersOfUser(String username) async {
+//I changed it to a list of a list of strings (Kerem).
+Future<List<List<String>>> showFollowersOfUser(String username) async {
   final queryParams = {
     'show_followers_of_user':"1",
     'username': username
@@ -226,8 +228,8 @@ Future<List<String>> showFollowersOfUser(String username) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<String> usernames = List<String>.from(l);
-      return usernames;
+      List<List<String>> usernamesAndNames = List<List<String>>.from(l);
+      return usernamesAndNames;
     }
     catch(e){
       throw Exception('Failed to load usernames.');
