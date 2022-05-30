@@ -12,6 +12,7 @@ import 'MovieDetailsPage.dart';
 import 'MoviesPage.dart';
 import 'OtherProfilePage.dart';
 import 'SearchPage.dart';
+import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -229,7 +230,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
                                 child: Text(
-                                  'Watchlist',
+                                  'Watchlists',
                                   style: GoogleFonts.montserrat(
                                       textStyle: TextStyle(
                                     color: Colors.black,
@@ -239,7 +240,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ]),
                         onPressed: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage()));
                         },
                       ),
                       Padding(

@@ -1,3 +1,4 @@
+import 'package:database_management_project/OtherProfilePage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,14 +6,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-import 'OtherProfilePage.dart';
+import 'MoviesPage.dart';
 
-class FollowingPage extends StatefulWidget {
+class WatchlistListPage extends StatefulWidget {
   @override
-  _FollowingPageState createState() => _FollowingPageState();
+  _WatchlistListPageState createState() => _WatchlistListPageState();
 }
 
-class _FollowingPageState extends State<FollowingPage> {
+class _WatchlistListPageState extends State<WatchlistListPage> {
   var containerColor = Colors.black87;
 
   @override
@@ -61,19 +62,20 @@ class _FollowingPageState extends State<FollowingPage> {
                   ],
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 30, bottom: 30),
+                  padding: EdgeInsets.only(left: 30, bottom: 20),
                   child: Row(children: <Widget>[
                     Text(
-                      'Following',
+                      'Watchlists',
                       style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 40,
-                          )),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 40,
+                      )),
                     ),
                   ]),
                 ),
+
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
@@ -82,7 +84,7 @@ class _FollowingPageState extends State<FollowingPage> {
                         style: ElevatedButton.styleFrom(
                           shape: const RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(40.0)),
+                                BorderRadius.all(Radius.circular(40.0)),
                             side: BorderSide(
                                 width: 1.0,
                                 color: Colors.white,
@@ -104,7 +106,7 @@ class _FollowingPageState extends State<FollowingPage> {
                                     children: [
                                       Column(children: [
                                         Icon(
-                                          CupertinoIcons.profile_circled,
+                                          CupertinoIcons.play_rectangle_fill,
                                           size: 50,
                                           color: Colors.black,
                                         ),
@@ -113,18 +115,18 @@ class _FollowingPageState extends State<FollowingPage> {
                                           padding: EdgeInsets.only(left: 10)),
                                       Column(
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(children: [
                                             Padding(
                                               padding: EdgeInsets.only(top: 0),
                                               child: Text(
-                                                'Kerem Girenes',
+                                                'Watchlist 1',
                                                 style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 20,
-                                                    )),
+                                                  color: Colors.black,
+                                                  fontSize: 20,
+                                                )),
                                               ),
                                             ),
                                           ]),
@@ -132,13 +134,13 @@ class _FollowingPageState extends State<FollowingPage> {
                                             Padding(
                                               padding: EdgeInsets.only(top: 0),
                                               child: Text(
-                                                '@username',
+                                                'Movies:  3',
                                                 style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
-                                                      color: Colors.black45,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold,
-                                                    )),
+                                                  color: Colors.black45,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                )),
                                               ),
                                             ),
                                           ]),
@@ -150,15 +152,16 @@ class _FollowingPageState extends State<FollowingPage> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.push(
+                          /*Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => OtherProfilePage()));
+                                  builder: (context) => MoviesPage(searchType: "Movies", movies: movies, isGenreVisible: false,)));*/
                         },
                       ),
                     ],
                   ),
                 ),
+
               ],
             ),
           ),
