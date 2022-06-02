@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'SearchPage.dart';
-import 'objects/Movie.dart';
 import 'objects/User.dart';
 
 class UsersSearchPage extends StatefulWidget {
@@ -27,6 +25,7 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
   void initState() {
     super.initState();
     searchType = widget.searchType;
+    users = widget.users!;
   }
 
   @override
@@ -65,7 +64,11 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
             child: Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Align(
-                  child: Column(
+                alignment: Alignment.topLeft,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -95,6 +98,10 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
                           ),
                         ),
                       ]),
+                    Visibility(visible: user.isPremium, child:Icon(CupertinoIcons.star_fill, size: 50, color: Colors.orange,),
+                    ),
+                ],
+              ),
               ),
             ),
             onPressed: () {},

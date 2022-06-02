@@ -70,7 +70,7 @@ function search_by_actor($conn, $str) {
 }
 
 function search_by_username($conn, $str) {
-    $query = "  SELECT 	U.username
+    $query = "  SELECT 	U.*
                 FROM 	User U
                 WHERE 	U.username LIKE '%$str%'
                 ";

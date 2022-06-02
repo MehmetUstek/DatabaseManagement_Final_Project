@@ -377,7 +377,7 @@ Future<List<Review>> showReviewsOfMovie(int mid) async {
 //I took gender as String, but not sure how it is in database. Kerem wanted it String I remember.
 //I made isPremium boolean, I don't know if this will cause a problem in query because in database it is a bit field.
 //I gave everyone a default creationDate, no need for another query.
-Future<User> registerUser(String username, String email, String password, String fname,
+Future<String> registerUser(String username, String email, String password, String fname,
     String lname, String gender, String paymentMethod, bool isPremium,) async {
   final queryParams = {
     'register_user':"1",
@@ -397,14 +397,7 @@ Future<User> registerUser(String username, String email, String password, String
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    try{
-      User user = User(username: username, email: email, password: password,
-          creationDate: DateTime.now(), fname: fname, lname: lname, gender: gender, isPremium: isPremium);
-      return user;
-    }
-    catch(e){
-      throw Exception('Failed to register.');
-    }
+    return "OK";
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.

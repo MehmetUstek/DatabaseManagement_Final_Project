@@ -2,7 +2,7 @@ class User {
   final String username;
   final String email;
   final String password;
-  final DateTime creationDate;
+  final String creationDate;
   final String fname;
   final String lname;
   final String gender;
@@ -15,13 +15,13 @@ class User {
     return User(
         username: json['username'],
         email: json['email'],
-        password: json['password'],
+        password: json['password'].toString(),
         creationDate: json['creationDate'],
         fname: json['fname'],
         lname: json['lname'],
         gender: json['gender'],
         paymentMethod: json['paymentMethod'],
-        isPremium: json['isPremium']
+        isPremium: json['isPremium'] == 1
     );
   }
 }
