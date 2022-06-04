@@ -1,3 +1,5 @@
+import 'package:database_management_project/MovieDetailsPage.dart';
+import 'package:database_management_project/dbQueries.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -136,7 +138,7 @@ class _MoviePageState extends State<MoviesPage> {
                         Padding(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                            movie.duration.toString(),
+                            movie.duration.toString() + " mins",
                             style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                               color: Colors.black45,
@@ -148,7 +150,13 @@ class _MoviePageState extends State<MoviesPage> {
                       ]),
               ),
             ),
-            onPressed: () {},
+            onPressed: () async {
+              var a = await findingGenresOfMovie(movie.MID);
+              print(a);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage()));
+              print(movie.MID);
+
+            },
           );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),

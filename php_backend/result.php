@@ -217,7 +217,7 @@ if (isset($_POST['finding_genres_of_movie'])){
     }
     
     // Encode function should include the following numeric checks.
-    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    $json = json_encode($results);
     
     echo $json;
 }
