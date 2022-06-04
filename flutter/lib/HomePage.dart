@@ -12,6 +12,8 @@ import 'SearchPage.dart';
 import 'dbQueries.dart';
 import 'objects/Movie.dart';
 import 'objects/User.dart';
+import 'objects/PairData.dart';
+import 'objects/Triplet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage(
@@ -143,8 +145,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ]),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+                      onPressed: () async {
+                        List<Triplet> followersList = await showFollowersOfUser(widget.currentUser.username);
+                        List<Triplet> followingList  = await showFollowingsOfUser(widget.currentUser.username);
+                        List<PairData> genreInterestsList = await numMoviesByLikedGenre(widget.currentUser.username);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(currentUser: widget.currentUser, followersList: followersList,
+                            followingList: followingList, genreInterestsList: genreInterestsList)));
                       },
                     ),
 

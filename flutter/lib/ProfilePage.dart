@@ -14,18 +14,54 @@ import 'OtherProfilePage.dart';
 import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
+import 'objects/User.dart';
+import 'objects/PairData.dart';
+import 'objects/Triplet.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage(
+      {Key? key,
+        required this.currentUser,
+        required this.followersList,
+        required this.followingList,
+        required this.genreInterestsList})
+      : super(key: key);
+  final User currentUser;
+  final List<Triplet> followersList;
+  final List<Triplet> followingList;
+  final List<PairData> genreInterestsList;
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   var containerColor = Colors.black87;
+  late String username;
+  late String name;
+  late int followers;
+  late int following;
+  late String genreInterests;
 
   @override
   void initState() {
     super.initState();
+
+    username = widget.currentUser.username;
+    name = widget.currentUser.fname + " " + widget.currentUser.lname;
+    followers = widget.followersList.length;
+    following = widget.followingList.length;
+
+    if (!widget.genreInterestsList.isEmpty) {
+      genreInterests = widget.genreInterestsList[0].gname + " (" +
+          widget.genreInterestsList[0].count.toString() + ") ";
+      for (var i = 1; i < widget.genreInterestsList.length; i++) {
+        genreInterests += ", " + widget.genreInterestsList[i].gname + " (" +
+            widget.genreInterestsList[i].count.toString() + ") ";
+      }
+    } else {
+      genreInterests = "";
+    }
   }
 
   @override
@@ -101,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     Center(
                       child: Text(
-                        'Kerem Girenes',
+                        name,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black87,
@@ -113,7 +149,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     Center(
                       child: Text(
-                        '@keremgirenes',
+                        '@' + username,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black38,
@@ -144,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '147',
+                              '$followers',
                               style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.black87,
@@ -178,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '88',
+                              '$following',
                               style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.black87,
@@ -305,7 +341,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Flexible(
                       // SQL: Limit 5
                       child: Text(
-                        "Action, Adventure, Medieval, Fantasy",
+                        genreInterests,
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.clip,

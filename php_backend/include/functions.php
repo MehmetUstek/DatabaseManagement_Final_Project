@@ -256,10 +256,10 @@ function show_top_rated_movies_per_genre($conn){
 }
 
 function num_movies_by_liked_genre($conn, $username){
-    $query = "  SELECT 	    G.gname, Count(MID)
-                FROM 	    Intrested_in I, Genre G, Belongs_to B, User U, Watchlist W, Movie_in_list ML
+    $query = "  SELECT 	    G.gname, Count(ML.MID)
+                FROM 	    Interested_in I, Genre G, Belongs_to B, User U, Watchlist W, Movie_in_list ML
                 WHERE 	    U.username = '$username' AND U.username = W.username AND U.username = I.username AND I.GID = B.GID AND B.MID = ML.MID AND ML.LID = W.LID
-                GROUP BY 	GID";
+                GROUP BY 	G.GID";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
