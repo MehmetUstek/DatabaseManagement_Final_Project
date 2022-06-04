@@ -3,7 +3,7 @@ import 'package:database_management_project/registerPage.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'objects/User.dart';
 import 'dbQueries.dart';
 
 class SignInPage extends StatefulWidget {
@@ -201,8 +201,9 @@ class _SignInState extends State<SignInPage> {
                   // TODO: If user signed in correctly, go onto the next page.
                   bool isAccepted = await checkPassword(usernameController.text,passwordController.text);
                   if(isAccepted) {
+                    User user = await showProfilePage(usernameController.text);
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage()));
+                        MaterialPageRoute(builder: (context) => HomePage(currentUser: user)));
                   }
                   else {
                     showAlertDialog(context);

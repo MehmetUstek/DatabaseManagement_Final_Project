@@ -11,8 +11,15 @@ import 'MoviesPage.dart';
 import 'SearchPage.dart';
 import 'dbQueries.dart';
 import 'objects/Movie.dart';
+import 'objects/User.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage(
+      {Key? key,
+        required this.currentUser,})
+      : super(key: key);
+  final User currentUser;
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -51,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: <Widget> [
               Text(
-                'Welcome, Kerem!',
+                'Welcome, ' + widget.currentUser.fname +'!',
                 style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                       color: Colors.black,

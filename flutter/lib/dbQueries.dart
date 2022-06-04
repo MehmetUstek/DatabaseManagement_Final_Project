@@ -168,7 +168,8 @@ Future<User> showProfilePage(String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      User user = User.fromJson(jsonDecode(response.body));
+      var info = jsonDecode(response.body)[0];
+      User user = User.fromJson(info);
       return user;
     }
     catch(e){
