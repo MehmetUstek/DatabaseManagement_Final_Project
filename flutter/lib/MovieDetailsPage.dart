@@ -4,12 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import 'objects/Movie.dart';
 import 'MoviesPage.dart';
 import 'SearchPage.dart';
 import 'dbQueries.dart';
 
 class MovieDetailsPage extends StatefulWidget {
+
+  const MovieDetailsPage(
+      {Key? key,
+        required this.movie,
+        required this.genres,})
+      : super(key: key);
+  final Movie movie;
+  final List<String> genres;
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
@@ -17,12 +25,13 @@ class MovieDetailsPage extends StatefulWidget {
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   var containerColor = Colors.black87;
 
-  String movieTitle = "Movie Title";
-  String movieYear = "2009";
-  double voteAvg = 7.9;
-  int voteCount = 31;
-  String duration = "153";
-  List<String> genres = ["Action", "Adventure", "Medieval", "Fantasy"];
+  late String movieTitle;
+  late String movieYear;
+  late double voteAvg;
+  late int voteCount;
+  late int duration;
+  late String genreNames;
+  //late String actorNames;
 
   bool isAdded = false;
   String addLabel = "ADD TO WATCHLIST";
@@ -41,12 +50,16 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     addTextColor = Colors.black87;
     addBoxColor = Colors.white;
 
-    movieTitle = "Movie Title";
-    movieYear = "2009";
-    voteAvg = 7.9;
-    voteCount = 31;
-    duration = "153";
-    genres = ["Action", "Adventure", "Medieval", "Fantasy"];
+    movieTitle = widget.movie.title;
+    movieYear = widget.movie.releaseDate;
+    voteAvg = widget.movie.voteAvg;
+    voteCount = widget.movie.voteCount;
+    duration = widget.movie.duration;
+    genreNames = widget.genres[0];
+    //actorNames = widget.actors[0];
+    for( var i = 1 ; i < widget.genres.length; i++ ){
+      genreNames += ", " + widget.genres[i];
+    }
   }
 
   @override
@@ -239,7 +252,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         Flexible(
                           // SQL: Limit 5
                           child: Text(
-                            "Action, Adventure, Medieval, Fantasy",
+                            genreNames,
                             maxLines: 2,
                             overflow: TextOverflow.clip,
                             style: GoogleFonts.montserrat(
