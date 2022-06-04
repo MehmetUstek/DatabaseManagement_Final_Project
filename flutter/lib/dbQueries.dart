@@ -295,7 +295,7 @@ Future<List<Review>> showReviewsOfUser(String username) async {
 Future<List<String>> showingActorsInMovie(int mid) async {
   final queryParams = {
     'showing_actors_in_movie':"1",
-    'MID': mid
+    'MID': mid.toString()
   };
   final response = await http
       .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
@@ -306,7 +306,7 @@ Future<List<String>> showingActorsInMovie(int mid) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<String> aNames = List<String>.from(l);
+      List<String> aNames = List<String>.from(l.map((e) => e['fullName']));
       return aNames;
     }
     catch(e){

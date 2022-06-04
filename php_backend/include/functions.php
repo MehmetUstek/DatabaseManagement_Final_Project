@@ -142,7 +142,7 @@ function show_reviews_of_user($conn, $str) {
 function showing_actors_in_movie($conn, $id) {
     $query = "  SELECT  A.fullName
                 FROM 	Actor A, Movie M, Plays_in P
-                WHERE 	A.AID = P.AID AND P.MID = M.MID AND M.MID = '$id'
+                WHERE 	A.AID = P.AID AND P.MID = M.MID AND M.MID = $id
                 LIMIT   5";
     
     if ($result = mysqli_query($conn, $query)){

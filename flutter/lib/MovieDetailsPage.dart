@@ -14,10 +14,12 @@ class MovieDetailsPage extends StatefulWidget {
   const MovieDetailsPage(
       {Key? key,
         required this.movie,
-        required this.genres,})
+        required this.genres,
+        required this.actors})
       : super(key: key);
   final Movie movie;
   final List<String> genres;
+  final List<String> actors;
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
@@ -31,7 +33,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   late int voteCount;
   late int duration;
   late String genreNames;
-  //late String actorNames;
+  late String actorNames;
 
   bool isAdded = false;
   String addLabel = "ADD TO WATCHLIST";
@@ -56,9 +58,12 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     voteCount = widget.movie.voteCount;
     duration = widget.movie.duration;
     genreNames = widget.genres[0];
-    //actorNames = widget.actors[0];
+    actorNames = widget.actors[0];
     for( var i = 1 ; i < widget.genres.length; i++ ){
       genreNames += ", " + widget.genres[i];
+    }
+    for( var i = 1 ; i < widget.actors.length; i++ ){
+      actorNames += ", " + widget.actors[i];
     }
   }
 
@@ -282,7 +287,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         Flexible(
                           // SQL: Limit 5
                           child: Text(
-                            "Kerem Girenes, Mehmet Üstek, Büşra Işık, Atahan Tap, Emirhan Erel",
+                            actorNames,
                             maxLines: 4,
                             overflow: TextOverflow.clip,
                             style: GoogleFonts.montserrat(
