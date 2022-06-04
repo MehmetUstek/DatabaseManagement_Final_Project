@@ -169,7 +169,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersPage(followers: widget.followersList)));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -203,7 +203,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         )),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingPage()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingPage(following: widget.followingList,)));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,

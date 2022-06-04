@@ -5,18 +5,28 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'objects/Triplet.dart';
+import 'OtherProfilePage.dart';
 
 class FollowersPage extends StatefulWidget {
+  const FollowersPage(
+      {Key? key,
+        required this.followers})
+      : super(key: key);
+  final List<Triplet>? followers;
+
   @override
   _FollowersPageState createState() => _FollowersPageState();
 }
 
 class _FollowersPageState extends State<FollowersPage> {
   var containerColor = Colors.black87;
+  late List<Triplet> followers;
 
   @override
   void initState() {
     super.initState();
+    followers = widget.followers!;
   }
 
   @override
