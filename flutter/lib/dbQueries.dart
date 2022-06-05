@@ -244,7 +244,7 @@ Future<List<Triplet>> showFollowersOfUser(String username) async {
   }
 }
 
-Future<Watchlist> showWatchlistOfUser(String username) async {
+Future<List<Watchlist>> showWatchlistOfUser(String username) async {
   final queryParams = {
     'show_watchlist_of_user':"1",
     'username': username
@@ -257,7 +257,8 @@ Future<Watchlist> showWatchlistOfUser(String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Watchlist wl = Watchlist.fromJson(jsonDecode(response.body));
+      Iterable l = json.decode(response.body);
+      List<Watchlist> wl = List<Watchlist>.from(l.map((model)=> Watchlist.fromJson(model)));
       return wl;
     }
     catch(e){
@@ -462,9 +463,8 @@ Future<bool> checkPassword(String username, String password) async {
   }
 }
 
-//This query does not return anything. So I made it return the review it created as an object.
-//I gave every review a default creationDate and RID, no need for another query.
-Future<Review> creatingReview(double rating, String comment, String username, int mid) async {
+//This query does not return anything.
+Future<String> creatingReview(double rating, String comment, String username, int mid) async {
   final queryParams = {
     'creating_a_review':"1",
     'rating': rating,
@@ -480,8 +480,7 @@ Future<Review> creatingReview(double rating, String comment, String username, in
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Review review = Review(RID: 0, rating: rating, comment: comment, date: DateTime.now(), username: username, MID: mid);
-      return review;
+      return "ok";
     }
     catch(e){
       throw Exception('Failed to create a review.');
@@ -493,10 +492,8 @@ Future<Review> creatingReview(double rating, String comment, String username, in
   }
 }
 
-//This query does not return anything. So I made it return the watchlist it created as an object.
-//I gave every watchlist a default creationDate and LID, no need for another query.
-//This might cause problems when we want insert to a movie and we get LID from front-end object list.
-Future<Watchlist> creatingWatchlist(String name, String username) async {
+//This query does not return anything.
+Future<String> creatingWatchlist(String name, String username) async {
   final queryParams = {
     'creating_a_watchlist':"1",
     'name': name,
@@ -510,8 +507,8 @@ Future<Watchlist> creatingWatchlist(String name, String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      Watchlist watchlist = Watchlist(LID: 0, name: name, creationDate: DateTime.now(), username: username);
-      return watchlist;
+
+      return "ok";
     }
     catch(e){
       throw Exception('Failed to create a watchlist.');
