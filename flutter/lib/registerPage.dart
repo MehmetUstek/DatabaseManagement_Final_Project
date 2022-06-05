@@ -1,5 +1,7 @@
 //import 'dart:ffi';
 
+import 'dart:ffi';
+
 import 'package:database_management_project/signIn.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -40,7 +42,11 @@ class _registerState extends State<RegisterPage> {
   var cardTextColor;
   var cashTextColor;
 
+  List<Color> genreColors = [];
+  List<Color> genreTextColors = [];
+
   List<String> genres = [];
+  List<String> selectedGenres = [];
 
   bool isPasswordCompliant(String password, [int minLength = 6]) {
     if (password.isEmpty) {
@@ -80,12 +86,36 @@ class _registerState extends State<RegisterPage> {
     cardTextColor = unselectedTextColor;
     cashTextColor = unselectedTextColor;
 
-    genres = ['Adventure', 'Fantasy', 'Animation', 'Drama', 'Horror',
-    'Action', 'Comedy', 'History', 'Western', 'Thriller', 'Crime',
-    'Documentary', 'Science Fiction', 'Mystery', 'Music', 'Romance',
-    'Family', 'War', 'Foreign', 'TV Movie'];
-  }
+    genres = [
+      'Adventure',
+      'Fantasy',
+      'Animation',
+      'Drama',
+      'Horror',
+      'Action',
+      'Comedy',
+      'History',
+      'Western',
+      'Thriller',
+      'Crime',
+      'Documentary',
+      'Science Fiction',
+      'Mystery',
+      'Music',
+      'Romance',
+      'Family',
+      'War',
+      'Foreign',
+      'TV Movie'
+    ];
 
+    selectedGenres = [];
+
+    for (int i = 0; i < genres.length; i++) {
+      genreColors.add(unselectedColor);
+      genreTextColors.add(unselectedTextColor);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -368,16 +398,13 @@ class _registerState extends State<RegisterPage> {
                           color: Color(0xffBDBDBD),
                           fontWeight: FontWeight.bold),
                     ),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(
-                          side: BorderSide(
-                            width: 1.0,
-                            color: Color(0xffBDBDBD),
-                            style: BorderStyle.solid
-                          )
-                        ),
+                            side: BorderSide(
+                                width: 1.0,
+                                color: Color(0xffBDBDBD),
+                                style: BorderStyle.solid)),
                         primary: maleColor,
                       ),
                       onPressed: () {
@@ -395,22 +422,19 @@ class _registerState extends State<RegisterPage> {
                         'M',
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: maleTextColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            )),
+                          color: maleTextColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        )),
                       ),
                     ),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(
                             side: BorderSide(
                                 width: 1.0,
                                 color: Color(0xffBDBDBD),
-                                style: BorderStyle.solid
-                            )
-                        ),
+                                style: BorderStyle.solid)),
                         primary: femaleColor,
                       ),
                       onPressed: () {
@@ -428,22 +452,19 @@ class _registerState extends State<RegisterPage> {
                         'F',
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: femaleTextColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            )),
+                          color: femaleTextColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        )),
                       ),
                     ),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: const CircleBorder(
                             side: BorderSide(
                                 width: 1.0,
                                 color: Color(0xffBDBDBD),
-                                style: BorderStyle.solid
-                            )
-                        ),
+                                style: BorderStyle.solid)),
                         primary: unspecifiedColor,
                       ),
                       onPressed: () {
@@ -461,10 +482,10 @@ class _registerState extends State<RegisterPage> {
                         'U',
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: unspecifiedTextColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            )),
+                          color: unspecifiedTextColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        )),
                       ),
                     ),
                   ],
@@ -481,17 +502,16 @@ class _registerState extends State<RegisterPage> {
                           color: Color(0xffBDBDBD),
                           fontWeight: FontWeight.bold),
                     ),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0)),
                             side: BorderSide(
-                                width: 1.0,
-                                color: Color(0xffBDBDBD),
-                                style: BorderStyle.solid,
-                            )
-                        ),
+                              width: 1.0,
+                              color: Color(0xffBDBDBD),
+                              style: BorderStyle.solid,
+                            )),
                         primary: freeColor,
                       ),
                       onPressed: () {
@@ -509,23 +529,21 @@ class _registerState extends State<RegisterPage> {
                         'Free',
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: freeTextColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            )),
+                          color: freeTextColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        )),
                       ),
                     ),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0)),
                             side: BorderSide(
                                 width: 1.0,
                                 color: Color(0xffBDBDBD),
-                                style: BorderStyle.solid
-                            )
-                        ),
+                                style: BorderStyle.solid)),
                         primary: cardColor,
                       ),
                       onPressed: () {
@@ -543,23 +561,21 @@ class _registerState extends State<RegisterPage> {
                         'Card',
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: cardTextColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            )),
+                          color: cardTextColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        )),
                       ),
                     ),
-
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0)),
                             side: BorderSide(
                                 width: 1.0,
                                 color: Color(0xffBDBDBD),
-                                style: BorderStyle.solid
-                            )
-                        ),
+                                style: BorderStyle.solid)),
                         primary: cashColor,
                       ),
                       onPressed: () {
@@ -577,10 +593,10 @@ class _registerState extends State<RegisterPage> {
                         'Cash',
                         style: GoogleFonts.montserrat(
                             textStyle: TextStyle(
-                              color: cashTextColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            )),
+                          color: cashTextColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        )),
                       ),
                     ),
                   ],
@@ -597,11 +613,49 @@ class _registerState extends State<RegisterPage> {
                 const Padding(padding: EdgeInsets.only(top: 20)),
 
                 // Select Genres
-                // ListView.builder(
-                //   itemCount: genres.length,
-                //   itemBuilder: (context, int index) => Text(genres[index]),
-                // ),
-                const Padding(padding: EdgeInsets.only(top: 20)),
+                Wrap(
+                  children: [
+                    for (int i = 0; i < genres.length; i++)
+                      Padding(
+                        padding: EdgeInsets.only(right: 10),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(30.0)),
+                                side: BorderSide(
+                                    width: 1.0,
+                                    color: Color(0xffBDBDBD),
+                                    style: BorderStyle.solid)),
+                            primary: genreColors[i],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              if (selectedGenres.contains(genres[i])) {
+                                selectedGenres.remove(genres[i]);
+                                genreColors[i] = unselectedColor;
+                                genreTextColors[i] = unselectedTextColor;
+                              } else {
+                                selectedGenres.add(genres[i]);
+                                genreColors[i] = selectedColor;
+                                genreTextColors[i] = selectedTextColor;
+                              }
+                            });
+                          },
+                          child: Text(
+                            genres[i],
+                            style: GoogleFonts.montserrat(
+                                textStyle: TextStyle(
+                              color: genreTextColors[i],
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            )),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+                const Padding(padding: EdgeInsets.only(top: 60)),
 
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -624,9 +678,10 @@ class _registerState extends State<RegisterPage> {
                 ),
 
                 const Padding(
-                  padding: EdgeInsets.only(top: 40),
+                  padding: EdgeInsets.only(top: 60),
                   child: Text(
                     'BAKEM Interactive, LLC',
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 13, color: Colors.black45),
                   ),
                 ),
