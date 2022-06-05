@@ -91,10 +91,26 @@ function show_profile_page($conn, $str) {
     }
 }
 
+function follow_user($conn, $follower, $following) {
+    $query = " INSERT INTO follow values('$follower', '$following');";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function unfollow_user($conn, $follower, $following) {
+    $query = " DELETE from follow where followerUsername = '$follower' and followingUsername = '$following'');";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
 function show_followers_of_user($conn, $str) {
-    $query = " SELECT 	DISTINCT F.followerUsername, U.fname, U.lname
-               FROM 	Follow F, User U
-               WHERE 	F.followingUsername = '$str' AND F.followerUsername = U.username
+    $query = " SELECT 	DISTINCT U.*
+                FROM 	Follow F, User U
+                WHERE 	F.followingUsername = 'memo' AND F.followerUsername = U.username
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -103,7 +119,7 @@ function show_followers_of_user($conn, $str) {
 }
 
 function show_followings_of_user($conn, $str) {
-    $query = "  SELECT 	DISTINCT  F.followingUsername, U.fname, U.lname
+    $query = "  SELECT 	DISTINCT U.*
                 FROM 	Follow F, User U
                 WHERE 	F.followerUsername = '$str' AND F.followingUsername = U.username
                 ";
@@ -117,7 +133,7 @@ function show_watchlist_of_user($conn, $str) {
     $query = "  SELECT 	    *
                 FROM 	    Watchlist W
                 WHERE 	    W.username = '$str'
-                ORDER BY	W.date DESC
+                ORDER BY	W.creationDate DESC
                 LIMIT		5
                 ";
     

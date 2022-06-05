@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:database_management_project/objects/PairData.dart';
-import 'package:database_management_project/objects/Triplet.dart';
 import 'package:http/http.dart' as http;
 
 import 'objects/Movie.dart';
@@ -10,7 +9,6 @@ import 'objects/User.dart';
 import 'objects/Review.dart';
 import 'objects/Watchlist.dart';
 import 'objects/PairData.dart';
-import 'objects/Triplet.dart';
 
 var localIP = "10.0.2.2";
 Future<List<Movie>> searchMovieByMovieName(String title) async {
@@ -188,7 +186,7 @@ Future<User> showProfilePage(String username) async {
 
 //This returns just the usernames so I made it a list of string, not sure if it works
 //I changed it to a list of a list of strings (Kerem).
-Future<List<Triplet>> showFollowingsOfUser(String username) async {
+Future<List<User>> showFollowingsOfUser(String username) async {
   final queryParams = {
     'show_followings_of_user':"1",
     'username': username
@@ -202,7 +200,7 @@ Future<List<Triplet>> showFollowingsOfUser(String username) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<Triplet> usernamesAndNames = List<Triplet>.from(l.map((model)=> Triplet.fromJson(model)));
+      List<User> usernamesAndNames = List<User>.from(l.map((model)=> User.fromJson(model)));
       return usernamesAndNames;
     }
     catch(e){
@@ -217,7 +215,7 @@ Future<List<Triplet>> showFollowingsOfUser(String username) async {
 
 //This returns just the usernames so I made it a list of string, not sure if it works
 //I changed it to a list of a list of strings (Kerem).
-Future<List<Triplet>> showFollowersOfUser(String username) async {
+Future<List<User>> showFollowersOfUser(String username) async {
   final queryParams = {
     'show_followers_of_user':"1",
     'username': username
@@ -231,7 +229,7 @@ Future<List<Triplet>> showFollowersOfUser(String username) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<Triplet> usernamesAndNames = List<Triplet>.from(l);
+      List<User> usernamesAndNames = List<User>.from(l.map((model)=> User.fromJson(model)));
       return usernamesAndNames;
     }
     catch(e){
@@ -526,6 +524,48 @@ Future<String> addMovieToList(int mid, int lid) async {
     'add_movie_to_list':"1",
     'MID': mid.toString(),
     'LID': lid.toString(),
+  };
+  final response = await http
+      .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
+    HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+  }, body: queryParams);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return "OK";
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to add movie to the list.');
+  }
+}
+
+Future<String> followUser(String follower, String following) async {
+  final queryParams = {
+    'follow_user':"1",
+    'follower': follower,
+    'following': following,
+  };
+  final response = await http
+      .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
+    HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+  }, body: queryParams);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return "OK";
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to add movie to the list.');
+  }
+}
+
+Future<String> unfollowUser(String follower, String following) async {
+  final queryParams = {
+    'unfollow_user':"1",
+    'follower': follower,
+    'following': following,
   };
   final response = await http
       .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {

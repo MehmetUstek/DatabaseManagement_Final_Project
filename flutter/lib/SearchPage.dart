@@ -117,7 +117,7 @@ class _SearchPageState extends State<SearchPage> {
                         }
                         else if(searchType == SearchType.USER) {
                           List<User> users = await searchByUsername(searchController.text);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => UsersSearchPage(searchType: "Users",users: users)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => UsersSearchPage(searchType: "Users",users: users, currentUser: widget.currentUser,)));
 
                         }
 
@@ -290,7 +290,7 @@ class _SearchPageState extends State<SearchPage> {
                       },
                       icon: Icon(
                         CupertinoIcons.xmark_circle,
-                        size: 70,
+                        size: 50,
                       )))
             ],
           ),

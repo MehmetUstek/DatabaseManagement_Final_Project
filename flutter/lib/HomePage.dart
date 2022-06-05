@@ -146,8 +146,8 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ]),
                       onPressed: () async {
-                        List<Triplet> followersList = await showFollowersOfUser(widget.currentUser.username);
-                        List<Triplet> followingList  = await showFollowingsOfUser(widget.currentUser.username);
+                        List<User> followersList = await showFollowersOfUser(widget.currentUser.username);
+                        List<User> followingList  = await showFollowingsOfUser(widget.currentUser.username);
                         List<PairData> genreInterestsList = await numMoviesByLikedGenre(widget.currentUser.username);
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(currentUser: widget.currentUser, followersList: followersList,
                             followingList: followingList, genreInterestsList: genreInterestsList)));

@@ -7,13 +7,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'objects/Triplet.dart';
 import 'OtherProfilePage.dart';
+import 'objects/User.dart';
 
 class FollowersPage extends StatefulWidget {
   const FollowersPage(
       {Key? key,
+        required this.currentUser,
         required this.followers})
       : super(key: key);
-  final List<Triplet>? followers;
+  final List<User> followers;
+  final User currentUser;
 
   @override
   _FollowersPageState createState() => _FollowersPageState();
@@ -21,12 +24,14 @@ class FollowersPage extends StatefulWidget {
 
 class _FollowersPageState extends State<FollowersPage> {
   var containerColor = Colors.black87;
-  late List<Triplet> followers;
+  late List<User> followers;
+  late User currentUser;
 
   @override
   void initState() {
     super.initState();
-    followers = widget.followers!;
+    followers = widget.followers;
+    currentUser = widget.currentUser;
   }
 
   @override
@@ -84,9 +89,17 @@ class _FollowersPageState extends State<FollowersPage> {
                   ]),
                 ),
                 Expanded(
-                  child: ListView(
+                  child: ListView.separated(
                     padding: EdgeInsets.zero,
-                    children: [
+                    scrollDirection: Axis.vertical,
+                    addAutomaticKeepAlives: false,
+                    cacheExtent: 100,
+                    shrinkWrap: true,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    separatorBuilder: (BuildContext context, int index) => const Divider(), itemCount:followers.length,
+                      itemBuilder: (BuildContext context, int index) {
+                      User follower = followers[index];
+                      return
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           shape: const RoundedRectangleBorder(
@@ -128,7 +141,7 @@ class _FollowersPageState extends State<FollowersPage> {
                                             Padding(
                                               padding: EdgeInsets.only(top: 0),
                                               child: Text(
-                                                'Kerem Girenes',
+                                                follower.fname + " " + follower.lname,
                                                 style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
                                                   color: Colors.black,
@@ -141,7 +154,7 @@ class _FollowersPageState extends State<FollowersPage> {
                                             Padding(
                                               padding: EdgeInsets.only(top: 0),
                                               child: Text(
-                                                '@username',
+                                                follower.username,
                                                 style: GoogleFonts.montserrat(
                                                     textStyle: TextStyle(
                                                   color: Colors.black45,
@@ -159,13 +172,14 @@ class _FollowersPageState extends State<FollowersPage> {
                           ),
                         ),
                         onPressed: () {
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => OtherProfilePage()));
+                                  builder: (context) => OtherProfilePage(otherUser: follower, currentUser: currentUser,)));
                         },
-                      ),
-                    ],
+                      );
+  }
                   ),
                 ),
               ],

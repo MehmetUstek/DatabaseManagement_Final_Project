@@ -114,6 +114,24 @@ if (isset($_POST['show_profile_page'])){
     echo $json;
 }
 
+if (isset($_POST['follow_user'])){
+	
+    $follower = $_POST['follower'];
+    $following = $_POST['following'];
+
+    $sql = follow_user($conn, $follower, $following);
+}
+
+
+if (isset($_POST['unfollow_user'])){
+	
+    $follower = $_POST['follower'];
+    $following = $_POST['following'];
+
+    $sql = unfollow_user($conn, $follower, $following);
+}
+
+
 if (isset($_POST['show_followings_of_user'])){
 	
     $username = $_POST['username'];

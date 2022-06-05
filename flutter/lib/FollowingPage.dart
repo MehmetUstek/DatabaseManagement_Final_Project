@@ -6,13 +6,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'objects/Triplet.dart';
 import 'OtherProfilePage.dart';
+import 'objects/User.dart';
 
 class FollowingPage extends StatefulWidget {
-  const FollowingPage(
-      {Key? key,
-        required this.following})
+  const FollowingPage({Key? key,
+    required this.currentUser,
+    required this.following})
       : super(key: key);
-  final List<Triplet>? following;
+  final List<User> following;
+  final User currentUser;
 
   @override
   _FollowingPageState createState() => _FollowingPageState();
@@ -20,12 +22,14 @@ class FollowingPage extends StatefulWidget {
 
 class _FollowingPageState extends State<FollowingPage> {
   var containerColor = Colors.black87;
-  late List<Triplet> following;
+  late List<User> following;
+  late User currentUser;
 
   @override
   void initState() {
     super.initState();
-    following= widget.following!;
+    following = widget.following;
+    currentUser = widget.currentUser;
   }
 
   @override
@@ -83,88 +87,106 @@ class _FollowingPageState extends State<FollowingPage> {
                   ]),
                 ),
                 Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(40.0)),
-                            side: BorderSide(
-                                width: 1.0,
-                                color: Colors.white,
-                                style: BorderStyle.solid),
-                          ),
-                          elevation: 20.0,
-                          fixedSize: const Size(350, 100),
-                          primary: Colors.white,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 5),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                    children: [
-                                      Column(children: [
-                                        Icon(
-                                          CupertinoIcons.profile_circled,
-                                          size: 50,
-                                          color: Colors.black,
-                                        ),
-                                      ]),
-                                      const Padding(
-                                          padding: EdgeInsets.only(left: 10)),
-                                      Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                  child: ListView.separated(
+                      padding: EdgeInsets.zero,
+                      scrollDirection: Axis.vertical,
+                      addAutomaticKeepAlives: false,
+                      cacheExtent: 100,
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      separatorBuilder: (BuildContext context,
+                          int index) => const Divider(),
+                      itemCount: following.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        User follower = following[index];
+                        return
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(40.0)),
+                                side: BorderSide(
+                                    width: 1.0,
+                                    color: Colors.white,
+                                    style: BorderStyle.solid),
+                              ),
+                              elevation: 20.0,
+                              fixedSize: const Size(350, 100),
+                              primary: Colors.white,
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 5),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start,
+                                    children: <Widget>[
+                                      Row(
                                         children: [
-                                          Row(children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 0),
-                                              child: Text(
-                                                'Kerem Girenes',
-                                                style: GoogleFonts.montserrat(
-                                                    textStyle: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 20,
-                                                    )),
-                                              ),
+                                          Column(children: [
+                                            Icon(
+                                              CupertinoIcons.profile_circled,
+                                              size: 50,
+                                              color: Colors.black,
                                             ),
                                           ]),
-                                          Row(children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(top: 0),
-                                              child: Text(
-                                                '@username',
-                                                style: GoogleFonts.montserrat(
-                                                    textStyle: TextStyle(
-                                                      color: Colors.black45,
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold,
-                                                    )),
-                                              ),
-                                            ),
-                                          ]),
+                                          const Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 10)),
+                                          Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Row(children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 0),
+                                                  child: Text(
+                                                    follower.fname + " " + follower.lname,
+                                                    style: GoogleFonts
+                                                        .montserrat(
+                                                        textStyle: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 20,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ]),
+                                              Row(children: [
+                                                Padding(
+                                                  padding: EdgeInsets.only(
+                                                      top: 0),
+                                                  child: Text(
+                                                    follower.username,
+                                                    style: GoogleFonts
+                                                        .montserrat(
+                                                        textStyle: TextStyle(
+                                                          color: Colors.black45,
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .bold,
+                                                        )),
+                                                  ),
+                                                ),
+                                              ]),
+                                            ],
+                                          ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ]),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => OtherProfilePage()));
-                        },
-                      ),
-                    ],
+                                    ]),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          OtherProfilePage(otherUser:follower, currentUser: currentUser,)));
+                            },
+                          );
+                      }
                   ),
                 ),
               ],

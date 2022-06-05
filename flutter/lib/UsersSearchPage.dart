@@ -1,16 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'OtherProfilePage.dart';
 import 'objects/User.dart';
 
 class UsersSearchPage extends StatefulWidget {
   const UsersSearchPage(
       {Key? key,
       required this.searchType,
+        required this.currentUser,
       this.users})
       : super(key: key);
   final List<User>? users;
   final String searchType;
+  final User currentUser;
+
 
   @override
   _UsersSearchPageState createState() => _UsersSearchPageState();
@@ -20,12 +24,14 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
   var containerColor = Colors.black87;
   late String searchType;
   late List<User> users;
+  late User currentUser;
 
   @override
   void initState() {
     super.initState();
     searchType = widget.searchType;
     users = widget.users!;
+    currentUser = widget.currentUser;
   }
 
   @override
@@ -104,7 +110,13 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
               ),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          OtherProfilePage(otherUser:user, currentUser: currentUser,)));
+            },
           );
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(),

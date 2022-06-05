@@ -9,14 +9,24 @@ import 'MoviesPage.dart';
 import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
+import 'objects/User.dart';
 
 class OtherProfilePage extends StatefulWidget {
+  const OtherProfilePage(
+      {Key? key,
+        required this.otherUser, required this.currentUser,})
+      : super(key: key);
+  final User currentUser;
+  final User otherUser;
+
   @override
   _OtherProfilePageState createState() => _OtherProfilePageState();
 }
 
 class _OtherProfilePageState extends State<OtherProfilePage> {
   var containerColor = Colors.black87;
+  late User otherUser;
+  late User currentUser;
 
   bool isFollowed = false;
   String followLabel = "FOLLOW";
@@ -37,6 +47,8 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   @override
   void initState() {
     super.initState();
+    otherUser = widget.otherUser;
+    currentUser = widget.currentUser;
     followLabel = "FOLLOW";
     followedLabel = "FOLLOWED";
     followHolder = followLabel;
@@ -133,14 +145,16 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                             followHolder = followedLabel;
                             followBoxColor = Colors.black87;
                             followTextColor = Colors.white;
+                            followUser(currentUser.username, otherUser.username);
                           }
                         });
+
                       },
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
                     Center(
                       child: Text(
-                        'Kerem Girenes',
+                        otherUser.fname + " " + otherUser.lname,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black87,
@@ -152,7 +166,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     ),
                     Center(
                       child: Text(
-                        '@keremgirenes',
+                        otherUser.username,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black38,
@@ -339,8 +353,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 ),
                               ),
                             ]),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage()));
+                        onPressed: () async {
+                          var watchlist = await showWatchlistOfUser(widget.otherUser.username);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist,)));
                         },
                       ),
                     ]),

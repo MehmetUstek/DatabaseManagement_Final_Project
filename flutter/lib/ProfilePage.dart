@@ -27,8 +27,8 @@ class ProfilePage extends StatefulWidget {
         required this.genreInterestsList})
       : super(key: key);
   final User currentUser;
-  final List<Triplet> followersList;
-  final List<Triplet> followingList;
+  final List<User> followersList;
+  final List<User> followingList;
   final List<PairData> genreInterestsList;
 
   @override
@@ -37,6 +37,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   var containerColor = Colors.black87;
+  late User currentUser;
   late String username;
   late String name;
   late int followers;
@@ -48,6 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
 
     username = widget.currentUser.username;
+    currentUser = widget.currentUser;
     name = widget.currentUser.fname + " " + widget.currentUser.lname;
     followers = widget.followersList.length;
     following = widget.followingList.length;
@@ -169,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersPage(followers: widget.followersList)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersPage(followers: widget.followersList, currentUser: currentUser,)));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -203,7 +205,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         )),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingPage(following: widget.followingList,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingPage(following: widget.followingList, currentUser: currentUser,)));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -275,8 +277,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             ]),
-                        onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage()));
+                        onPressed: () async {
+                          var watchlist = await showWatchlistOfUser(widget.currentUser.username);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist,)));
                         },
                       ),
                       Padding(
