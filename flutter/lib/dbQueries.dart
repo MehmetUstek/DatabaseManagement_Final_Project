@@ -524,8 +524,8 @@ Future<String> creatingWatchlist(String name, String username) async {
 Future<String> addMovieToList(int mid, int lid) async {
   final queryParams = {
     'add_movie_to_list':"1",
-    'MID': mid,
-    'LID': lid,
+    'MID': mid.toString(),
+    'LID': lid.toString(),
   };
   final response = await http
       .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
@@ -541,6 +541,50 @@ Future<String> addMovieToList(int mid, int lid) async {
     throw Exception('Failed to add movie to the list.');
   }
 }
+
+Future<String> deleteMovieFromList(int mid, int lid) async {
+  final queryParams = {
+    'delete_movie_from_list':"1",
+    'MID': mid.toString(),
+    'LID': lid.toString(),
+  };
+  final response = await http
+      .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
+    HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+  }, body: queryParams);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return "OK";
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to add movie to the list.');
+  }
+}
+
+Future<bool> checkMovieInList(String username, int mid, int lid) async {
+  final queryParams = {
+    'check_movie_in_list':"1",
+    'username': username,
+    'MID': mid.toString(),
+    'LID': lid.toString(),
+  };
+  final response = await http
+      .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
+    HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+  }, body: queryParams);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return jsonDecode(response.body) == "1";
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to add movie to the list.');
+  }
+}
+
 ////////////////////////////////COMPLEX QUERIES/////////////////////////////////
 Future<List<Movie>> showTopRatedMoviesPerGenre() async {
   final queryParams = {

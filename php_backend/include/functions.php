@@ -239,6 +239,26 @@ function add_movie_to_list($conn, $MID,$LID) {
     
 }
 
+function delete_movie_from_list($conn, $MID,$LID) {
+    $query = "  DELETE from movie_in_list where MID = $MID and LID = $LID";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+    
+}
+
+function check_movie_in_list($conn, $username, $MID, $LID) {
+    $query = "  SELECT EXISTS(SELECT MID
+                FROM Watchlist W, movie_in_list m
+                WHERE W.username = '$username' and m.LID = W.LID and W.LID = $LID and MID = $MID ) as existence
+    
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
 
 ///////////////COMPLEX QUERIES//////////////////////
 

@@ -12,8 +12,15 @@ import 'objects/Movie.dart';
 import 'objects/User.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage(
+      {Key? key,
+        required this.currentUser,})
+      : super(key: key);
+  final User currentUser;
+
   @override
   _SearchPageState createState() => _SearchPageState();
+
 }
 
 enum SearchType { MOVIE, GENRE, ACTOR, USER }
@@ -96,16 +103,16 @@ class _SearchPageState extends State<SearchPage> {
                       onPressed: () async {
                         if(searchType == SearchType.MOVIE) {
                           List<Movie> movies = await searchMovieByMovieName(searchController.text);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies",movies: movies, isGenreVisible: false,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies",movies: movies, isGenreVisible: false, username: widget.currentUser.username,)));
 
                         }else if(searchType == SearchType.GENRE) {
                           List<Movie> movies = await searchByOnlyGenre(searchController.text);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Genres",movies: movies, isGenreVisible: false,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Genres",movies: movies, isGenreVisible: false,username: widget.currentUser.username)));
 
                         }
                         else if(searchType == SearchType.ACTOR) {
                           List<Movie> movies = await searchByActor(searchController.text);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Actors",movies: movies, isGenreVisible: false,)));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Actors",movies: movies, isGenreVisible: false,username: widget.currentUser.username)));
 
                         }
                         else if(searchType == SearchType.USER) {

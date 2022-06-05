@@ -343,16 +343,28 @@ if (isset($_POST['add_movie_to_list'])){
     $LID = $_POST['LID'];
 
     $sql = add_movie_to_list($conn, $MID, $LID);
+}
 
+if (isset($_POST['delete_movie_from_list'])){
+	
+    $MID = $_POST['MID'];
+    $LID = $_POST['LID'];
 
+    $sql = delete_movie_from_list($conn, $MID, $LID);
+}
+
+if (isset($_POST['check_movie_in_list'])){
+	
+    $username = $_POST['username'];
+    $MID = $_POST['MID'];
+    $LID = $_POST['LID'];
+
+    $sql = check_movie_in_list($conn, $username, $MID, $LID);
     $results = array();
-    while($row = mysqli_fetch_assoc($sql))
-    {
-        $results[] = $row;
-    }
+    $row = mysqli_fetch_assoc($sql);
     
     // Encode function should include the following numeric checks.
-    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+    $json = json_encode($row['existence']);
     
     echo $json;
 }

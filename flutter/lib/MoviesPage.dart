@@ -12,11 +12,12 @@ class MoviesPage extends StatefulWidget {
       {Key? key,
       required this.searchType,
       this.movies,
-      required this.isGenreVisible})
+      required this.isGenreVisible, required this.username})
       : super(key: key);
   final List<Movie>? movies;
   final String searchType;
   final bool isGenreVisible;
+  final String username;
 
   @override
   _MoviePageState createState() => _MoviePageState();
@@ -153,7 +154,8 @@ class _MoviePageState extends State<MoviesPage> {
             onPressed: () async {
               var genres = await findingGenresOfMovie(movie.MID);
               var actors = await showingActorsInMovie(movie.MID);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage(movie: movie, genres: genres, actors: actors)));
+              var isAdded = await checkMovieInList(widget.username, movie.MID, 1);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage(movie: movie, genres: genres, actors: actors, username: widget.username, isAdded: isAdded,)));
             },
           );
         },

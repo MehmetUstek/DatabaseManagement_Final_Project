@@ -15,11 +15,13 @@ class MovieDetailsPage extends StatefulWidget {
       {Key? key,
         required this.movie,
         required this.genres,
-        required this.actors})
+        required this.actors, required this.username, required this.isAdded})
       : super(key: key);
   final Movie movie;
   final List<String> genres;
   final List<String> actors;
+  final String username;
+  final bool isAdded;
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
@@ -34,8 +36,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   late int duration;
   late String genreNames;
   late String actorNames;
+  late int MID;
+  late String username;
 
-  bool isAdded = false;
+  late bool isAdded;
   String addLabel = "ADD TO WATCHLIST";
   String addedLabel = "ADDED TO WATCHLIST";
   String addHolder = "ADD TO WATCHLIST";
@@ -45,12 +49,21 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   @override
   void initState() {
     super.initState();
+    username = widget.username;
+
     addLabel = "ADD TO WATCHLIST";
     addedLabel = "ADDED TO WATCHLIST";
     addHolder = addLabel;
-    isAdded = false;
     addTextColor = Colors.black87;
     addBoxColor = Colors.white;
+
+    MID = widget.movie.MID;
+    isAdded = widget.isAdded;
+    if(isAdded){
+      addHolder = addedLabel;
+      addBoxColor = Colors.black87;
+      addTextColor = Colors.white;
+    }
 
     movieTitle = widget.movie.title;
     movieYear = widget.movie.releaseDate;
@@ -137,11 +150,15 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                             addHolder = addLabel;
                             addBoxColor = Colors.white;
                             addTextColor = Colors.black87;
+                            deleteMovieFromList(MID, 1);
+
                           } else {
                             isAdded = true;
                             addHolder = addedLabel;
                             addBoxColor = Colors.black87;
                             addTextColor = Colors.white;
+                            print(MID);
+                            addMovieToList(MID,1);
                           }
                         });
                       },
