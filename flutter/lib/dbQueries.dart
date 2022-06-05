@@ -1,12 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:database_management_project/objects/PairData.dart';
+import 'package:database_management_project/objects/Triplet.dart';
 import 'package:http/http.dart' as http;
 
 import 'objects/Movie.dart';
 import 'objects/User.dart';
 import 'objects/Review.dart';
 import 'objects/Watchlist.dart';
+import 'objects/PairData.dart';
+import 'objects/Triplet.dart';
 
 var localIP = "10.0.2.2";
 Future<List<Movie>> searchMovieByMovieName(String title) async {
@@ -168,7 +172,8 @@ Future<User> showProfilePage(String username) async {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try{
-      User user = User.fromJson(jsonDecode(response.body));
+      var info = jsonDecode(response.body)[0];
+      User user = User.fromJson(info);
       return user;
     }
     catch(e){
@@ -183,7 +188,7 @@ Future<User> showProfilePage(String username) async {
 
 //This returns just the usernames so I made it a list of string, not sure if it works
 //I changed it to a list of a list of strings (Kerem).
-Future<List<List<String>>> showFollowingsOfUser(String username) async {
+Future<List<Triplet>> showFollowingsOfUser(String username) async {
   final queryParams = {
     'show_followings_of_user':"1",
     'username': username
@@ -197,7 +202,7 @@ Future<List<List<String>>> showFollowingsOfUser(String username) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<List<String>> usernamesAndNames = List<List<String>>.from(l);
+      List<Triplet> usernamesAndNames = List<Triplet>.from(l.map((model)=> Triplet.fromJson(model)));
       return usernamesAndNames;
     }
     catch(e){
@@ -212,7 +217,7 @@ Future<List<List<String>>> showFollowingsOfUser(String username) async {
 
 //This returns just the usernames so I made it a list of string, not sure if it works
 //I changed it to a list of a list of strings (Kerem).
-Future<List<List<String>>> showFollowersOfUser(String username) async {
+Future<List<Triplet>> showFollowersOfUser(String username) async {
   final queryParams = {
     'show_followers_of_user':"1",
     'username': username
@@ -226,7 +231,7 @@ Future<List<List<String>>> showFollowersOfUser(String username) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<List<String>> usernamesAndNames = List<List<String>>.from(l);
+      List<Triplet> usernamesAndNames = List<Triplet>.from(l);
       return usernamesAndNames;
     }
     catch(e){
@@ -295,7 +300,7 @@ Future<List<Review>> showReviewsOfUser(String username) async {
 Future<List<String>> showingActorsInMovie(int mid) async {
   final queryParams = {
     'showing_actors_in_movie':"1",
-    'MID': mid
+    'MID': mid.toString()
   };
   final response = await http
       .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
@@ -306,7 +311,7 @@ Future<List<String>> showingActorsInMovie(int mid) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<String> aNames = List<String>.from(l);
+      List<String> aNames = List<String>.from(l.map((e) => e['fullName']));
       return aNames;
     }
     catch(e){
@@ -567,8 +572,7 @@ Future<List<Movie>> showTopRatedMoviesPerGenre() async {
   }
 }
 
-//Return (gname, count), tried to convert it to a list of list of strings.
-Future<List<List<String>>> numMoviesByLikedGenre(String username) async {
+Future<List<PairData>> numMoviesByLikedGenre(String username) async {
   final queryParams = {
     'num_movies_by_liked_genre':"1",
     'username': username,
@@ -582,7 +586,7 @@ Future<List<List<String>>> numMoviesByLikedGenre(String username) async {
     // then parse the JSON.
     try{
       Iterable l = json.decode(response.body);
-      List<List<String>> genreNumPairs = List<List<String>>.from(l.map((model)=> Movie.fromJson(model)));
+      List<PairData> genreNumPairs = List<PairData>.from(l.map((model)=> PairData.fromJson(model)));
       return genreNumPairs;
     }
     catch(e){

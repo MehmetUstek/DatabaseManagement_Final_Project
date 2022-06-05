@@ -142,7 +142,7 @@ function show_reviews_of_user($conn, $str) {
 function showing_actors_in_movie($conn, $id) {
     $query = "  SELECT  A.fullName
                 FROM 	Actor A, Movie M, Plays_in P
-                WHERE 	A.AID = P.AID AND P.MID = M.MID AND M.MID = '$id'
+                WHERE 	A.AID = P.AID AND P.MID = M.MID AND M.MID = $id
                 LIMIT   5";
     
     if ($result = mysqli_query($conn, $query)){
@@ -256,10 +256,10 @@ function show_top_rated_movies_per_genre($conn){
 }
 
 function num_movies_by_liked_genre($conn, $username){
-    $query = "  SELECT 	    G.gname, Count(MID)
-                FROM 	    Intrested_in I, Genre G, Belongs_to B, User U, Watchlist W, Movie_in_list ML
+    $query = "  SELECT 	    G.gname, Count(ML.MID)
+                FROM 	    Interested_in I, Genre G, Belongs_to B, User U, Watchlist W, Movie_in_list ML
                 WHERE 	    U.username = '$username' AND U.username = W.username AND U.username = I.username AND I.GID = B.GID AND B.MID = ML.MID AND ML.LID = W.LID
-                GROUP BY 	GID";
+                GROUP BY 	G.GID";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;

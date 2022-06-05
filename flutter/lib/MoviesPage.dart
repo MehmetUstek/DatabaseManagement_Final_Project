@@ -151,11 +151,9 @@ class _MoviePageState extends State<MoviesPage> {
               ),
             ),
             onPressed: () async {
-              var a = await findingGenresOfMovie(movie.MID);
-              print(a);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage()));
-              print(movie.MID);
-
+              var genres = await findingGenresOfMovie(movie.MID);
+              var actors = await showingActorsInMovie(movie.MID);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage(movie: movie, genres: genres, actors: actors)));
             },
           );
         },

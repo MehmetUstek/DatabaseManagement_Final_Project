@@ -11,8 +11,17 @@ import 'MoviesPage.dart';
 import 'SearchPage.dart';
 import 'dbQueries.dart';
 import 'objects/Movie.dart';
+import 'objects/User.dart';
+import 'objects/PairData.dart';
+import 'objects/Triplet.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage(
+      {Key? key,
+        required this.currentUser,})
+      : super(key: key);
+  final User currentUser;
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -51,7 +60,7 @@ class _HomePageState extends State<HomePage> {
               Row(
                 children: <Widget> [
               Text(
-                'Welcome, Kerem!',
+                'Welcome, ' + widget.currentUser.fname +'!',
                 style: GoogleFonts.montserrat(
                     textStyle: TextStyle(
                       color: Colors.black,
@@ -136,8 +145,12 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           ]),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
+                      onPressed: () async {
+                        List<Triplet> followersList = await showFollowersOfUser(widget.currentUser.username);
+                        List<Triplet> followingList  = await showFollowingsOfUser(widget.currentUser.username);
+                        List<PairData> genreInterestsList = await numMoviesByLikedGenre(widget.currentUser.username);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage(currentUser: widget.currentUser, followersList: followersList,
+                            followingList: followingList, genreInterestsList: genreInterestsList)));
                       },
                     ),
 
