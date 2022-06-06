@@ -387,6 +387,35 @@ if (isset($_POST['check_movie_in_list'])){
     echo $json;
 }
 
+if (isset($_POST['check_is_user_followed'])){
+	
+    $username = $_POST['username'];
+    $otherUsername = $_POST['otherUsername'];
+
+    $sql = check_is_user_followed($conn, $username, $otherUsername);
+    $results = array();
+    $row = mysqli_fetch_assoc($sql);
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($row['existence']);
+    
+    echo $json;
+}
+
+if (isset($_POST['check_is_user_premium'])){
+	
+    $username = $_POST['username'];
+
+    $sql = check_is_user_premium($conn, $username);
+    $results = array();
+    $row = mysqli_fetch_assoc($sql);
+    
+    // Encode function should include the following numeric checks.
+    $json = json_encode($row['existence']);
+    
+    echo $json;
+}
+
 ///////////////COMPLEX QUERIES//////////////////////
 if (isset($_POST['show_top_rated_movies_per_genre'])){
 

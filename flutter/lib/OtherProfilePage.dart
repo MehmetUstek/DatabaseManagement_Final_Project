@@ -5,6 +5,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'FollowersPage.dart';
+import 'FollowingPage.dart';
 import 'MoviesPage.dart';
 import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
@@ -14,10 +16,16 @@ import 'objects/User.dart';
 class OtherProfilePage extends StatefulWidget {
   const OtherProfilePage(
       {Key? key,
-        required this.otherUser, required this.currentUser,})
+        required this.otherUser, required this.currentUser,required this.isuserFollowed,
+        required this.followersList,
+        required this.followingList,
+      })
       : super(key: key);
   final User currentUser;
   final User otherUser;
+  final bool isuserFollowed;
+  final List<User> followersList;
+  final List<User> followingList;
 
   @override
   _OtherProfilePageState createState() => _OtherProfilePageState();
@@ -28,14 +36,18 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   late User otherUser;
   late User currentUser;
 
-  bool isFollowed = false;
+  late bool isFollowed;
+  late int followers;
+  late int following;
+  late bool isPro;
+
+
   String followLabel = "FOLLOW";
   String followedLabel = "FOLLOWED";
   String followHolder = "FOLLOW";
   var followTextColor = Colors.black87;
   var followBoxColor = Colors.white;
 
-  bool isPro = true;
   String proUserText = "PRO USER";
   String freeUserText = "FREE USER";
   String userTextHolder = "PRO USER";
@@ -49,14 +61,26 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     super.initState();
     otherUser = widget.otherUser;
     currentUser = widget.currentUser;
+    isFollowed = widget.isuserFollowed;
+    if(isFollowed) {
+
+      followHolder = followedLabel;
+      followBoxColor = Colors.black87;
+      followTextColor = Colors.white;
+
+    } else {
+      followHolder = followLabel;
+      followBoxColor = Colors.white;
+      followTextColor = Colors.black87;
+    }
+
+    followers = widget.followersList.length;
+    following = widget.followingList.length;
+
     followLabel = "FOLLOW";
     followedLabel = "FOLLOWED";
-    followHolder = followLabel;
-    isFollowed = false;
-    followTextColor = Colors.black87;
-    followBoxColor = Colors.white;
 
-    isPro = true;
+    isPro = otherUser.isPremium;
     proUserText = "PRO USER";
     freeUserText = "FREE USER";
 
@@ -66,6 +90,10 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     if(isPro){
       userTextHolder = proUserText;
       userBoxColor = proUserBoxColor;
+    }
+    else{
+      userTextHolder = freeUserText;
+      userBoxColor = freeUserBoxColor;
     }
   }
 
@@ -140,6 +168,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                             followHolder = followLabel;
                             followBoxColor = Colors.white;
                             followTextColor = Colors.black87;
+                            unfollowUser(currentUser.username, otherUser.username);
                           } else {
                             isFollowed = true;
                             followHolder = followedLabel;
@@ -210,7 +239,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersPage(followers: widget.followersList, currentUser: currentUser,)));
+                        },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
                           shape: const RoundedRectangleBorder(),
@@ -220,7 +251,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '147',
+                              followers.toString(),
                               style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.black87,
@@ -242,7 +273,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                           ],
                         )),
                     ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingPage(following: widget.followingList, currentUser: currentUser,)));
+                        },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
                           shape: const RoundedRectangleBorder(),
@@ -252,7 +285,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '88',
+                              following.toString(),
                               style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                                   color: Colors.black87,
@@ -313,8 +346,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 ),
                               ),
                             ]),
-                        onPressed: () {
-                          // Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage()));
+                        onPressed: () async {
+                          var watchlist = await showWatchlistOfUser(widget.otherUser.username);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist,)));
                         },
                       ),
                       Padding(
@@ -353,10 +387,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 ),
                               ),
                             ]),
-                        onPressed: () async {
-                          var watchlist = await showWatchlistOfUser(widget.otherUser.username);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist,)));
-                        },
+                        onPressed: () async {},
                       ),
                     ]),
                 Padding(

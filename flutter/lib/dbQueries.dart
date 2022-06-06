@@ -625,6 +625,28 @@ Future<bool> checkMovieInList(String username, int mid, int lid) async {
   }
 }
 
+Future<bool> checkIfUserFollowed(String username, String otherUsername) async {
+  final queryParams = {
+    'check_is_user_followed':"1",
+    'username': username,
+    'otherUsername': otherUsername,
+  };
+  final response = await http
+      .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
+    HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+  }, body: queryParams);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    return jsonDecode(response.body) == "1";
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to add movie to the list.');
+  }
+}
+
+
 ////////////////////////////////COMPLEX QUERIES/////////////////////////////////
 Future<List<Movie>> showTopRatedMoviesPerGenre() async {
   final queryParams = {

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'OtherProfilePage.dart';
+import 'dbQueries.dart';
 import 'objects/User.dart';
 
 class UsersSearchPage extends StatefulWidget {
@@ -81,7 +82,7 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
                         Padding(
                           padding: EdgeInsets.only(top: 0),
                           child: Text(
-                            user.username,
+                            user.fname + " " + user.lname,
                             maxLines: 2,
                             overflow: TextOverflow.fade,
                             style: GoogleFonts.montserrat(
@@ -94,7 +95,8 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
                         Padding(
                           padding: EdgeInsets.only(top: 5),
                           child: Text(
-                            user.fname + " " + user.lname,
+                            "@" + user.username,
+
                             style: GoogleFonts.montserrat(
                                 textStyle: TextStyle(
                               color: Colors.black45,
@@ -110,12 +112,16 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
               ),
               ),
             ),
-            onPressed: () {
+            onPressed: () async {
+              bool userFollowed = await checkIfUserFollowed(currentUser.username, user.username);
+              List<User> followersList = await showFollowersOfUser(currentUser.username);
+              List<User> followingList  = await showFollowingsOfUser(currentUser.username);
+              
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          OtherProfilePage(otherUser:user, currentUser: currentUser,)));
+                          OtherProfilePage(otherUser:user, currentUser: currentUser, isuserFollowed: userFollowed,followingList: followingList, followersList: followersList,)));
             },
           );
         },

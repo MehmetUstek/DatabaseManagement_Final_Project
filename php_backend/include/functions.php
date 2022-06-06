@@ -100,7 +100,7 @@ function follow_user($conn, $follower, $following) {
 }
 
 function unfollow_user($conn, $follower, $following) {
-    $query = " DELETE from follow where followerUsername = '$follower' and followingUsername = '$following'');";
+    $query = " DELETE from follow where followerUsername = '$follower' and followingUsername = '$following'";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
@@ -110,7 +110,7 @@ function unfollow_user($conn, $follower, $following) {
 function show_followers_of_user($conn, $str) {
     $query = " SELECT 	DISTINCT U.*
                 FROM 	Follow F, User U
-                WHERE 	F.followingUsername = 'memo' AND F.followerUsername = U.username
+                WHERE 	F.followingUsername = '$str' AND F.followerUsername = U.username
                 ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -276,6 +276,27 @@ function check_movie_in_list($conn, $username, $MID, $LID) {
     }
 }
 
+function check_is_user_followed($conn, $username, $otherUsername) {
+    $query = "  SELECT EXISTS(SELECT 	DISTINCT F.*
+                FROM 	Follow F
+                WHERE 	F.followingUsername = '$otherUsername' and F.followerUsername = '$username' ) as existence
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function check_is_user_premium($conn, $username) {
+    $query = "  SELECT EXISTS(SELECT username
+                FROM User U
+                WHERE U.username = '$username' and U.isPremium = true) as existence
+                ";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
 ///////////////COMPLEX QUERIES//////////////////////
 
 function show_top_rated_movies_per_genre($conn){

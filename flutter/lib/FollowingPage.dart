@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'dbQueries.dart';
 import 'objects/Triplet.dart';
 import 'OtherProfilePage.dart';
 import 'objects/User.dart';
@@ -178,12 +179,15 @@ class _FollowingPageState extends State<FollowingPage> {
                                     ]),
                               ),
                             ),
-                            onPressed: () {
+                            onPressed: () async {
+                              bool userFollowed = await checkIfUserFollowed(currentUser.username, follower.username);
+                              List<User> followersList = await showFollowersOfUser(currentUser.username);
+                              List<User> followingList  = await showFollowingsOfUser(currentUser.username);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          OtherProfilePage(otherUser:follower, currentUser: currentUser,)));
+                                          OtherProfilePage(otherUser:follower, currentUser: currentUser, isuserFollowed: userFollowed,followingList: followingList, followersList: followersList, )));
                             },
                           );
                       }
