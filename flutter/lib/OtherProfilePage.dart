@@ -211,7 +211,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     ),
                     Center(
                       child: Text(
-                        otherUser.username,
+                        "@" + otherUser.username,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black38,
