@@ -344,13 +344,14 @@ function num_movies_by_liked_genre($conn, $username){
 }
 
 function updating_vote_avg($conn, $MID){
-    $query = "  UPDATE	Movie
-                SET		voteAvg = (SELECT (M2.voteAvg * M2.voteCount + SUM(R.rating))
-                                                                                     / (M2.voteCount + 1)
-                                                                         FROM Movie M2, Review R
-                                                                         WHERE M2.MID = $MID AND M2.MID = R.MID),
+    $query = "  SET @voteAVG_temp := (SELECT SUM(R.rating) / (M2.voteCount + 1)
+                                        FROM Movie  M2, Review R
+                                        WHERE M2.MID = '$MID' and M2.MID = R.MID);
+
+UPDATE movie
+                SET		voteAvg = @voteAVG_temp,
                         voteCount = voteCount + 1
-                WHERE 	MID = $MID";
+                WHERE 	MID = '$MID'";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
