@@ -11,9 +11,13 @@ import 'FollowingPage.dart';
 import 'MovieDetailsPage.dart';
 import 'MoviesPage.dart';
 import 'OtherProfilePage.dart';
+import 'ReviewsFullNamePage.dart';
+import 'ReviewsMovieTitlePage.dart';
 import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
+import 'objects/ReviewFullName.dart';
+import 'objects/ReviewMovieTitle.dart';
 import 'objects/User.dart';
 import 'objects/PairData.dart';
 import 'objects/Triplet.dart';
@@ -318,8 +322,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             ]),
-                        onPressed: () {
-                          //Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage()));
+                        onPressed: () async {
+                          List<ReviewMovieTitle> reviewList = await showReviewsOfUser(widget.currentUser.username);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewsMovieTitlePage(reviewList: reviewList,)));
                         },
                       ),
                     ]),

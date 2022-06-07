@@ -4,24 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'ReviewsFullNamePage.dart';
+import 'ReviewsMovieTitlePage.dart';
 import 'objects/Movie.dart';
 import 'MoviesPage.dart';
 import 'SearchPage.dart';
 import 'dbQueries.dart';
+import 'objects/ReviewFullName.dart';
 
 class MovieDetailsPage extends StatefulWidget {
-
-  const MovieDetailsPage(
-      {Key? key,
-        required this.movie,
-        required this.genres,
-        required this.actors, required this.username, required this.isAdded})
-      : super(key: key);
+  const MovieDetailsPage({
+    Key? key,
+    required this.movie,
+    required this.genres,
+    required this.actors,
+    required this.username,
+    required this.isAdded,
+    required this.reviewList,
+  }) : super(key: key);
   final Movie movie;
   final List<String> genres;
   final List<String> actors;
   final String username;
   final bool isAdded;
+  final List<ReviewFullName> reviewList;
+
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
@@ -38,6 +45,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   late String actorNames;
   late int MID;
   late String username;
+  late List<ReviewFullName> reviewList;
 
   late bool isAdded;
   String addLabel = "ADD TO WATCHLIST";
@@ -51,6 +59,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     super.initState();
     username = widget.username;
 
+    reviewList = widget.reviewList;
+
     addLabel = "ADD TO WATCHLIST";
     addedLabel = "ADDED TO WATCHLIST";
     addHolder = addLabel;
@@ -59,7 +69,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
     MID = widget.movie.MID;
     isAdded = widget.isAdded;
-    if(isAdded){
+    if (isAdded) {
       addHolder = addedLabel;
       addBoxColor = Colors.black87;
       addTextColor = Colors.white;
@@ -72,10 +82,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     duration = widget.movie.duration;
     genreNames = widget.genres[0];
     actorNames = widget.actors[0];
-    for( var i = 1 ; i < widget.genres.length; i++ ){
+    for (var i = 1; i < widget.genres.length; i++) {
       genreNames += ", " + widget.genres[i];
     }
-    for( var i = 1 ; i < widget.actors.length; i++ ){
+    for (var i = 1; i < widget.actors.length; i++) {
       actorNames += ", " + widget.actors[i];
     }
   }
@@ -151,14 +161,12 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                             addBoxColor = Colors.white;
                             addTextColor = Colors.black87;
                             deleteMovieFromList(MID, 1);
-
                           } else {
                             isAdded = true;
                             addHolder = addedLabel;
                             addBoxColor = Colors.black87;
                             addTextColor = Colors.white;
-                            print(MID);
-                            addMovieToList(MID,1);
+                            addMovieToList(MID, 1);
                           }
                         });
                       },
@@ -167,6 +175,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                     Center(
                       child: Text(
                         movieTitle,
+                        textAlign: TextAlign.center,
                         style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
                             color: Colors.black87,
@@ -317,53 +326,71 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       ],
                     ),
                     const Padding(padding: EdgeInsets.only(top: 40)),
-                    Row(
-                      children: [
-                        Text(
-                          "Reviews",
-                          style: GoogleFonts.montserrat(
-                              textStyle: TextStyle(
-                                  color: Colors.black87,
-                                  fontSize: 40,
-                                  fontWeight: FontWeight.w500)),
-                        ),
-                      ],
-                    ),
-                    // Review Box Neomorphic
-                    const Padding(padding: EdgeInsets.only(top: 10)),
-                    Container(
-                        height: 80,
-                        width: MediaQuery.of(context).size.width - 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6.0),
-                          color: Colors.grey.shade50,
-                          shape: BoxShape.rectangle,
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.shade300,
-                                spreadRadius: 0.0,
-                                blurRadius: 3.0,
-                                offset: Offset(3.0, 3.0)),
-                            BoxShadow(
-                                color: Colors.grey.shade400,
-                                spreadRadius: 0.0,
-                                blurRadius: 3.0 / 2.0,
-                                offset: Offset(3.0, 3.0)),
-                            BoxShadow(
-                                color: Colors.white,
-                                spreadRadius: 2.0,
-                                blurRadius: 3.0,
-                                offset: Offset(-3.0, -3.0)),
-                            BoxShadow(
-                                color: Colors.white,
-                                spreadRadius: 2.0,
-                                blurRadius: 3.0 / 2,
-                                offset: Offset(-3.0, -3.0)),
-                          ],
-                        ),
-                    ),
-                    const Padding(padding: EdgeInsets.only(top: 10)),
 
+                    // Review Button
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                        ),
+                        fixedSize: const Size(200, 60),
+                        primary: Colors.black26,
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        CupertinoIcons
+                                            .bubble_left_bubble_right_fill,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(left: 10)),
+                                      Text(
+                                        'Reviews',
+                                        style: GoogleFonts.montserrat(
+                                            textStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700,
+                                        )),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Icon(
+                                    CupertinoIcons.arrowtriangle_right_fill,
+                                    size: 20,
+                                    color: Colors.white,
+                                  ),
+                                ],
+                              ),
+                            ]),
+                      ),
+                      onPressed: () async {
+                        var reviewList =
+                            await showReviewsOfMovie(widget.movie.MID);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ReviewsFullNamePage(
+                                      reviewList: reviewList,
+                                    )));
+                      },
+                    ),
+
+                    const Padding(padding: EdgeInsets.only(top: 10)),
                   ],
                 )
               ],

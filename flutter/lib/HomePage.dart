@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> {
 
                 onPressed: () async {
                   List<Movie> movies = await showTopRatedMoviesPerGenre();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Movies", movies: movies, isGenreVisible: true,username: widget.currentUser.username,)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MoviesPage(searchType: "Top Rated Movies", movies: movies, isGenreVisible: true,username: widget.currentUser.username,)));
                 },
               ),
               Padding(padding:EdgeInsets.only(top:50),child:

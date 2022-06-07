@@ -33,7 +33,7 @@ class _SignInState extends State<SignInPage> {
     );
 
     // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
+    CupertinoAlertDialog alert = CupertinoAlertDialog(
       title: Text("EEEH BEE NAPTIN BAKEM"),
       content: Text("Wrong Password."),
       actions: [

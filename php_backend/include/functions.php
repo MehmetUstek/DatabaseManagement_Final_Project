@@ -144,10 +144,9 @@ function show_watchlist_of_user($conn, $str) {
 
 function show_reviews_of_user($conn, $str) {
     $query = "  SELECT 	    *
-                FROM 	    Review R
-                WHERE 	    R.username = '$str'
+                FROM 	    Review R, Movie M
+                WHERE 	    R.username = '$str' AND M.MID = R.MID
                 ORDER BY	R.date DESC
-                LIMIT		5
     ";
     
     if ($result = mysqli_query($conn, $query)){
@@ -178,10 +177,10 @@ function finding_genres_of_movie($conn, $id) {
 
 function show_reviews_of_movie($conn, $str) {
     $query = "  SELECT 	    *
-                FROM 	    Review R
-                WHERE 	    R.MID = $str
+                FROM 	    Review R, User U
+                WHERE 	    R.MID = $str AND U.username = R.username
                 ORDER BY	R.date DESC
-                LIMIT		5";
+                ";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;

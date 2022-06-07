@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'FollowersPage.dart';
 import 'FollowingPage.dart';
 import 'MoviesPage.dart';
+import 'ReviewsFullNamePage.dart';
+import 'ReviewsMovieTitlePage.dart';
 import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
@@ -387,7 +389,10 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                                 ),
                               ),
                             ]),
-                        onPressed: () async {},
+                        onPressed: () async {
+                          var reviewList = await showReviewsOfUser(widget.otherUser.username);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewsMovieTitlePage(reviewList: reviewList,)));
+                        },
                       ),
                     ]),
                 Padding(
