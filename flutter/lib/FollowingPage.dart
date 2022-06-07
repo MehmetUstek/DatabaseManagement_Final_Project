@@ -174,6 +174,7 @@ class _FollowingPageState extends State<FollowingPage> {
                                     ),
                                   ]),
                             ),
+                          ),
                             onPressed: () async {
                               bool userFollowed = await checkIfUserFollowed(currentUser.username, follower.username);
                               List<User> followersList = await showFollowersOfUser(currentUser.username);
