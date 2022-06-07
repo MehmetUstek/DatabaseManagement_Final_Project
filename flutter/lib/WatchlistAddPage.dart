@@ -1,35 +1,37 @@
+import 'package:database_management_project/OtherProfilePage.dart';
 import 'package:database_management_project/objects/Watchlist.dart';
-import 'package:database_management_project/pieChartWidget.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pie_chart/pie_chart.dart';
+import 'package:provider/provider.dart';
 
 import 'MoviesPage.dart';
-import 'WatchlistDetailPage.dart';
 import 'dbQueries.dart';
 
-class WatchlistListPage extends StatefulWidget {
-  const WatchlistListPage(
+class WatchlistAddPage extends StatefulWidget {
+  const WatchlistAddPage(
       {Key? key,
-        required this.watchlistList, required this.dataMap})
+        required this.watchlistList,
+        required this.MID,})
       : super(key: key);
   final List<Watchlist> watchlistList;
-  final Map<String, double> dataMap;
+  final int MID;
   @override
-  _WatchlistListPageState createState() => _WatchlistListPageState();
+  _WatchlistAddPageState createState() => _WatchlistAddPageState();
 }
 
-class _WatchlistListPageState extends State<WatchlistListPage> {
+class _WatchlistAddPageState extends State<WatchlistAddPage> {
   var containerColor = Colors.black87;
   late List<Watchlist> watchlistList;
-  late Map<String, double> dataMap;
+  late int MID;
 
   @override
   void initState() {
     super.initState();
     watchlistList = widget.watchlistList;
-    dataMap = widget.dataMap;
+    MID = widget.MID;
   }
 
   @override
@@ -86,37 +88,7 @@ class _WatchlistListPageState extends State<WatchlistListPage> {
                     ),
                   ]),
                 ),
-                PieChart(
-                  dataMap: dataMap,
-                  animationDuration: Duration(milliseconds: 800),
-                  chartLegendSpacing: 32,
-                  chartRadius: MediaQuery.of(context).size.width / 2.8,
-                  initialAngleInDegree: 0,
-                  chartType: ChartType.disc,
-                  colorList: [Colors.blue, Colors.pink, Colors.orange, Colors.purple, Colors.indigo, Colors.lime, Colors.orangeAccent],
-                  ringStrokeWidth: 32,
-                  centerText: "GENRES",
-                  legendOptions: LegendOptions(
-                    showLegendsInRow: false,
-                    legendPosition: LegendPosition.right,
-                    showLegends: true,
-                    legendShape: BoxShape.circle,
-                    legendTextStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  chartValuesOptions: ChartValuesOptions(
-                    showChartValueBackground: true,
-                    showChartValues: true,
-                    showChartValuesInPercentage: true,
-                    showChartValuesOutside: false,
-                    decimalPlaces: 1,
-                  ),
-                  // gradientList: ---To add gradient colors---
-                  // emptyColorGradient: ---Empty Color gradient---
-                ),
-                const Padding(padding: EdgeInsets.only(top:10),),
-                //
+
                 Expanded(
                   child: ListView.separated(
                     padding: EdgeInsets.zero,
@@ -203,11 +175,8 @@ class _WatchlistListPageState extends State<WatchlistListPage> {
                             ),
                           ),
                           onPressed: () async {
-                            var movieList = await showMoviesOfWatchlist(watchlist.LID);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WatchlistDetailPage(movieList: movieList, listTitle: watchlist.name)));
+                            await addMovieToList(MID, watchlist.LID);
+                            Navigator.pop(context);
                           },
                         );
                     }, separatorBuilder: (BuildContext context, int index) => const Divider(), itemCount: watchlistList.length,

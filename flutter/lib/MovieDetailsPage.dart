@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'ReviewsFullNamePage.dart';
 import 'ReviewsMovieTitlePage.dart';
+import 'WatchlistAddPage.dart';
 import 'objects/Movie.dart';
 import 'MoviesPage.dart';
 import 'SearchPage.dart';
@@ -153,22 +154,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         addHolder,
                         style: TextStyle(fontSize: 15, color: addTextColor),
                       ),
-                      onPressed: () {
-                        setState(() {
-                          if (isAdded) {
-                            isAdded = false;
-                            addHolder = addLabel;
-                            addBoxColor = Colors.white;
-                            addTextColor = Colors.black87;
-                            deleteMovieFromList(MID, 1);
-                          } else {
-                            isAdded = true;
-                            addHolder = addedLabel;
-                            addBoxColor = Colors.black87;
-                            addTextColor = Colors.white;
-                            addMovieToList(MID, 1);
-                          }
-                        });
+                      onPressed: () async {
+                        var watchlist = await showWatchlistOfUser(username);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistAddPage(watchlistList: watchlist, MID: MID)));
                       },
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
@@ -344,6 +332,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                             children: <Widget>[
                               Column(
                                 children: [
+                                  const Padding(padding: EdgeInsets.only(top:15)),
                                   Row(
                                     children: [
                                       Icon(
@@ -369,6 +358,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                               ),
                               Column(
                                 children: [
+                                  const Padding(padding: EdgeInsets.only(top:20)),
                                   Icon(
                                     CupertinoIcons.arrowtriangle_right_fill,
                                     size: 20,
