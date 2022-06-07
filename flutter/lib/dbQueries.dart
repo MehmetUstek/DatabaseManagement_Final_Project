@@ -12,7 +12,7 @@ import 'objects/ReviewFullName.dart';
 import 'objects/Watchlist.dart';
 import 'objects/PairData.dart';
 
-var localIP = "localhost";
+var localIP = "10.0.2.2";
 
 Future<List<Movie>> searchMovieByMovieName(String title) async {
   final queryParams = {'title': title, 'search_by_movie_name': "1"};
@@ -431,7 +431,7 @@ Future<String> registerUser(
     'fname': fname,
     'lname': lname,
     'gender': gender,
-    'paymentMethod': paymentMethod,
+    'payment_method': paymentMethod,
     'isPremium': isPremium.toString(),
   };
   final response = await http.post(
@@ -444,7 +444,8 @@ Future<String> registerUser(
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return "OK";
+    print(response.body);
+    return response.body;
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.

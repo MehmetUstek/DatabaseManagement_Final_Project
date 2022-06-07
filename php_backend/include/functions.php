@@ -189,7 +189,7 @@ function show_reviews_of_movie($conn, $str) {
 
 function register_user($conn, $username,$email,$password,$fname,$lname,$gender,$payment_method,$isPremium) {
     $query = "  INSERT INTO	User
-                VALUES	    ('$username', '$email', '$password', GETDATE(), '$fname','$lname','$gender','$payment_method', '$isPremium')";
+                VALUES	    ('$username', '$email', '$password', CURDATE(), '$fname','$lname','$gender','$payment_method', b'$isPremium')";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;
