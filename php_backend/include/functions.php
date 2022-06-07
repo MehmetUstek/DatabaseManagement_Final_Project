@@ -335,6 +335,45 @@ function updating_vote_avg($conn, $MID){
     }
 }
 
+function find_common_movies($conn, $username_1, $username_2){
+    
+    $query = "  SELECT *
+                FROM movie
+                WHERE MID IN
+                    (SELECT M1.MID FROM
+                        (SELECT M.MID
+                        FROM watchlist W, movie M, movie_in_list ML
+                        WHERE W.LID = ML.LID AND ML.MID = M.MID
+                            AND W.username = '$username_1') AS M1
+                        LEFT JOIN
+                        (SELECT M.MID
+                        FROM watchlist W, movie M, movie_in_list ML
+                        WHERE W.LID = ML.LID AND ML.MID = M.MID
+                            AND W.username = '$username_2') AS M2
+                        ON M1.MID = M2.MID
+                    WHERE M2.MID IS NOT NULL)";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function pie_chart_percentages($conn, $LID){
+    
+    $query = "  SELECT G.gname, COUNT(*) / 
+                                (SELECT COUNT(*) FROM movie_in_list WL, belongs_to BG, genre G
+                                    WHERE WL.MID = BG.MID AND BG.GID = G.GID AND WL.LID = 1) AS perc 
+                FROM movie_in_list WL, belongs_to BG, genre G
+                WHERE WL.MID = BG.MID AND BG.GID = G.GID AND WL.LID = 1
+                GROUP BY G.gname;";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+
+
 
 // print_table is for debugging
 function print_table($table_name, $result){
