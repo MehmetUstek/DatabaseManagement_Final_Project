@@ -5,13 +5,15 @@ import 'package:database_management_project/objects/PairData.dart';
 import 'package:http/http.dart' as http;
 
 import 'objects/Movie.dart';
+import 'objects/PairChart.dart';
 import 'objects/ReviewMovieTitle.dart';
 import 'objects/User.dart';
 import 'objects/ReviewFullName.dart';
 import 'objects/Watchlist.dart';
 import 'objects/PairData.dart';
 
-var localIP = "localhost";
+var localIP = "10.0.2.2";
+
 Future<List<Movie>> searchMovieByMovieName(String title) async {
   final queryParams = {'title': title, 'search_by_movie_name': "1"};
   final response = await http.post(
@@ -272,26 +274,52 @@ Future<List<Watchlist>> showWatchlistOfUser(String username) async {
   }
 }
 
-
 Future<List<ReviewMovieTitle>> showReviewsOfUser(String username) async {
-  final queryParams = {
-    'show_reviews_of_user':"1",
-    'username': username
-  };
-  final response = await http
-      .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
-    HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
-  }, body: queryParams);
+  final queryParams = {'show_reviews_of_user': "1", 'username': username};
+  final response = await http.post(
+      Uri.parse(
+          'http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+      },
+      body: queryParams);
   if (response.statusCode == 200) {
-
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try {
       Iterable l = json.decode(response.body);
-      List<ReviewMovieTitle> reviews = List<ReviewMovieTitle>.from(l.map((model)=> ReviewMovieTitle.fromJson(model)));
+      List<ReviewMovieTitle> reviews = List<ReviewMovieTitle>.from(
+          l.map((model) => ReviewMovieTitle.fromJson(model)));
       return reviews;
+    } catch (e) {
+      print(e);
+      throw Exception('Failed to load reviews.');
     }
-    catch(e){
+  } else {
+    // If the server did not return a 200 OK response,
+    // then throw an exception.
+    throw Exception('Failed to load reviews.');
+  }
+}
+
+Future<List<PairChart>> percentagesOfGenres(int LID) async {
+  final queryParams = {'pie_chart_percentages': "1", 'LID': LID.toString()};
+  final response = await http.post(
+      Uri.parse(
+          'http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+      },
+      body: queryParams);
+  if (response.statusCode == 200) {
+    // If the server did return a 200 OK response,
+    // then parse the JSON.
+    try {
+      Iterable l = json.decode(response.body);
+      List<PairChart> reviews =
+          List<PairChart>.from(l.map((model) => PairChart.fromJson(model)));
+      return reviews;
+    } catch (e) {
       print(e);
       throw Exception('Failed to load reviews.');
     }
@@ -355,20 +383,21 @@ Future<List<String>> findingGenresOfMovie(int mid) async {
 }
 
 Future<List<ReviewFullName>> showReviewsOfMovie(int mid) async {
-  final queryParams = {
-    'show_reviews_of_movie':"1",
-    'MID': mid.toString()
-  };
-  final response = await http
-      .post(Uri.parse('http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'), headers: {
-    HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
-  }, body: queryParams);
+  final queryParams = {'show_reviews_of_movie': "1", 'MID': mid.toString()};
+  final response = await http.post(
+      Uri.parse(
+          'http://$localIP:80/DatabaseManagement_Final_Project/php_backend/result.php'),
+      headers: {
+        HttpHeaders.contentTypeHeader: 'application/x-www-form-urlencoded',
+      },
+      body: queryParams);
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
     try {
       Iterable l = json.decode(response.body);
-      List<ReviewFullName> reviews = List<ReviewFullName>.from(l.map((model)=> ReviewFullName.fromJson(model)));
+      List<ReviewFullName> reviews = List<ReviewFullName>.from(
+          l.map((model) => ReviewFullName.fromJson(model)));
       return reviews;
     } catch (e) {
       throw Exception('Failed to load reviews.');

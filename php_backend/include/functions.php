@@ -360,9 +360,9 @@ function find_common_movies($conn, $username_1, $username_2){
 
 function pie_chart_percentages($conn, $LID){
     
-    $query = "  SELECT G.gname, COUNT(*) / 
+    $query = "  SELECT G.gname, COUNT(*) /
                                 (SELECT COUNT(*) FROM movie_in_list WL, belongs_to BG, genre G
-                                    WHERE WL.MID = BG.MID AND BG.GID = G.GID AND WL.LID = 1) AS perc 
+                                    WHERE WL.MID = BG.MID AND BG.GID = G.GID AND WL.LID = 1) AS perc
                 FROM movie_in_list WL, belongs_to BG, genre G
                 WHERE WL.MID = BG.MID AND BG.GID = G.GID AND WL.LID = 1
                 GROUP BY G.gname;";

@@ -16,6 +16,7 @@ import 'ReviewsMovieTitlePage.dart';
 import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
+import 'objects/PairChart.dart';
 import 'objects/ReviewFullName.dart';
 import 'objects/ReviewMovieTitle.dart';
 import 'objects/User.dart';
@@ -48,6 +49,13 @@ class _ProfilePageState extends State<ProfilePage> {
   late int following;
   late String genreInterests;
 
+  Map<String, double> toMap(List<PairChart> list){
+    Map<String, double> map = {};
+    for(PairChart pair in list){
+      map.putIfAbsent(pair.gname, () => pair.perc);
+    }
+    return map;
+  }
   @override
   void initState() {
     super.initState();
@@ -283,7 +291,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             ]),
                         onPressed: () async {
                           var watchlist = await showWatchlistOfUser(widget.currentUser.username);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist,)));
+                          List<PairChart> chartList = await percentagesOfGenres(1);
+                          Map<String, double> map = toMap(chartList);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist, dataMap: map,)));
                         },
                       ),
                       Padding(

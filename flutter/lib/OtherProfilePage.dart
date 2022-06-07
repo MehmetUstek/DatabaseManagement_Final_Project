@@ -1,9 +1,6 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 import 'FollowersPage.dart';
 import 'FollowingPage.dart';
@@ -14,6 +11,7 @@ import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
 import 'objects/Movie.dart';
+import 'objects/PairChart.dart';
 import 'objects/User.dart';
 
 class OtherProfilePage extends StatefulWidget {
@@ -47,6 +45,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   late int following;
   late bool isPro;
   late List<Movie> commonMovies;
+  Map<String, double> toMap(List<PairChart> list){
+    Map<String, double> map = {};
+    for(PairChart pair in list){
+      map.putIfAbsent(pair.gname, () => pair.perc);
+    }
+    return map;
+  }
 
   String followLabel = "FOLLOW";
   String followedLabel = "FOLLOWED";
@@ -373,12 +378,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     onPressed: () async {
                       var watchlist =
                           await showWatchlistOfUser(widget.otherUser.username);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WatchlistListPage(
-                                    watchlistList: watchlist,
-                                  )));
+                      List<PairChart> chartList = await percentagesOfGenres(1);
+                      Map<String, double> map = toMap(chartList);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist, dataMap: map,)));
                     },
                   ),
                   Padding(
