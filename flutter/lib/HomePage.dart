@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(currentUser: widget.currentUser,)));
                       },
                     ),
-                    Padding(padding: EdgeInsets.only(left:20),),
+                    Padding(padding: EdgeInsets.only(left:12),),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: const RoundedRectangleBorder(

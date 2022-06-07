@@ -296,6 +296,27 @@ function check_is_user_premium($conn, $username) {
         return $result;
     }
 }
+
+function show_movies_in_list($conn, $LID){
+    $query = "SELECT M.MID, title, releaseDate, duration, voteAvg, voteCount
+              FROM movie M, movie_in_list ML
+              WHERE M.MID = ML.MID  AND ML.LID = $LID";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+function show_movie_count_in_watchlist($conn, $lid){
+    $query = "SELECT count(mid)
+                FROM movie_in_list m
+                WHERE m.lid=$lid";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
 ///////////////COMPLEX QUERIES//////////////////////
 
 function show_top_rated_movies_per_genre($conn){
@@ -330,26 +351,6 @@ function updating_vote_avg($conn, $MID){
                         M1.voteCount = M1.voteCount + 1
                 WHERE 	M1.MID = '$MID'";
     
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-
-function show_movies_in_list($conn, $LID){
-    $query = "SELECT M.MID, title, releaseDate, duration, voteAvg, voteCount
-              FROM movie M, movie_in_list ML
-              WHERE M.MID = ML.MID  AND ML.LID = $LID";
-
-    if ($result = mysqli_query($conn, $query)){
-        return $result;
-    }
-}
-
-function show_movie_count_in_watchlist($conn, $lid){
-    $query = "SELECT count(mid)
-                FROM movie_in_list m
-                WHERE m.lid=$lid";
-
     if ($result = mysqli_query($conn, $query)){
         return $result;
     }
