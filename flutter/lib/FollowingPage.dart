@@ -10,9 +10,8 @@ import 'OtherProfilePage.dart';
 import 'objects/User.dart';
 
 class FollowingPage extends StatefulWidget {
-  const FollowingPage({Key? key,
-    required this.currentUser,
-    required this.following})
+  const FollowingPage(
+      {Key? key, required this.currentUser, required this.following})
       : super(key: key);
   final List<User> following;
   final User currentUser;
@@ -80,10 +79,10 @@ class _FollowingPageState extends State<FollowingPage> {
                       'Following',
                       style: GoogleFonts.montserrat(
                           textStyle: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 40,
-                          )),
+                        color: Colors.black,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 40,
+                      )),
                     ),
                   ]),
                 ),
@@ -95,103 +94,107 @@ class _FollowingPageState extends State<FollowingPage> {
                       cacheExtent: 100,
                       shrinkWrap: true,
                       physics: const AlwaysScrollableScrollPhysics(),
-                      separatorBuilder: (BuildContext context,
-                          int index) => const Divider(),
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
                       itemCount: following.length,
                       itemBuilder: (BuildContext context, int index) {
                         User follower = following[index];
-                        return
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(40.0)),
-                                side: BorderSide(
-                                    width: 1.0,
-                                    color: Colors.white,
-                                    style: BorderStyle.solid),
-                              ),
-                              elevation: 20.0,
-                              fixedSize: const Size(350, 100),
-                              primary: Colors.white,
+                        return ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(40.0)),
+                              side: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.white,
+                                  style: BorderStyle.solid),
                             ),
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 5),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .start,
-                                    children: <Widget>[
-                                      Row(
-                                        children: [
-                                          Column(children: [
-                                            Icon(
-                                              CupertinoIcons.profile_circled,
-                                              size: 50,
-                                              color: Colors.black,
-                                            ),
-                                          ]),
-                                          const Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 10)),
-                                          Column(
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Row(children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 0),
-                                                  child: Text(
-                                                    follower.fname + " " + follower.lname,
-                                                    style: GoogleFonts
-                                                        .montserrat(
-                                                        textStyle: TextStyle(
-                                                          color: Colors.black,
-                                                          fontSize: 20,
-                                                        )),
-                                                  ),
-                                                ),
-                                              ]),
-                                              Row(children: [
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 0),
-                                                  child: Text(
-                                                    follower.username,
-                                                    style: GoogleFonts
-                                                        .montserrat(
-                                                        textStyle: TextStyle(
-                                                          color: Colors.black45,
-                                                          fontSize: 15,
-                                                          fontWeight: FontWeight
-                                                              .bold,
-                                                        )),
-                                                  ),
-                                                ),
-                                              ]),
-                                            ],
+                            elevation: 20.0,
+                            fixedSize: const Size(350, 100),
+                            primary: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: [
+                                        Column(children: [
+                                          Icon(
+                                            CupertinoIcons.profile_circled,
+                                            size: 50,
+                                            color: Colors.black,
                                           ),
-                                        ],
-                                      ),
-                                    ]),
-                              ),
+                                        ]),
+                                        const Padding(
+                                            padding: EdgeInsets.only(left: 10)),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 0),
+                                                child: Text(
+                                                  follower.fname +
+                                                      " " +
+                                                      follower.lname,
+                                                  style: GoogleFonts.montserrat(
+                                                      textStyle: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 20,
+                                                  )),
+                                                ),
+                                              ),
+                                            ]),
+                                            Row(children: [
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(top: 0),
+                                                child: Text(
+                                                  follower.username,
+                                                  style: GoogleFonts.montserrat(
+                                                      textStyle: TextStyle(
+                                                    color: Colors.black45,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                                ),
+                                              ),
+                                            ]),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ]),
                             ),
-                            onPressed: () async {
-                              bool userFollowed = await checkIfUserFollowed(currentUser.username, follower.username);
-                              List<User> followersList = await showFollowersOfUser(currentUser.username);
-                              List<User> followingList  = await showFollowingsOfUser(currentUser.username);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          OtherProfilePage(otherUser:follower, currentUser: currentUser, isuserFollowed: userFollowed,followingList: followingList, followersList: followersList, )));
-                            },
-                          );
-                      }
-                  ),
+                          ),
+                          onPressed: () async {
+                            bool userFollowed = await checkIfUserFollowed(
+                                currentUser.username, follower.username);
+                            List<User> followersList =
+                                await showFollowersOfUser(currentUser.username);
+                            List<User> followingList =
+                                await showFollowingsOfUser(
+                                    currentUser.username);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => OtherProfilePage(
+                                          otherUser: follower,
+                                          currentUser: currentUser,
+                                          isuserFollowed: userFollowed,
+                                          followingList: followingList,
+                                          followersList: followersList,
+                                        )));
+                          },
+                        );
+                      }),
                 ),
               ],
             ),

@@ -155,7 +155,8 @@ class _MoviePageState extends State<MoviesPage> {
               var genres = await findingGenresOfMovie(movie.MID);
               var actors = await showingActorsInMovie(movie.MID);
               var isAdded = await checkMovieInList(widget.username, movie.MID, 1);
-              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage(movie: movie, genres: genres, actors: actors, username: widget.username, isAdded: isAdded,)));
+              var reviewList = await showReviewsOfMovie(movie.MID);
+              Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailsPage(movie: movie, genres: genres, actors: actors, username: widget.username, isAdded: isAdded, reviewList: reviewList,)));
             },
           );
         },
