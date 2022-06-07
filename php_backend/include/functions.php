@@ -205,6 +205,16 @@ function show_average_rating($conn, $str) {
     }
 }
 
+function show_movie_count_in_watchlist($conn, $lid){
+    $query = "SELECT count(mid) 
+                FROM movie_in_list m 
+                WHERE m.lid=$lid";
+    
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
 function show_username($conn, $str) {
     $query = "SELECT 	U.name
                 FROM 	User U
