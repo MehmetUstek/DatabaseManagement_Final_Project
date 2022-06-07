@@ -421,7 +421,7 @@ Future<String> registerUser(
   String lname,
   String gender,
   String paymentMethod,
-  bool isPremium,
+  int isPremium,
 ) async {
   final queryParams = {
     'register_user': "1",
@@ -432,7 +432,7 @@ Future<String> registerUser(
     'lname': lname,
     'gender': gender,
     'paymentMethod': paymentMethod,
-    'isPremium': isPremium
+    'isPremium': isPremium.toString(),
   };
   final response = await http.post(
       Uri.parse(

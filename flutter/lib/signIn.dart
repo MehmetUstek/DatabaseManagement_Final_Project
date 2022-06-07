@@ -25,11 +25,12 @@ class _SignInState extends State<SignInPage> {
   }
 
   showAlertDialog(BuildContext context) {
-
     // set up the button
     Widget okButton = TextButton(
       child: Text("OK"),
-      onPressed: () { Navigator.of(context).pop();  },
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
     );
 
     // set up the AlertDialog
@@ -62,14 +63,14 @@ class _SignInState extends State<SignInPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: EdgeInsets.only(top:50),
-              child:
-              FittedBox(
-                fit:BoxFit.scaleDown,
-
-                child:
-              Image.asset('images/logo.png', width: 250,),
-              ),
+                padding: EdgeInsets.only(top: 50),
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Image.asset(
+                    'images/logo.png',
+                    width: 250,
+                  ),
+                ),
               ),
               const Padding(padding: EdgeInsets.only(top: 25)),
 
@@ -102,7 +103,6 @@ class _SignInState extends State<SignInPage> {
                       child: TextField(
                         autocorrect: false,
                         enableSuggestions: false,
-
                         cursorColor: Colors.white54,
                         textAlign: TextAlign.start,
                         controller: usernameController,
@@ -120,7 +120,6 @@ class _SignInState extends State<SignInPage> {
                           fontSize: 13,
                           color: Colors.white,
                           decoration: TextDecoration.none,
-
                         ),
                         decoration: const InputDecoration(
                           border: InputBorder.none,
@@ -163,8 +162,7 @@ class _SignInState extends State<SignInPage> {
                         cursorColor: Colors.white70,
                         obscureText: true,
                         controller: passwordController,
-                        onEditingComplete: () {
-                        },
+                        onEditingComplete: () {},
                         style: const TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 13,
@@ -190,7 +188,7 @@ class _SignInState extends State<SignInPage> {
                         style: BorderStyle.solid),
                   ),
                   fixedSize:
-                  Size(MediaQuery.of(context).size.width * 4/7, 52),
+                      Size(MediaQuery.of(context).size.width * 4 / 7, 52),
                   primary: const Color(0xff272022),
                 ),
                 child: const Text(
@@ -199,49 +197,52 @@ class _SignInState extends State<SignInPage> {
                 ),
                 onPressed: () async {
                   // TODO: If user signed in correctly, go onto the next page.
-                  bool isAccepted = await checkPassword(usernameController.text,passwordController.text);
-                  if(isAccepted) {
+                  bool isAccepted = await checkPassword(
+                      usernameController.text, passwordController.text);
+                  if (isAccepted) {
                     User user = await showProfilePage(usernameController.text);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => HomePage(currentUser: user)));
-                  }
-                  else {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HomePage(currentUser: user)));
+                  } else {
                     showAlertDialog(context);
                   }
                 },
               ),
               Padding(
-                padding: const EdgeInsets.only(top:10),
-              child:
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                    side: BorderSide(
-                        width: 2.0,
-                        color: Colors.black,
-                        style: BorderStyle.solid),
+                padding: const EdgeInsets.only(top: 10),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                      side: BorderSide(
+                          width: 2.0,
+                          color: Colors.black,
+                          style: BorderStyle.solid),
+                    ),
+                    fixedSize:
+                        Size(MediaQuery.of(context).size.width * 4 / 7, 52),
+                    primary: Colors.white,
                   ),
-                  fixedSize:
-                  Size(MediaQuery.of(context).size.width * 4/7, 52),
-                  primary: Colors.white,
+                  child: const Text(
+                    'Register',
+                    style: TextStyle(fontSize: 18, color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RegisterPage()));
+                  },
                 ),
-                child: const Text(
-                  'Register',
-                  style: TextStyle(fontSize: 18, color: Colors.black),
-                ),
-                onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
-                },
               ),
-        ),
               const Padding(
-                padding: EdgeInsets.only(top:150, bottom:20),
-                child:
-              Text(
-                'BAKEM Interactive, LLC',
-                style: TextStyle(fontSize: 13, color: Colors.black45),
-              ),
+                padding: EdgeInsets.only(top: 150, bottom: 20),
+                child: Text(
+                  'BAKEM Interactive, LLC',
+                  style: TextStyle(fontSize: 13, color: Colors.black45),
+                ),
               ),
             ],
           ),

@@ -158,7 +158,7 @@ class _FollowingPageState extends State<FollowingPage> {
                                                 padding:
                                                     EdgeInsets.only(top: 0),
                                                 child: Text(
-                                                  follower.username,
+                                                  '@' + follower.username,
                                                   style: GoogleFonts.montserrat(
                                                       textStyle: TextStyle(
                                                     color: Colors.black45,

@@ -41,12 +41,14 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.black38,
+          elevation: 0,
           title: Text(searchType,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 25,
+                  fontWeight: FontWeight.w500,
                 ),
               ))),
       body: ListView.separated(
