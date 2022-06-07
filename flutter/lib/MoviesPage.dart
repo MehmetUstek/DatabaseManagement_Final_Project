@@ -42,16 +42,18 @@ class _MoviePageState extends State<MoviesPage> {
     return Scaffold(
       appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.black38,
+          elevation: 0,
           title: Text(searchType,
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.montserrat(
                 textStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 25,
+                  fontWeight: FontWeight.w500,
                 ),
               ))),
       body: ListView.separated(
-        padding: const EdgeInsets.only(left: 5, right: 5),
+        padding: const EdgeInsets.only(top:30, left: 15, right: 15),
         scrollDirection: Axis.vertical,
         addAutomaticKeepAlives: false,
         cacheExtent: 100,
@@ -71,14 +73,14 @@ class _MoviePageState extends State<MoviesPage> {
               primary: Colors.white,
             ),
             child: Padding(
-              padding: const EdgeInsets.only(left: 30),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Align(
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
-                          padding: EdgeInsets.only(right: 20),
+                          padding: EdgeInsets.only(right: 0),
                           child: Align(
                             alignment: Alignment.topRight,
                             child: Text(

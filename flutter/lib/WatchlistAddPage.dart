@@ -8,27 +8,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'MoviesPage.dart';
-import 'WatchlistDetailPage.dart';
 import 'dbQueries.dart';
 
-class WatchlistListPage extends StatefulWidget {
-  const WatchlistListPage(
+class WatchlistAddPage extends StatefulWidget {
+  const WatchlistAddPage(
       {Key? key,
-        required this.watchlistList,})
+        required this.watchlistList,
+        required this.MID,})
       : super(key: key);
   final List<Watchlist> watchlistList;
+  final int MID;
   @override
-  _WatchlistListPageState createState() => _WatchlistListPageState();
+  _WatchlistAddPageState createState() => _WatchlistAddPageState();
 }
 
-class _WatchlistListPageState extends State<WatchlistListPage> {
+class _WatchlistAddPageState extends State<WatchlistAddPage> {
   var containerColor = Colors.black87;
   late List<Watchlist> watchlistList;
+  late int MID;
 
   @override
   void initState() {
     super.initState();
     watchlistList = widget.watchlistList;
+    MID = widget.MID;
   }
 
   @override
@@ -172,11 +175,8 @@ class _WatchlistListPageState extends State<WatchlistListPage> {
                             ),
                           ),
                           onPressed: () async {
-                            var movieList = await showMoviesOfWatchlist(watchlist.LID);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WatchlistDetailPage(movieList: movieList, listTitle: watchlist.name)));
+                            await addMovieToList(MID, watchlist.LID);
+                            Navigator.pop(context);
                           },
                         );
                     }, separatorBuilder: (BuildContext context, int index) => const Divider(), itemCount: watchlistList.length,

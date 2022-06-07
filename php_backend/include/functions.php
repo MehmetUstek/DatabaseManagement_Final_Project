@@ -335,6 +335,17 @@ function updating_vote_avg($conn, $MID){
     }
 }
 
+function show_movies_in_list($conn, $LID){
+    $query = "SELECT M.MID, title, releaseDate, duration, voteAvg, voteCount
+              FROM movie M, movie_in_list ML
+              WHERE M.MID = ML.MID  AND ML.LID = $LID";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
+
+
 function find_common_movies($conn, $username_1, $username_2){
     
     $query = "  SELECT *
