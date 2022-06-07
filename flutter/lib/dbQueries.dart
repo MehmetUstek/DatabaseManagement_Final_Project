@@ -12,7 +12,7 @@ import 'objects/ReviewFullName.dart';
 import 'objects/Watchlist.dart';
 import 'objects/PairData.dart';
 
-var localIP = "10.0.2.2";
+var localIP = "localhost";
 
 Future<List<Movie>> searchMovieByMovieName(String title) async {
   final queryParams = {'title': title, 'search_by_movie_name': "1"};

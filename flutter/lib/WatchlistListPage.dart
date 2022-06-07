@@ -8,6 +8,7 @@ import 'package:pie_chart/pie_chart.dart';
 import 'MoviesPage.dart';
 import 'WatchlistDetailPage.dart';
 import 'dbQueries.dart';
+import 'objects/Movie.dart';
 import 'objects/PairChart.dart';
 
 class WatchlistListPage extends StatefulWidget {
@@ -92,8 +93,8 @@ class _WatchlistListPageState extends State<WatchlistListPage> {
                     ),
                   ]),
                 ),
-                const Padding(padding: EdgeInsets.only(top:10),),
-                //
+                const Padding(padding: EdgeInsets.only(top:10)),
+
                 Expanded(
                   child: ListView.separated(
                     padding: EdgeInsets.zero,
@@ -161,7 +162,7 @@ class _WatchlistListPageState extends State<WatchlistListPage> {
                                                 padding: EdgeInsets.only(
                                                     top: 0),
                                                 child: Text(
-                                                  'Movies:  3',
+                                                  'Movies:  dummy',
                                                   style: GoogleFonts.montserrat(
                                                       textStyle: TextStyle(
                                                         color: Colors.black45,
