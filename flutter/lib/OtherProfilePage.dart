@@ -17,14 +17,15 @@ import 'objects/Movie.dart';
 import 'objects/User.dart';
 
 class OtherProfilePage extends StatefulWidget {
-  const OtherProfilePage(
-      {Key? key,
-        required this.otherUser, required this.currentUser,required this.isuserFollowed,
-        required this.followersList,
-        required this.followingList,
-        required this.commonMovies,
-      })
-      : super(key: key);
+  const OtherProfilePage({
+    Key? key,
+    required this.otherUser,
+    required this.currentUser,
+    required this.isuserFollowed,
+    required this.followersList,
+    required this.followingList,
+    required this.commonMovies,
+  }) : super(key: key);
   final User currentUser;
   final User otherUser;
   final bool isuserFollowed;
@@ -46,7 +47,6 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   late int following;
   late bool isPro;
   late List<Movie> commonMovies;
-
 
   String followLabel = "FOLLOW";
   String followedLabel = "FOLLOWED";
@@ -71,19 +71,18 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     isFollowed = widget.isuserFollowed;
     commonMovies = widget.commonMovies;
 
-    if(!commonMovies.isEmpty){
+    if (!commonMovies.isEmpty) {
       commonMoviesHolder = "";
-      for(Movie movie in commonMovies){
+      for (Movie movie in commonMovies) {
         commonMoviesHolder += movie.title + ", ";
       }
-      commonMoviesHolder = commonMoviesHolder.substring(0,commonMoviesHolder.length-2);
+      commonMoviesHolder =
+          commonMoviesHolder.substring(0, commonMoviesHolder.length - 2);
     }
-    if(isFollowed) {
-
+    if (isFollowed) {
       followHolder = followedLabel;
       followBoxColor = Colors.black87;
       followTextColor = Colors.white;
-
     } else {
       followHolder = followLabel;
       followBoxColor = Colors.white;
@@ -103,11 +102,10 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     proUserBoxColor = Color(0xffffbd1b);
     freeUserBoxColor = Colors.black26;
 
-    if(isPro){
+    if (isPro) {
       userTextHolder = proUserText;
       userBoxColor = proUserBoxColor;
-    }
-    else{
+    } else {
       userTextHolder = freeUserText;
       userBoxColor = freeUserBoxColor;
     }
@@ -180,21 +178,22 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                       ),
                       onPressed: () {
                         setState(() {
-                          if(isFollowed) {
+                          if (isFollowed) {
                             isFollowed = false;
                             followHolder = followLabel;
                             followBoxColor = Colors.white;
                             followTextColor = Colors.black87;
-                            unfollowUser(currentUser.username, otherUser.username);
+                            unfollowUser(
+                                currentUser.username, otherUser.username);
                           } else {
                             isFollowed = true;
                             followHolder = followedLabel;
                             followBoxColor = Colors.black87;
                             followTextColor = Colors.white;
-                            followUser(currentUser.username, otherUser.username);
+                            followUser(
+                                currentUser.username, otherUser.username);
                           }
                         });
-
                       },
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
@@ -232,9 +231,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                   width: 150,
                   decoration: BoxDecoration(
                     color: userBoxColor,
-                    borderRadius: BorderRadius.all(
-                        Radius.circular(30.0)
-                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(30.0)),
                   ),
                   child: Center(
                     child: Text(
@@ -257,7 +254,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                   children: [
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowersPage(followers: widget.followersList, currentUser: currentUser,)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FollowersPage(
+                                        followers: widget.followersList,
+                                        currentUser: currentUser,
+                                      )));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -291,7 +294,13 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                         )),
                     ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => FollowingPage(following: widget.followingList, currentUser: currentUser,)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FollowingPage(
+                                        following: widget.followingList,
+                                        currentUser: currentUser,
+                                      )));
                         },
                         style: ElevatedButton.styleFrom(
                           elevation: 0,
@@ -327,89 +336,98 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                 ),
                 const Padding(padding: EdgeInsets.only(top: 40)),
 
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(40.0)),
-                            side: BorderSide(
-                                width: 5.0,
-                                color: Colors.black,
-                                style: BorderStyle.solid),
-                          ),
-                          fixedSize: const Size(160, 140),
-                          primary: Colors.white,
-                        ),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                CupertinoIcons.person_2_square_stack,
-                                size: 50,
-                                color: Colors.black,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  'Watchlists',
-                                  style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                  )),
-                                ),
-                              ),
-                            ]),
-                        onPressed: () async {
-                          var watchlist = await showWatchlistOfUser(widget.otherUser.username);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist,)));
-                        },
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: <
+                    Widget>[
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        side: BorderSide(
+                            width: 5.0,
+                            color: Colors.black,
+                            style: BorderStyle.solid),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(40.0)),
-                            side: BorderSide(
-                                width: 5.0,
-                                color: Colors.black,
-                                style: BorderStyle.solid),
+                      fixedSize: const Size(160, 140),
+                      primary: Colors.white,
+                    ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            CupertinoIcons.person_2_square_stack,
+                            size: 50,
+                            color: Colors.black,
                           ),
-                          fixedSize: const Size(160, 140),
-                          primary: Colors.black,
-                        ),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Icon(
-                                CupertinoIcons.bubble_left_fill,
-                                size: 50,
+                          Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Watchlists',
+                              style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              )),
+                            ),
+                          ),
+                        ]),
+                    onPressed: () async {
+                      var watchlist =
+                          await showWatchlistOfUser(widget.otherUser.username);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WatchlistListPage(
+                                    watchlistList: watchlist,
+                                  )));
+                    },
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        side: BorderSide(
+                            width: 5.0,
+                            color: Colors.black,
+                            style: BorderStyle.solid),
+                      ),
+                      fixedSize: const Size(160, 140),
+                      primary: Colors.black,
+                    ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            CupertinoIcons.bubble_left_fill,
+                            size: 50,
+                            color: Colors.white,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text(
+                              'Reviews',
+                              style: GoogleFonts.montserrat(
+                                  textStyle: TextStyle(
                                 color: Colors.white,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  'Reviews',
-                                  style: GoogleFonts.montserrat(
-                                      textStyle: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                  )),
-                                ),
-                              ),
-                            ]),
-                        onPressed: () async {
-                          var reviewList = await showReviewsOfUser(widget.otherUser.username);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewsMovieTitlePage(reviewList: reviewList,)));
-                        },
-                      ),
-                    ]),
+                                fontSize: 20,
+                              )),
+                            ),
+                          ),
+                        ]),
+                    onPressed: () async {
+                      var reviewList =
+                          await showReviewsOfUser(widget.otherUser.username);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ReviewsMovieTitlePage(
+                                    reviewList: reviewList,
+                                  )));
+                    },
+                  ),
+                ]),
                 Padding(
                   padding: EdgeInsets.only(top: 40),
                 ),
@@ -444,37 +462,39 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     )
                   ],
                 ),
+                const Padding(padding: EdgeInsets.only(top: 30)),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Common Movies",style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 32,
-                          fontWeight: FontWeight.w500),
-                    ),
+                    Text(
+                      "Common Movies",
+                      style: GoogleFonts.montserrat(
+                        textStyle: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 36,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ],
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child:
-                    Text(commonMoviesHolder,style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500),
-                    ),
+                Wrap(
+                  children: [
+                    Text(
+                      commonMoviesHolder,
+                      style: GoogleFonts.montserrat(
+                        textStyle: TextStyle(
+                            color: Colors.black38,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      textAlign: TextAlign.center,
                       maxLines: 3,
                     ),
+                  ],
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 15),
                 ),
-
-
-
-
               ],
             ),
           ),
