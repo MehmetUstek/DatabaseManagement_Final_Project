@@ -380,7 +380,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                           await showWatchlistOfUser(widget.otherUser.username);
                       List<PairChart> chartList = await percentagesOfGenres(1);
                       Map<String, double> map = toMap(chartList);
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist, dataMap: map,)));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistListPage(watchlistList: watchlist,)));
                     },
                   ),
                   Padding(

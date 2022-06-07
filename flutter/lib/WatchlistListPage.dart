@@ -8,28 +8,34 @@ import 'package:pie_chart/pie_chart.dart';
 import 'MoviesPage.dart';
 import 'WatchlistDetailPage.dart';
 import 'dbQueries.dart';
+import 'objects/PairChart.dart';
 
 class WatchlistListPage extends StatefulWidget {
   const WatchlistListPage(
       {Key? key,
-        required this.watchlistList, required this.dataMap})
+        required this.watchlistList,})
       : super(key: key);
   final List<Watchlist> watchlistList;
-  final Map<String, double> dataMap;
   @override
   _WatchlistListPageState createState() => _WatchlistListPageState();
+}
+
+Map<String, double> toMap(List<PairChart> list){
+  Map<String, double> map = {};
+  for(PairChart pair in list){
+    map.putIfAbsent(pair.gname, () => pair.perc);
+  }
+  return map;
 }
 
 class _WatchlistListPageState extends State<WatchlistListPage> {
   var containerColor = Colors.black87;
   late List<Watchlist> watchlistList;
-  late Map<String, double> dataMap;
 
   @override
   void initState() {
     super.initState();
     watchlistList = widget.watchlistList;
-    dataMap = widget.dataMap;
   }
 
   @override
@@ -85,35 +91,6 @@ class _WatchlistListPageState extends State<WatchlistListPage> {
                       )),
                     ),
                   ]),
-                ),
-                PieChart(
-                  dataMap: dataMap,
-                  animationDuration: Duration(milliseconds: 800),
-                  chartLegendSpacing: 32,
-                  chartRadius: MediaQuery.of(context).size.width / 2.8,
-                  initialAngleInDegree: 0,
-                  chartType: ChartType.disc,
-                  colorList: [Colors.blue, Colors.pink, Colors.orange, Colors.purple, Colors.indigo, Colors.lime, Colors.orangeAccent],
-                  ringStrokeWidth: 32,
-                  centerText: "GENRES",
-                  legendOptions: LegendOptions(
-                    showLegendsInRow: false,
-                    legendPosition: LegendPosition.right,
-                    showLegends: true,
-                    legendShape: BoxShape.circle,
-                    legendTextStyle: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  chartValuesOptions: ChartValuesOptions(
-                    showChartValueBackground: true,
-                    showChartValues: true,
-                    showChartValuesInPercentage: true,
-                    showChartValuesOutside: false,
-                    decimalPlaces: 1,
-                  ),
-                  // gradientList: ---To add gradient colors---
-                  // emptyColorGradient: ---Empty Color gradient---
                 ),
                 const Padding(padding: EdgeInsets.only(top:10),),
                 //
@@ -203,11 +180,14 @@ class _WatchlistListPageState extends State<WatchlistListPage> {
                             ),
                           ),
                           onPressed: () async {
+                            var pieChartData = await percentagesOfGenres(watchlist.LID);
+                            Map<String, double> pieChartMap = toMap(pieChartData);
+
                             var movieList = await showMoviesOfWatchlist(watchlist.LID);
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => WatchlistDetailPage(movieList: movieList, listTitle: watchlist.name)));
+                                  builder: (context) => WatchlistDetailPage(movieList: movieList, listTitle: watchlist.name, dataMap: pieChartMap)));
                           },
                         );
                     }, separatorBuilder: (BuildContext context, int index) => const Divider(), itemCount: watchlistList.length,

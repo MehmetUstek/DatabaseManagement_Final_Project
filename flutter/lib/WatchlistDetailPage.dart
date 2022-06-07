@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pie_chart/pie_chart.dart';
 import 'package:provider/provider.dart';
 
 import 'MoviesPage.dart';
@@ -15,10 +16,12 @@ class WatchlistDetailPage extends StatefulWidget {
   const WatchlistDetailPage(
       {Key? key,
         required this.movieList,
-        required this.listTitle,})
+        required this.listTitle,
+        required this.dataMap,})
       : super(key: key);
   final List<Movie> movieList;
   final String listTitle;
+  final Map<String, double> dataMap;
 
   @override
   _WatchlistDetailPageState createState() => _WatchlistDetailPageState();
@@ -29,12 +32,14 @@ class _WatchlistDetailPageState extends State<WatchlistDetailPage> {
   late List<Movie> movieList;
   var isGenreVisible = true;
   var listTitle;
+  late Map<String, double> dataMap;
 
   @override
   void initState() {
     super.initState();
     movieList = widget.movieList;
     listTitle = widget.listTitle;
+    dataMap = widget.dataMap;
   }
 
   @override
@@ -91,7 +96,36 @@ class _WatchlistDetailPageState extends State<WatchlistDetailPage> {
                     ),
                   ]),
                 ),
-
+                PieChart(
+                  dataMap: dataMap,
+                  animationDuration: Duration(milliseconds: 800),
+                  chartLegendSpacing: 32,
+                  chartRadius: MediaQuery.of(context).size.width / 2.8,
+                  initialAngleInDegree: 0,
+                  chartType: ChartType.disc,
+                  colorList: [Colors.blue, Colors.pink, Colors.orange, Colors.purple, Colors.indigo, Colors.lime, Colors.orangeAccent],
+                  ringStrokeWidth: 32,
+                  centerText: "GENRES",
+                  legendOptions: LegendOptions(
+                    showLegendsInRow: false,
+                    legendPosition: LegendPosition.right,
+                    showLegends: true,
+                    legendShape: BoxShape.circle,
+                    legendTextStyle: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  chartValuesOptions: ChartValuesOptions(
+                    showChartValueBackground: true,
+                    showChartValues: true,
+                    showChartValuesInPercentage: true,
+                    showChartValuesOutside: false,
+                    decimalPlaces: 1,
+                  ),
+                  // gradientList: ---To add gradient colors---
+                  // emptyColorGradient: ---Empty Color gradient---
+                ),
+                const Padding(padding: EdgeInsets.only(top: 20)),
                 Expanded(
                   child: ListView.separated(
                     padding: EdgeInsets.zero,
