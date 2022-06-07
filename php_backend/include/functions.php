@@ -345,6 +345,15 @@ function show_movies_in_list($conn, $LID){
     }
 }
 
+function show_movie_count_in_watchlist($conn, $lid){
+    $query = "SELECT count(mid)
+                FROM movie_in_list m
+                WHERE m.lid=$lid";
+
+    if ($result = mysqli_query($conn, $query)){
+        return $result;
+    }
+}
 
 function find_common_movies($conn, $username_1, $username_2){
     

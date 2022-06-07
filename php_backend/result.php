@@ -525,3 +525,21 @@ if (isset($_POST['pie_chart_percentages'])){
     
     echo $json;
 }
+
+if (isset($_POST['show_movie_count_in_watchlist'])){
+
+    $lid = $_POST['LID'];
+    $sql = show_movie_count_in_watchlist($conn, $lid);
+
+
+    $results = array();
+    while($row = mysqli_fetch_assoc($sql))
+    {
+        $results[] = $row;
+    }
+
+    // Encode function should include the following numeric checks.
+    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
+
+    echo $json;
+}
