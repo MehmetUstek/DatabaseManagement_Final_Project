@@ -512,13 +512,13 @@ Future<bool> checkPassword(String username, String password) async {
 
 //This query does not return anything.
 Future<String> creatingReview(
-    double rating, String comment, String username, int mid) async {
+    int rating, String comment, String username, int mid) async {
   final queryParams = {
     'creating_a_review': "1",
-    'rating': rating,
+    'rating': rating.toString(),
     'comment': comment,
     'username': username,
-    'MID': mid,
+    'MID': mid.toString(),
   };
   final response = await http.post(
       Uri.parse(
@@ -807,7 +807,7 @@ Future<List<PairData>> numMoviesByLikedGenre(String username) async {
 Future<String> updatingVoteAvg(int mid) async {
   final queryParams = {
     'updating_vote_avg': "1",
-    'MID': mid,
+    'MID': mid.toString(),
   };
   final response = await http.post(
       Uri.parse(

@@ -312,17 +312,6 @@ if (isset($_POST['creating_a_review'])){
     $MID = $_POST['MID'];
 
     $sql = creating_a_review($conn, $rating, $comment, $username, $MID);
-
-    $results = array();
-    while($row = mysqli_fetch_assoc($sql))
-    {
-        $results[] = $row;
-    }
-    
-    // Encode function should include the following numeric checks.
-    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-    
-    echo $json;
 }
 
 if (isset($_POST['creating_a_watchlist'])){
@@ -448,17 +437,6 @@ if (isset($_POST['updating_vote_avg'])){
     $MID = $_POST['MID'];
     $sql = updating_vote_avg($conn, $MID);
 
-
-    $results = array();
-    while($row = mysqli_fetch_assoc($sql))
-    {
-        $results[] = $row;
-    }
-    
-    // Encode function should include the following numeric checks.
-    $json = json_encode($results, JSON_NUMERIC_CHECK | JSON_PRESERVE_ZERO_FRACTION);
-    
-    echo $json;
 }
 
 if (isset($_POST['show_movies_in_list'])){

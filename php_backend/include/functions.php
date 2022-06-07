@@ -225,8 +225,8 @@ function check_password($conn, $str, $pass) {
 }
 
 function creating_a_review($conn, $rating, $comment, $username, $MID) {
-    $query = "  INSERT INTO	Review (rating, comment, date,  username, MID)
-                VALUES	    ($rating, '$comment', GETDATE(), '$username', $MID)";
+    $query = "INSERT INTO	review
+              VALUES	    (default, $rating, '$comment', CURDATE(), '$username', $MID)";
 
     if ($result = mysqli_query($conn, $query)){
         return $result;
@@ -236,7 +236,7 @@ function creating_a_review($conn, $rating, $comment, $username, $MID) {
 
 function creating_a_watchlist($conn, $name, $username) {
     $query = "  INSERT INTO	Watchlist (name, creationDate, username)
-                VALUES	    ('$name', GETDATE(), '$username')";
+                VALUES	    ('$name', CURDATE(), '$username')";
 
     if ($result = mysqli_query($conn, $query)){
         return $result;
@@ -344,12 +344,13 @@ function num_movies_by_liked_genre($conn, $username){
 }
 
 function updating_vote_avg($conn, $MID){
-    $query = "  UPDATE	Movie M1
-                SET		M1.voteAvg = (  SELECT SUM(R.rating) / (M2.voteCount + 1)
-                                        FROM Movie M2, Review R
-                                        WHERE M2.MID = '$MID' M2.MID = R.MID),
-                        M1.voteCount = M1.voteCount + 1
-                WHERE 	M1.MID = '$MID'";
+    $query = "  UPDATE	Movie
+                SET		voteAvg = (SELECT (M2.voteAvg * M2.voteCount + SUM(R.rating))
+                                                                                     / (M2.voteCount + 1)
+                                                                         FROM Movie M2, Review R
+                                                                         WHERE M2.MID = $MID AND M2.MID = R.MID),
+                        voteCount = voteCount + 1
+                WHERE 	MID = $MID";
     
     if ($result = mysqli_query($conn, $query)){
         return $result;

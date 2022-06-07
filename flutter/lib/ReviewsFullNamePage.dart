@@ -175,7 +175,7 @@ class _ReviewsFullNamePageState extends State<ReviewsFullNamePage> {
                                           const Padding(
                                               padding: EdgeInsets.only(top: 5)),
                                           Text(
-                                            "Rating:  " + review.rating.toInt().toString() + "/5",
+                                            "Rating:  " + review.rating.toInt().toString() + "/10",
                                             style: GoogleFonts.montserrat(
                                                 textStyle: TextStyle(
                                                     color: Colors.black54,

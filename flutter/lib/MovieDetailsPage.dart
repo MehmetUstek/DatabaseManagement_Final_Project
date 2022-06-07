@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'ReviewAddPage.dart';
 import 'ReviewsFullNamePage.dart';
 import 'ReviewsMovieTitlePage.dart';
 import 'WatchlistAddPage.dart';
@@ -156,7 +157,36 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                       ),
                       onPressed: () async {
                         var watchlist = await showWatchlistOfUser(username);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => WatchlistAddPage(watchlistList: watchlist, MID: MID)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => WatchlistAddPage(
+                                    watchlistList: watchlist, MID: MID)));
+                      },
+                    ),
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                          side: BorderSide(
+                              width: 2.0,
+                              color: Colors.black,
+                              style: BorderStyle.solid),
+                        ),
+                        fixedSize: Size(220, 30),
+                        primary: addBoxColor,
+                      ),
+                      child: Text(
+                        'ADD REVIEW',
+                        style: TextStyle(fontSize: 15, color: addTextColor),
+                      ),
+                      onPressed: () async {
+                        var watchlist = await showWatchlistOfUser(username);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ReviewAddPage(
+                                    username: username, MID: MID)));
                       },
                     ),
                     const Padding(padding: EdgeInsets.only(top: 10)),
@@ -332,7 +362,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                             children: <Widget>[
                               Column(
                                 children: [
-                                  const Padding(padding: EdgeInsets.only(top:15)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(top: 15)),
                                   Row(
                                     children: [
                                       Icon(
@@ -358,7 +389,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                               ),
                               Column(
                                 children: [
-                                  const Padding(padding: EdgeInsets.only(top:20)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(top: 20)),
                                   Icon(
                                     CupertinoIcons.arrowtriangle_right_fill,
                                     size: 20,
