@@ -13,6 +13,7 @@ import 'ReviewsMovieTitlePage.dart';
 import 'SearchPage.dart';
 import 'WatchlistListPage.dart';
 import 'dbQueries.dart';
+import 'objects/Movie.dart';
 import 'objects/User.dart';
 
 class OtherProfilePage extends StatefulWidget {
@@ -21,6 +22,7 @@ class OtherProfilePage extends StatefulWidget {
         required this.otherUser, required this.currentUser,required this.isuserFollowed,
         required this.followersList,
         required this.followingList,
+        required this.commonMovies,
       })
       : super(key: key);
   final User currentUser;
@@ -28,6 +30,7 @@ class OtherProfilePage extends StatefulWidget {
   final bool isuserFollowed;
   final List<User> followersList;
   final List<User> followingList;
+  final List<Movie> commonMovies;
 
   @override
   _OtherProfilePageState createState() => _OtherProfilePageState();
@@ -42,6 +45,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   late int followers;
   late int following;
   late bool isPro;
+  late List<Movie> commonMovies;
 
 
   String followLabel = "FOLLOW";
@@ -57,6 +61,7 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
   var proUserBoxColor = Color(0xffffbd1b);
   var freeUserBoxColor = Colors.black26;
   var userBoxColor = Color(0xffffbd1b);
+  String commonMoviesHolder = "No common movies with this user";
 
   @override
   void initState() {
@@ -64,6 +69,15 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
     otherUser = widget.otherUser;
     currentUser = widget.currentUser;
     isFollowed = widget.isuserFollowed;
+    commonMovies = widget.commonMovies;
+
+    if(!commonMovies.isEmpty){
+      commonMoviesHolder = "";
+      for(Movie movie in commonMovies){
+        commonMoviesHolder += movie.title + ", ";
+      }
+      commonMoviesHolder = commonMoviesHolder.substring(0,commonMoviesHolder.length-2);
+    }
     if(isFollowed) {
 
       followHolder = followedLabel;
@@ -108,8 +122,9 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
           // margin: const EdgeInsets.only(left: 30.0, right: 30.0),
           child: Padding(
             padding: EdgeInsets.only(top: 10, left: 20, right: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: ListView(
+              // crossAxisAlignment: CrossAxisAlignment.center,
+
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -429,6 +444,37 @@ class _OtherProfilePageState extends State<OtherProfilePage> {
                     )
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Common Movies",style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 32,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    ),
+                  ],
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child:
+                    Text(commonMoviesHolder,style: GoogleFonts.montserrat(
+                      textStyle: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500),
+                    ),
+                      maxLines: 3,
+                    ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 15),
+                ),
+
+
+
+
               ],
             ),
           ),

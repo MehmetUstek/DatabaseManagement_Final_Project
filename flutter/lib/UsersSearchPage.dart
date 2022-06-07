@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'OtherProfilePage.dart';
 import 'dbQueries.dart';
+import 'objects/Movie.dart';
 import 'objects/User.dart';
 
 class UsersSearchPage extends StatefulWidget {
@@ -114,14 +115,15 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
             ),
             onPressed: () async {
               bool userFollowed = await checkIfUserFollowed(currentUser.username, user.username);
-              List<User> followersList = await showFollowersOfUser(currentUser.username);
-              List<User> followingList  = await showFollowingsOfUser(currentUser.username);
-              
+              List<User> followersList = await showFollowersOfUser(user.username);
+              List<User> followingList  = await showFollowingsOfUser(user.username);
+              List<Movie> commonMovies = await showCommonMoviesOfTwoUsers(currentUser.username, user.username);
+
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          OtherProfilePage(otherUser:user, currentUser: currentUser, isuserFollowed: userFollowed,followingList: followingList, followersList: followersList,)));
+                          OtherProfilePage(otherUser:user, currentUser: currentUser, isuserFollowed: userFollowed,followingList: followingList, followersList: followersList, commonMovies: commonMovies,)));
             },
           );
         },
