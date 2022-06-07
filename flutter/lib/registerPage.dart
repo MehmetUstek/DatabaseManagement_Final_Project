@@ -10,6 +10,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import 'dbQueries.dart';
+
 class RegisterPage extends StatefulWidget {
   @override
   _registerState createState() => _registerState();
@@ -17,11 +19,17 @@ class RegisterPage extends StatefulWidget {
 
 class _registerState extends State<RegisterPage> {
   final TextEditingController emailController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   bool isEmailValid = false;
   bool isPasswordValid = false;
   bool showValue = false;
   var containerColor = Colors.black87;
+  String genderString = 'M';
+  String paymentString = 'Free';
+  int isPremium = 0;
 
   var selectedColor = Color(0xffDEDEDE);
   var unselectedColor = Color(0xffBDBDBD);
@@ -190,7 +198,7 @@ class _registerState extends State<RegisterPage> {
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Color(0xff575757),
                       decoration: TextDecoration.none,
                     ),
                     decoration: const InputDecoration(
@@ -229,11 +237,11 @@ class _registerState extends State<RegisterPage> {
                     enableSuggestions: false,
                     cursorColor: Colors.black,
                     textAlign: TextAlign.start,
-                    controller: emailController,
+                    controller: usernameController,
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Color(0xff575757),
                       decoration: TextDecoration.none,
                     ),
                     decoration: InputDecoration(
@@ -272,11 +280,11 @@ class _registerState extends State<RegisterPage> {
                     enableSuggestions: false,
                     cursorColor: Colors.black,
                     textAlign: TextAlign.start,
-                    controller: emailController,
+                    controller: passwordController,
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Color(0xff575757),
                       decoration: TextDecoration.none,
                     ),
                     decoration: InputDecoration(
@@ -315,11 +323,11 @@ class _registerState extends State<RegisterPage> {
                     enableSuggestions: false,
                     cursorColor: Colors.black,
                     textAlign: TextAlign.start,
-                    controller: emailController,
+                    controller: firstNameController,
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Color(0xff575757),
                       decoration: TextDecoration.none,
                     ),
                     decoration: InputDecoration(
@@ -358,11 +366,11 @@ class _registerState extends State<RegisterPage> {
                     enableSuggestions: false,
                     cursorColor: Colors.black,
                     textAlign: TextAlign.start,
-                    controller: emailController,
+                    controller: lastNameController,
                     style: const TextStyle(
                       fontWeight: FontWeight.normal,
                       fontSize: 20,
-                      color: Colors.white,
+                      color: Color(0xff575757),
                       decoration: TextDecoration.none,
                     ),
                     decoration: InputDecoration(
@@ -408,6 +416,7 @@ class _registerState extends State<RegisterPage> {
                         primary: maleColor,
                       ),
                       onPressed: () {
+                        genderString = 'M';
                         setState(() {
                           maleColor = selectedColor;
                           femaleColor = unselectedColor;
@@ -438,6 +447,7 @@ class _registerState extends State<RegisterPage> {
                         primary: femaleColor,
                       ),
                       onPressed: () {
+                        genderString = 'F';
                         setState(() {
                           maleColor = unselectedColor;
                           femaleColor = selectedColor;
@@ -468,6 +478,7 @@ class _registerState extends State<RegisterPage> {
                         primary: unspecifiedColor,
                       ),
                       onPressed: () {
+                        genderString = 'U';
                         setState(() {
                           maleColor = unselectedColor;
                           femaleColor = unselectedColor;
@@ -515,6 +526,7 @@ class _registerState extends State<RegisterPage> {
                         primary: freeColor,
                       ),
                       onPressed: () {
+                        isPremium = 0;
                         setState(() {
                           freeColor = selectedColor;
                           cardColor = unselectedColor;
@@ -547,6 +559,7 @@ class _registerState extends State<RegisterPage> {
                         primary: cardColor,
                       ),
                       onPressed: () {
+                        isPremium = 1;
                         setState(() {
                           freeColor = unselectedColor;
                           cardColor = selectedColor;
@@ -579,6 +592,7 @@ class _registerState extends State<RegisterPage> {
                         primary: cashColor,
                       ),
                       onPressed: () {
+                        isPremium = 1;
                         setState(() {
                           freeColor = unselectedColor;
                           cardColor = unselectedColor;
@@ -674,7 +688,22 @@ class _registerState extends State<RegisterPage> {
                     'Complete',
                     style: TextStyle(fontSize: 18, color: Colors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await registerUser(
+                        usernameController.text,
+                        emailController.text,
+                        passwordController.text,
+                        firstNameController.text,
+                        lastNameController.text,
+                        genderString,
+                        paymentString,
+                        isPremium);
+                    for (int i = 0; i < selectedGenres.length; i++) {
+                      await chooseInterestedGenres(
+                          usernameController.text, selectedGenres[i]);
+                    }
+                    Navigator.pop(context);
+                  },
                 ),
 
                 const Padding(
