@@ -3,7 +3,7 @@
 
 $host     = 'localhost';
 $username = 'root'; # Please write your username here.
-$passwd   = 'Hanszimmer1-.'; # Please write your passwd here.
+$passwd   = 'root';
 $dbName   = 'movies';
 
 $conn = mysqli_connect($host, $username, $passwd, $dbName);
